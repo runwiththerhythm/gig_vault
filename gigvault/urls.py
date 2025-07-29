@@ -1,5 +1,5 @@
 """
-URL configuration for main project.
+URL configuration for gigvault project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from gigs.views import my_gigs
 
 
@@ -23,5 +23,4 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
-    path('gigs/', my_gigs, name='gigs'),
-]
+    path('gigs/', include('gigs.urls')),]
