@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from gigs.views import my_gigs
+from gigvault import views as site_views
 
 
 urlpatterns = [
+    path('', site_views.site_home, name='site_home'),
     path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
