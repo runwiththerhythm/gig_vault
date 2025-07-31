@@ -19,7 +19,8 @@ from django.urls import path, include
 from gigvault.views import site_home
 
 urlpatterns = [
-    path("", site_home, name="home"),    path("accounts/", include("allauth.urls")),
+    path("", site_home, name="home"),
+    path("accounts/", include("allauth.urls")),
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
     path('gigs/', include('gigs.urls')),]
