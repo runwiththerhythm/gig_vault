@@ -5,6 +5,15 @@
   <h2>{{ view.object.pk|yesno:"Edit Gig,Add New Gig" }}</h2>
   <form method="post">
     {% csrf_token %}
+
+    {% load static %}
+
+<!-- DAL & jQuery requirements -->
+<link href="{% static 'autocomplete_light/vendor/select2/dist/css/select2.min.css' %}" rel="stylesheet">
+<script src="{% static 'autocomplete_light/vendor/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.min.js' %}"></script>
+<script src="{% static 'autocomplete_light/autocomplete_light.js' %}"></script>
+
     {{ form.as_p }}
     {{ form.media }}
     <button type="submit" class="btn btn-primary">Save</button>
