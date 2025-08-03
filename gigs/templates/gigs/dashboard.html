@@ -1,4 +1,4 @@
-{% extends "dashboard_base.html" %}
+{% extends "gigs/dashboard_base.html" %}
 {% block content %}
 <div class="container mt-4">
   <h2 class="mb-4">My Gig Vault Dashboard</h2>
@@ -22,7 +22,7 @@
     <ul class="list-group">
       {% for gig in attended_gigs %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          {{ gig.band_name }} @ {{ gig.venue }} — {{ gig.date }}
+          {{ gig.band_name }} @ {{ gig.venue.name }} — {{ gig.date }}
           <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-secondary">View</a>
         </li>
       {% endfor %}
