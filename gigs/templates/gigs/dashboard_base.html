@@ -42,8 +42,7 @@
           <a class="nav-link {% if request.path == '/' or request.path == '/dashboard/' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.path.startswith('/dashboard/gigs/') %}active{% endif %}" href="{% url 'gig_list' %}">My Gigs</a>
-        </li>
+          <a class="nav-link {% if '/dashboard/gigs/' in request.path %}active{% endif %}" href="{% url 'gig_list' %}">My Gigs</a>        </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'gig_create' %}">Add New Gig</a>
         </li>
