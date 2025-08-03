@@ -33,7 +33,7 @@ class GigListView(LoginRequiredMixin, ListView):
 # Create gig view
 class GigCreateView(LoginRequiredMixin, CreateView):
     model = Gig
-    fields = ['band_name', 'date', 'location', 'status', 'notes']
+    fields = ['band', 'date', 'venue', 'status', 'notes']
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('gig_list')
 
@@ -53,7 +53,7 @@ class GigDetailView(LoginRequiredMixin, DetailView):
 # Gig update view
 class GigUpdateView(LoginRequiredMixin, UpdateView):
     model = Gig
-    fields = ['band_name', 'date', 'location', 'status', 'notes']
+    fields = ['band', 'date', 'venue', 'status', 'notes']
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('gig_list')
 
