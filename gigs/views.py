@@ -59,3 +59,12 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user)
+
+# Gig delete view
+class GigDeleteView(LoginRequiredMixin, DeleteView):
+    model = Gig
+    template_name = 'gigs/gig_confirm_delete.html'
+    success_url = reverse_lazy('gig_list')
+
+    def get_queryset(self):
+        return Gig.objects.filter(user=self.request.user)
