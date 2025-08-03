@@ -1,13 +1,34 @@
-{% extends 'base.html' %}
-
+{% extends "dashboard_base.html" %}
 {% block content %}
-  <h1>Your Gig Vault Dashboard</h1>
-  <p>Welcome back! Here you can view and manage your gigs.</p>
+<div class="container mt-4">
+  <h2 class="mb-4">My Gig Vault Dashboard</h2>
 
-  <!-- Example placeholder for gigs list -->
-  <ul>
-    <li>Gig 1 — Date, Venue</li>
-    <li>Gig 2 — Date, Venue</li>
-    <li>Gig 3 — Date, Venue</li>
-  </ul>
+  <h4>Upcoming Gigs</h4>
+  {% if upcoming_gigs %}
+    <ul class="list-group mb-4">
+      {% for gig in upcoming_gigs %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ gig.band_name }} @ {{ gig.venue }} — {{ gig.date }}
+          <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-primary">View</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No upcoming gigs.</p>
+  {% endif %}
+
+  <h4>Recent Attended Gigs</h4>
+  {% if attended_gigs %}
+    <ul class="list-group">
+      {% for gig in attended_gigs %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ gig.band_name }} @ {{ gig.venue }} — {{ gig.date }}
+          <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-secondary">View</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No attended gigs yet.</p>
+  {% endif %}
+</div>
 {% endblock %}
