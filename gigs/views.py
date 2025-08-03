@@ -4,8 +4,9 @@ from .models import Gig
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from .forms import GigForm
 from dal import autocomplete
-from .models import Band
+from .models import Band, Venue
 
 
 # Create your views here.
@@ -36,7 +37,7 @@ class GigListView(LoginRequiredMixin, ListView):
 # Create gig view
 class GigCreateView(LoginRequiredMixin, CreateView):
     model = Gig
-    fields = ['band', 'date', 'venue', 'status', 'notes']
+    form_class = GigForm
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('gig_list')
 
@@ -56,7 +57,7 @@ class GigDetailView(LoginRequiredMixin, DetailView):
 # Gig update view
 class GigUpdateView(LoginRequiredMixin, UpdateView):
     model = Gig
-    fields = ['band', 'date', 'venue', 'status', 'notes']
+    form_class = GigForm
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('gig_list')
 
@@ -77,6 +78,14 @@ class GigDeleteView(LoginRequiredMixin, DeleteView):
 class BandAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         qs = Band.objects.all()
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs
+
+# Venue autocomplete
+class VenueAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Venue.objects.all()
         if self.q:
             qs = qs.filter(name__icontains=self.q)
         return qs

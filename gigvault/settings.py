@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_summernote',
     'cloudinary',
-    'gigs'
+    'gigs',
     'dal',
     'dal_select2',
 ]
