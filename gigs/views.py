@@ -40,3 +40,12 @@ class GigCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+# Gig detail view
+class GigDetailView(LoginRequiredMixin, DetailView):
+    model = Gig
+    template_name = 'gigs/gig_detail.html'
+    context_object_name = 'gig'
+
+    def get_queryset(self):
+        return Gig.objects.filter(user=self.request.user)
