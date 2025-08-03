@@ -4,13 +4,21 @@ from django_summernote.fields import SummernoteTextField
 
 # Create your models here.
 
+# Band model
 class Band(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
     def __str__(self):
         return self.name
 
+# Venue model
+class Venue(models.Model):
+    name = models.CharField(max_length=255, blank=True)
 
+    def __str__(self):
+        return self.name
 
+# Main Gig model
 class Gig(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='gigs')
     band = models.ForeignKey(Band, on_delete=models.SET_NULL, null=True, related_name="headline_gigs")
