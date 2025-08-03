@@ -58,7 +58,7 @@ class Gig(models.Model):
     band = models.ForeignKey(Band, on_delete=models.SET_NULL, null=True, related_name="headline_gigs")
     tour_title = models.CharField(max_length=255, blank=True, help_text="Tour/Festival name (optional)")
     other_artists = models.ManyToManyField(Band, blank=True, )
-    venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
     date = models.DateField()
     is_festival = models.BooleanField(default=False)
     notes = SummernoteTextField(blank=True)
