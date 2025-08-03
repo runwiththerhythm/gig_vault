@@ -29,3 +29,14 @@ class GigListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user).order_by('-date')
+
+# Create gig view
+class GigCreateView(LoginRequiredMixin, CreateView):
+    model = Gig
+    fields = ['band_name', 'date', 'location', 'status', 'notes']
+    template_name = 'gigs/gig_form.html'
+    success_url = reverse_lazy('gig_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
