@@ -4,6 +4,9 @@ from .models import Gig
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from dal import autocomplete
+from .models import Band
+
 
 # Create your views here.
 
@@ -68,3 +71,12 @@ class GigDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user)
+
+
+# Band autocomplete
+class BandAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Band.objects.all()
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs
