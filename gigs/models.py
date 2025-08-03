@@ -41,11 +41,10 @@ class Gig(models.Model):
         - Date
         Formatted with separators for clarity in lists or menus.
         """
-    band_name = self.band.name if self.band else "Unknown Band"
-
+        band_name = self.band.name if self.band else "Unknown Band"
         if self.tour_title:
             name = f"{band_name} — {self.tour_title} @ {self.venue.name}"
         else:
             name = f"{band_name} @ {self.venue.name}"
-
         return f"{name} — {self.date.strftime('%Y-%m-%d')}"
+
