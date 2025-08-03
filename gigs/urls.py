@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import BandAutocomplete
 from .views import (
     gigs_dashboard,
     GigListView,
@@ -15,4 +16,5 @@ urlpatterns = [
     path('gigs/<int:pk>/', GigDetailView.as_view(), name='gig_detail'),  # /dashboard/gigs/<pk>/
     path('gigs/<int:pk>/edit/', GigUpdateView.as_view(), name='gig_edit'),  # /dashboard/gigs/<pk>/edit/
     path('gigs/<int:pk>/delete/', GigDeleteView.as_view(), name='gig_delete'),  # /dashboard/gigs/<pk>/delete/
+    path('band-autocomplete/', BandAutocomplete.as_view(), name='band-autocomplete'),
 ]
