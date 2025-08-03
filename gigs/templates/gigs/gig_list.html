@@ -1,0 +1,20 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Your Gigs</h2>
+  <a href="{% url 'gig_create' %}" class="btn btn-success mb-3">+ Add New Gig</a>
+  {% if gigs %}
+    <ul class="list-group">
+      {% for gig in gigs %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ gig.band_name }} @ {{ gig.venue }} — {{ gig.date }}
+          <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't added any gigs yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
