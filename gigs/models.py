@@ -25,22 +25,8 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.name
-
+        
 # Gig Images model
-class GigImage(models.Model):
-    gig = models.ForeignKey("Gig", on_delete=models.CASCADE, related_name="images")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = CloudinaryField("Image", default="placeholder", null=False, blank=False)
-    is_cover = models.BooleanField(default=False, help_text="Set as cover image for the gig")
-
-    class Meta:
-        ordering = ["-is_cover", "id"]
-
-    def __str__(self):
-        return f"Image for {self.gig.get_display_name()}"
-    
-    def save(self, *args, **kwargs):
-        # Gig Images model
 class GigImage(models.Model):
     gig = models.ForeignKey("Gig", on_delete=models.CASCADE, related_name="images")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
