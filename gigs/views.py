@@ -49,3 +49,13 @@ class GigDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user)
+
+# Gig update view
+class GigUpdateView(LoginRequiredMixin, UpdateView):
+    model = Gig
+    fields = ['band_name', 'date', 'location', 'status', 'notes']
+    template_name = 'gigs/gig_form.html'
+    success_url = reverse_lazy('gig_list')
+
+    def get_queryset(self):
+        return Gig.objects.filter(user=self.request.user)
