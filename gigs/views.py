@@ -91,11 +91,20 @@ class BandCreateView(LoginRequiredMixin, CreateView):
     template_name = 'gigs/band_form.html'
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        self.object = form.save()
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'id': self.object.id, 'name': self.object.name})
+            return JsonResponse({
+                'id': self.object.id,
+                'name': self.object.name,
+            })
         else:
-            return response
+            return super().form_valid(form)
+
+    def form_invalid(self, form):
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'errors': form.errors}, status=400)
+        else:
+            return super().form_invalid(form)
 
     def get_success_url(self):
         next_url = self.request.GET.get('next')
