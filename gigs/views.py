@@ -99,3 +99,13 @@ class VenueAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__icontains=self.q)
         return qs
+
+# Add new venue view
+class VenueCreateView(LoginRequiredMixin, CreateView):
+    model = Venue
+    fields = ['name']
+    template_name = 'gigs/venue_form.html'
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        return next_url or reverse('gig_create')
