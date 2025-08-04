@@ -1,12 +1,9 @@
 from django.urls import path
-from .views import BandAutocomplete, VenueAutocomplete
 from .views import (
     gigs_dashboard,
-    GigListView,
-    GigCreateView,
-    GigDetailView,
-    GigUpdateView,
-    GigDeleteView,
+    GigListView, GigCreateView, GigDetailView, GigUpdateView, GigDeleteView,
+    BandAutocomplete, BandCreateView,
+    VenueAutocomplete, VenueCreateView,
 )
 
 urlpatterns = [
@@ -16,6 +13,10 @@ urlpatterns = [
     path('gigs/<int:pk>/', GigDetailView.as_view(), name='gig_detail'),  # /dashboard/gigs/<pk>/
     path('gigs/<int:pk>/edit/', GigUpdateView.as_view(), name='gig_edit'),  # /dashboard/gigs/<pk>/edit/
     path('gigs/<int:pk>/delete/', GigDeleteView.as_view(), name='gig_delete'),  # /dashboard/gigs/<pk>/delete/
+
     path('band-autocomplete/', BandAutocomplete.as_view(), name='band-autocomplete'),
+    path('bands/add/', BandCreateView.as_view(), name='band_create'),
+    
     path('venue-autocomplete/', VenueAutocomplete.as_view(), name='venue-autocomplete'),
+    path('venues/add/', VenueCreateView.as_view(), name='venue_create'),
 ]
