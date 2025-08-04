@@ -15,9 +15,10 @@ class Band(models.Model):
 # Venue model
 class Venue(models.Model):
     name = models.CharField(max_length=255, blank=True)
+    location = models.CharField(max_length=255, blank=True)  # optional
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.location})" if self.location else self.name
 
 # Genre model
 class Genre(models.Model):
