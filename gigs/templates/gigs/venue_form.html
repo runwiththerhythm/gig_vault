@@ -1,18 +1,13 @@
 {% extends "gigs/dashboard_base.html" %}
 {% load crispy_forms_tags %}
 
-{% block head_extra %}
-  {{ form.media }}
-{% endblock %}
-
 {% block content %}
 <div class="container mt-4">
-  <h2>{{ view.object.pk|yesno:"Edit Gig,Add New Gig" }}</h2>
+  <h2>Add New Venue</h2>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
+    <a href="{% url 'gig_create' %}" class="btn btn-secondary mt-3">Cancel</a>
   </form>
-  <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
 </div>
 {% endblock %}
-
