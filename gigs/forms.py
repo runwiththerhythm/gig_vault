@@ -5,6 +5,9 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML, Div, Submit
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from .models import Gig
+from django.urls import reverse
+
+
 
 class GigForm(forms.ModelForm):
     class Meta:
@@ -21,21 +24,24 @@ class GigForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
+        self.helper = FormHelper()  # <-- instantiate helper
+
+        band_add_url = reverse('band_create') + '?next=' + reverse('gig_create')
+        venue_add_url = reverse('venue_create') + '?next=' + reverse('gig_create')
+
         self.helper.layout = Layout(
             Field('band'),
             HTML(
-                '<small class="form-text text-muted">'
-                'Can’t find the band? <a href="/bands/add/?next=/dashboard/gigs/new/">Add a new one</a>.'
+                f'<small class="form-text text-muted">'
+                f'Can’t find the band? <a href="{band_add_url}">Add a new one</a>.'
                 '</small>'
             ),
             Field('tour_title'),
             Field('other_artists'),
             Field('venue'),
             HTML(
-                '<small class="form-text text-muted">'
-                'Can’t find the venue? <a href="/venues/add/?next=/dashboard/gigs/new/">Add a new one</a>.'
+                f'<small class="form-text text-muted">'
+                f'Can’t find the venue? <a href="{venue_add_url}">Add a new one</a>.'
                 '</small>'
             ),
             Field('date'),
