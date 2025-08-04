@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from .forms import GigForm
 from dal import autocomplete
 from .models import Band, Venue
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -87,6 +89,13 @@ class BandCreateView(LoginRequiredMixin, CreateView):
     model = Band
     fields = ['name']
     template_name = 'gigs/band_form.html'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'id': self.object.id, 'name': self.object.name})
+        else:
+            return response
 
     def get_success_url(self):
         next_url = self.request.GET.get('next')

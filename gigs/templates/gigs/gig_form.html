@@ -22,8 +22,77 @@
   </form>
 </div>
 
-  </form>
-  <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
-</div>
-{% endblock %}
 
+<!-- Add Band Modal -->
+<div class="modal fade" id="addBandModal" tabindex="-1" aria-labelledby="addBandModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="add-band-form" method="post" action="{% url 'band_create' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="addBandModalLabel">Add New Band</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="id_name" class="form-label">Band Name</label>
+            <input type="text" class="form-control" id="id_name" name="name" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Add Band</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const addBandForm = document.getElementById("add-band-form");
+  const addBandModal = new bootstrap.Modal(document.getElementById('addBandModal'));
+  const bandSelect = document.querySelector("select[name='band']");
+
+  addBandForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(addBandForm);
+
+    fetch(addBandForm.action, {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+      },
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.text().then(text => { throw new Error(text) });
+      }
+    })
+    .then(data => {
+      // Close modal
+      addBandModal.hide();
+
+      // Reset form
+      addBandForm.reset();
+
+      // Add new option to band select and select it
+      let newOption = new Option(data.name, data.id, true, true);
+      bandSelect.appendChild(newOption);
+
+      // Trigger change event for DAL Select2 to refresh
+      $(bandSelect).trigger('change');
+    })
+    .catch(error => {
+      alert("Error adding band: " + error.message);
+    });
+  });
+});
+</script>
+
+{% endblock %}
