@@ -82,6 +82,16 @@ class BandAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
         return qs
 
+# Add new band view
+class BandCreateView(LoginRequiredMixin, CreateView):
+    model = Band
+    fields = ['name']
+    template_name = 'gigs/band_form.html'
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        return next_url or reverse('gig_create')
+
 # Venue autocomplete
 class VenueAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
