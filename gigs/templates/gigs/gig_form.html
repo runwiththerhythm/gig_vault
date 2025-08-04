@@ -11,6 +11,17 @@
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
+
+<!-- Add New Band Button -->
+    <button type="button" class="btn btn-link p-0 mt-1" data-bs-toggle="modal" data-bs-target="#addBandModal">
+      Can’t find the band? Add a new one
+    </button>
+
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+  </form>
+</div>
+
   </form>
   <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
 </div>
