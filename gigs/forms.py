@@ -17,7 +17,6 @@ class GigForm(forms.ModelForm):
             'band': autocomplete.ModelSelect2(url='band-autocomplete'),
             'venue': autocomplete.ModelSelect2(url='venue-autocomplete'),
             'date': forms.DateInput(attrs={'type': 'date'}),
-            'notes': SummernoteWidget(),
             'other_artists': autocomplete.ModelSelect2Multiple(url='band-autocomplete'),
         }
 
@@ -46,6 +45,6 @@ class GigForm(forms.ModelForm):
             Field('date'),
             Field('is_festival'),
             Field('status'),
-            Field('notes'),
+            Div('notes'),
             Submit('submit', 'Save', css_class='btn btn-primary'),
         )
