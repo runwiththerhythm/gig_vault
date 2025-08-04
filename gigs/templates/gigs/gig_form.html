@@ -10,18 +10,35 @@
   <h2>{{ view.object.pk|yesno:"Edit Gig,Add New Gig" }}</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+<form method="post">
+  {% csrf_token %}
 
-<!-- Add New Band Button -->
+  {{ form.non_field_errors }}
+
+  {# ——— Band Field + Button ——— #}
+  <div class="mb-3">
+    {{ form.band|as_crispy_field }}
     <button type="button" class="btn btn-link p-0 mt-1" data-bs-toggle="modal" data-bs-target="#addBandModal">
       Can’t find the band? Add a new one
     </button>
+    {% if form.band.errors %}
+      <div class="text-danger">{{ form.band.errors }}</div>
+    {% endif %}
+  </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Save</button>
-    <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
-  </form>
-</div>
+  {# ——— Now render the rest of the fields with crispy #}
+  {{ form.tour_title|as_crispy_field }}
+  {{ form.other_artists|as_crispy_field }}
+  {{ form.venue|as_crispy_field }}
+  {# You can add a similar “Add Venue” button here if desired #}
+  {{ form.date|as_crispy_field }}
+  {{ form.is_festival|as_crispy_field }}
+  {{ form.status|as_crispy_field }}
+  {{ form.notes|as_crispy_field }}
 
+  <button type="submit" class="btn btn-primary mt-3">Save</button>
+  <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+</form>
 
 <!-- Add Band Modal -->
 <div class="modal fade" id="addBandModal" tabindex="-1" aria-labelledby="addBandModalLabel" aria-hidden="true">
@@ -49,47 +66,48 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const addBandForm = document.getElementById("add-band-form");
-  const addBandModal = new bootstrap.Modal(document.getElementById('addBandModal'));
-  const bandSelect = document.querySelector("select[name='band']");
+document.addEventListener('DOMContentLoaded', function () {
+  const bandForm = document.getElementById('add-band-form');
+  const bandNameInput = document.getElementById('id_name');
+  const bandField = document.querySelector('#id_band');  // DAL autocomplete field
 
-  addBandForm.addEventListener("submit", function(e) {
+  bandForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const formData = new FormData(addBandForm);
+    const formData = new FormData(bandForm);
 
-    fetch(addBandForm.action, {
-      method: "POST",
+    fetch("{% url 'band_create' %}", {
+      method: 'POST',
       headers: {
-        "X-Requested-With": "XMLHttpRequest",
-        "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
       },
-      body: formData
+      body: formData,
     })
     .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return response.text().then(text => { throw new Error(text) });
+      if (!response.ok) {
+        return response.json().then(data => {
+          throw data;
+        });
       }
+      return response.json();
     })
     .then(data => {
-      // Close modal
-      addBandModal.hide();
+      // Success: Add new option to band autocomplete and select it
+      const newOption = new Option(data.name, data.id, true, true); // selected by default
+      $(bandField).append(newOption).trigger('change');
 
-      // Reset form
-      addBandForm.reset();
-
-      // Add new option to band select and select it
-      let newOption = new Option(data.name, data.id, true, true);
-      bandSelect.appendChild(newOption);
-
-      // Trigger change event for DAL Select2 to refresh
-      $(bandSelect).trigger('change');
+      // Clear modal input and close modal
+      bandNameInput.value = '';
+      const modal = bootstrap.Modal.getInstance(document.getElementById('addBandModal'));
+      modal.hide();
     })
     .catch(error => {
-      alert("Error adding band: " + error.message);
+      if (error.errors && error.errors.name) {
+        alert("Error: " + error.errors.name.join(", "));
+      } else {
+        alert("Error adding band: " + JSON.stringify(error));
+      }
     });
   });
 });

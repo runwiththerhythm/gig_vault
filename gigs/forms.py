@@ -23,17 +23,16 @@ class GigForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.helper = FormHelper()  # <-- instantiate helper
-
         band_add_url = reverse('band_create') + '?next=' + reverse('gig_create')
         venue_add_url = reverse('venue_create') + '?next=' + reverse('gig_create')
 
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Field('band'),
             HTML(
                 f'<small class="form-text text-muted">'
-                f'Can’t find the band? <a href="{band_add_url}">Add a new one</a>.'
+                f'Can’t find the band? <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#addBandModal">Add a new one</button>.'
                 '</small>'
             ),
             Field('tour_title'),
