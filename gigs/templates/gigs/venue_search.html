@@ -12,6 +12,8 @@
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
+      types: 'poi',
+      //countries: 'gb',
       placeholder: '{{ placeholder|default:"Search for venue" }}',
       marker: false,
       limit: 5,
