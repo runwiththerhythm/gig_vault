@@ -7,15 +7,15 @@ class BandAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
 
-@admin.register(Venue)
-class VenueAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location')  # assuming you added location field
-    search_fields = ('name', 'location')
-    ordering = ('name',)
+#@admin.register(Venue_name)
+#class VenueAdmin(admin.ModelAdmin):
+#    list_display = ('name', 'location')  # assuming you added location field
+#    search_fields = ('name', 'location')
+#    ordering = ('name',)
 
 @admin.register(Gig)
 class GigAdmin(admin.ModelAdmin):
-    list_display = ('band', 'venue', 'date')
+    list_display = ('band', 'venue_name', 'date')
     search_fields = ('band__name', 'venue__name')
     list_filter = ('date',)
     ordering = ('-date',)

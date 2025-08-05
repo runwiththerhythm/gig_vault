@@ -8,10 +8,9 @@
 {% block content %}
 <div class="container mt-4">
   <h2>{{ view.object.pk|yesno:"Edit Gig,Add New Gig" }}</h2>
+
   <form method="post">
     {% csrf_token %}
-<form method="post">
-  {% csrf_token %}
 
   {{ form.non_field_errors }}
 
@@ -29,8 +28,9 @@
   {# ——— Now render the rest of the fields with crispy #}
   {{ form.tour_title|as_crispy_field }}
   {{ form.other_artists|as_crispy_field }}
-  {{ form.venue|as_crispy_field }}
-  {# You can add a similar “Add Venue” button here if desired #}
+
+  {% include "gigs/venue_search.html" with element_id="venue-search" input_id="id_venue_name" input_name="venue_name" initial_value=form.instance.venue_name placeholder="Search for a venue" mapbox_token=mapbox_token %}
+
   {{ form.date|as_crispy_field }}
   {{ form.is_festival|as_crispy_field }}
   {{ form.status|as_crispy_field }}

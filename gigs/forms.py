@@ -12,10 +12,9 @@ from django.urls import reverse
 class GigForm(forms.ModelForm):
     class Meta:
         model = Gig
-        fields = ['band', 'date', 'venue', 'status', 'notes', 'tour_title', 'other_artists', 'is_festival']
+        fields = ['band', 'date', 'status', 'notes', 'tour_title', 'other_artists', 'is_festival']
         widgets = {
             'band': autocomplete.ModelSelect2(url='band-autocomplete'),
-            'venue': autocomplete.ModelSelect2(url='venue-autocomplete'),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'other_artists': autocomplete.ModelSelect2Multiple(url='band-autocomplete'),
         }
@@ -36,7 +35,6 @@ class GigForm(forms.ModelForm):
             ),
             Field('tour_title'),
             Field('other_artists'),
-            Field('venue'),
             HTML(
                 f'<small class="form-text text-muted">'
                 f'Can’t find the venue? <a href="{venue_add_url}">Add a new one</a>.'
