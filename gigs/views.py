@@ -9,6 +9,8 @@ from dal import autocomplete
 from .models import Band, Venue
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import os
 
 
 # Create your views here.
@@ -45,8 +47,13 @@ class GigCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.venue_name = self.request.POST.get('venue_name', '')
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
+        return context
 # Gig detail view
 class GigDetailView(LoginRequiredMixin, DetailView):
     model = Gig
@@ -63,9 +70,15 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('gig_list')
 
-    def get_queryset(self):
-        return Gig.objects.filter(user=self.request.user)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.venue_name = self.request.POST.get('venue_name', '')
+        return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
+        return context
 # Gig delete view
 class GigDeleteView(LoginRequiredMixin, DeleteView):
     model = Gig
@@ -74,6 +87,11 @@ class GigDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mapbox_token'] = settings.MAPBOX_TOKEN
+        return context
 
 
 # Band autocomplete
