@@ -12,15 +12,31 @@ from django.urls import reverse
 class GigForm(forms.ModelForm):
     class Meta:
         model = Gig
-        fields = ['band', 'date', 'status', 'notes', 'tour_title', 'other_artists', 'is_festival']
+        fields = [
+            'band', 'tour_title', 'other_artists',
+            # Hidden venue fields
+            'venue_name', 'venue_city', 'venue_country',
+            'date', 'is_festival', 'status', 'notes'
+        ]
         widgets = {
             'band': autocomplete.ModelSelect2(url='band-autocomplete'),
-            'date': forms.DateInput(attrs={'type': 'date'}),
             'other_artists': autocomplete.ModelSelect2Multiple(url='band-autocomplete'),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'notes': SummernoteWidget(),
+            'venue_name': forms.HiddenInput(),
+            'venue_city': forms.HiddenInput(),
+            'venue_country': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if 'band' in self.initial:
+            self.fields['band'].initial = self.initial['band']
+
+        for field_name in ['venue_name', 'venue_city', 'venue_country', ]:
+            self.fields[field_name].required = False
+
         band_add_url = reverse('band_create') + '?next=' + reverse('gig_create')
         venue_add_url = reverse('venue_create') + '?next=' + reverse('gig_create')
 
@@ -29,20 +45,26 @@ class GigForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field('band'),
             HTML(
-                f'<small class="form-text text-muted">'
-                f'Can’t find the band? <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#addBandModal">Add a new one</button>.'
-                '</small>'
+                '<small class="form-text text-muted">'
+                'Can’t find the band? <button type="button" class="btn btn-link p-0" '
+                'data-bs-toggle="modal" data-bs-target="#addBandModal">'
+                'Add a new one</button>.</small>'
             ),
             Field('tour_title'),
             Field('other_artists'),
             HTML(
-                f'<small class="form-text text-muted">'
-                f'Can’t find the venue? <a href="{venue_add_url}">Add a new one</a>.'
-                '</small>'
+                '<small class="form-text text-muted">'
+                f'Can’t find the venue? <a href="{venue_add_url}">Add a new one</a>.</small>'
             ),
+            HTML('<div id="venue-search" class="mb-3"></div>'),
+            Field('venue_name'),
+            Field('venue_city'),
+            Field('venue_country'),
             Field('date'),
             Field('is_festival'),
             Field('status'),
             Div('notes'),
             Submit('submit', 'Save', css_class='btn btn-primary'),
         )
+
+

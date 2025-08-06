@@ -14,11 +14,14 @@ class Band(models.Model):
 
 # Venue model
 class Venue(models.Model):
-    name = models.CharField(max_length=255, blank=True)
-    location = models.CharField(max_length=255, blank=True)  # optional
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=512, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
+
 
     def __str__(self):
-        return f"{self.name} ({self.location})" if self.location else self.name
+        return f"{self.name}, {self.city}, {self.country}"
 
 # Genre model
 class Genre(models.Model):
@@ -59,8 +62,13 @@ class Gig(models.Model):
     band = models.ForeignKey(Band, on_delete=models.SET_NULL, null=True, related_name="headline_gigs")
     tour_title = models.CharField(max_length=255, blank=True, help_text="Tour/Festival name (optional)")
     other_artists = models.ManyToManyField(Band, blank=True, )
-    venue_name = models.CharField(max_length=255, blank=True)
+    venue = models.ForeignKey(Venue, on_delete=models.SET_NULL, null=True, blank=True, )
     date = models.DateField()
+    venue_name = models.CharField(max_length=255, blank=True)
+    venue_city = models.CharField(max_length=100, blank=True)
+    venue_country = models.CharField(max_length=100, blank=True)
+    venue_lat = models.FloatField(blank=True, null=True)
+    venue_lng = models.FloatField(blank=True, null=True)
     is_festival = models.BooleanField(default=False)
     notes = SummernoteTextField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="attended")

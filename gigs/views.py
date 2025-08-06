@@ -45,15 +45,43 @@ class GigCreateView(LoginRequiredMixin, CreateView):
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('gig_list')
 
+    def get_initial(self):
+        initial = super().get_initial()
+        band_id = self.request.GET.get('band_id')
+        if band_id:
+            initial['band'] = Band.objects.get(id=band_id)
+        return initial
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.venue_name = self.request.POST.get('venue_name', '')
+
+        # Get venue details from POST data
+        venue_name = self.request.POST.get('venue_name')
+        venue_city = self.request.POST.get('venue_city')
+        venue_country = self.request.POST.get('venue_country')
+
+
+        # If the venue doesn't already exist, create a new venue
+        venue, created = Venue.objects.get_or_create(
+            name=venue_name,
+            city=venue_city,
+            country=venue_country,
+        )
+
+        # Assign the created or existing venue to the gig
+        form.instance.venue = venue
+
+        # Proceed with form saving
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('gig_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
         return context
+
 # Gig detail view
 class GigDetailView(LoginRequiredMixin, DetailView):
     model = Gig
@@ -110,6 +138,7 @@ class BandCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({
                 'id': self.object.id,
@@ -126,7 +155,7 @@ class BandCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         next_url = self.request.GET.get('next')
-        return next_url or reverse('gig_create')
+        return next_url or reverse_lazy('gig_create')
 
 # Venue autocomplete
 class VenueAutocomplete(autocomplete.Select2QuerySetView):

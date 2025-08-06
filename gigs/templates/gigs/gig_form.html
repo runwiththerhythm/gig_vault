@@ -1,44 +1,81 @@
 {% extends "gigs/dashboard_base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
 
 {% block head_extra %}
   {{ form.media }}
 {% endblock %}
 
-{% block content %}
-<div class="container mt-4">
+{% block page_header %}
   <h2>{{ view.object.pk|yesno:"Edit Gig,Add New Gig" }}</h2>
+{% endblock %}
 
+{% block dashboard_content %}
+<div class="container mt-4">
   <form method="post">
     {% csrf_token %}
+    {{ form.errors }}
 
   {{ form.non_field_errors }}
 
-  {# ——— Band Field + Button ——— #}
-  <div class="mb-3">
-    {{ form.band|as_crispy_field }}
-    <button type="button" class="btn btn-link p-0 mt-1" data-bs-toggle="modal" data-bs-target="#addBandModal">
-      Can’t find the band? Add a new one
-    </button>
-    {% if form.band.errors %}
-      <div class="text-danger">{{ form.band.errors }}</div>
-    {% endif %}
-  </div>
+{# ——— Band Field + “Add Band” Modal Trigger ——— #}
+    <div class="mb-3">
+      {{ form.band|as_crispy_field }}
+      <button type="button"
+              class="btn btn-link p-0 mt-1"
+              data-bs-toggle="modal"
+              data-bs-target="#addBandModal">
+        Can’t find the band? Add a new one
+      </button>
+    </div>
 
-  {# ——— Now render the rest of the fields with crispy #}
-  {{ form.tour_title|as_crispy_field }}
-  {{ form.other_artists|as_crispy_field }}
+    {# ——— Other Form Fields ——— #}
+    {{ form.tour_title|as_crispy_field }}
+    {{ form.other_artists|as_crispy_field }}
 
-  {% include "gigs/venue_search.html" with element_id="venue-search" input_id="id_venue_name" input_name="venue_name" initial_value=form.instance.venue_name placeholder="Search for a venue" mapbox_token=mapbox_token %}
+    {# ——— Mapbox Search Element ——— #}
+    <mapbox-search-box
+      id="venue-search-box"
+      access-token="{{ mapbox_token }}"
+      placeholder="Search for a venue…"
+      style="width:100%; max-width:400px;"
+      countries="gb"
+      types="poi"
+    ></mapbox-search-box>
 
-  {{ form.date|as_crispy_field }}
-  {{ form.is_festival|as_crispy_field }}
-  {{ form.status|as_crispy_field }}
-  {{ form.notes|as_crispy_field }}
+    {# ——— Hidden inputs for the selected venue ——— #}
+    <input type="hidden"
+           id="id_venue_name"
+           name="venue_name"
+           value="{{ form.instance.venue_name }}">
+    <input type="hidden"
+           id="venue_city"
+           name="venue_city"
+           value="{{ form.instance.venue_city }}">
+    <input type="hidden"
+           id="venue_country"
+           name="venue_country"
+           value="{{ form.instance.venue_country }}">
+    <input type="hidden"
+           id="venue_lat"
+           name="venue_lat"
+           value="{{ form.instance.venue_lat }}">
+    <input type="hidden"
+           id="venue_lng"
+           name="venue_lng"
+           value="{{ form.instance.venue_lng }}">
 
-  <button type="submit" class="btn btn-primary mt-3">Save</button>
-  <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
-</form>
+    {# ——— Remaining Fields ——— #}
+    {{ form.date|as_crispy_field }}
+    {{ form.is_festival|as_crispy_field }}
+    {{ form.status|as_crispy_field }}
+    {{ form.notes|as_crispy_field }}
+
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+    <a href="{% url 'gig_list' %}" class="btn btn-secondary mt-3">Cancel</a>
+  </form>
+</div>
 
 <!-- Add Band Modal -->
 <div class="modal fade" id="addBandModal" tabindex="-1" aria-labelledby="addBandModalLabel" aria-hidden="true">
@@ -65,52 +102,88 @@
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const bandForm = document.getElementById('add-band-form');
-  const bandNameInput = document.getElementById('id_name');
-  const bandField = document.querySelector('#id_band');  // DAL autocomplete field
+{% endblock %}
 
-  bandForm.addEventListener('submit', function (e) {
-    e.preventDefault();
 
-    const formData = new FormData(bandForm);
+{% block scripts %}
+  {{ block.super }}
 
-    fetch("{% url 'band_create' %}", {
-      method: 'POST',
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
-      },
-      body: formData,
-    })
-    .then(response => {
-      if (!response.ok) {
-        return response.json().then(data => {
-          throw data;
-        });
-      }
-      return response.json();
-    })
-    .then(data => {
-      // Success: Add new option to band autocomplete and select it
-      const newOption = new Option(data.name, data.id, true, true); // selected by default
-      $(bandField).append(newOption).trigger('change');
+  <!-- Band Modal AJAX-->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const bandForm = document.getElementById('add-band-form');
+    const bandNameInput = document.getElementById('id_name');
+    const bandField = document.querySelector('#id_band');  // DAL autocomplete field
 
-      // Clear modal input and close modal
-      bandNameInput.value = '';
-      const modal = bootstrap.Modal.getInstance(document.getElementById('addBandModal'));
-      modal.hide();
-    })
-    .catch(error => {
-      if (error.errors && error.errors.name) {
-        alert("Error: " + error.errors.name.join(", "));
-      } else {
-        alert("Error adding band: " + JSON.stringify(error));
-      }
+    bandForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(bandForm);
+
+      fetch("{% url 'band_create' %}", {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+        },
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(data => {
+            throw data;
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Success: Add new option to band autocomplete and select it
+        const newOption = new Option(data.name, data.id, true, true); // selected by default
+        $(bandField).append(newOption).trigger('change');
+
+        // Pass the band ID to the gig creation page (redirect)
+      window.location.href = "{% url 'gig_create' %}?band_id=" + data.id;
+
+        // Clear modal input and close modal
+        bandNameInput.value = '';
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addBandModal'));
+        modal.hide();
+      })
+      .catch(error => {
+        if (error.errors && error.errors.name) {
+          alert("Error: " + error.errors.name.join(", "));
+        } else {
+          alert("Error adding band: " + JSON.stringify(error));
+        }
+      });
     });
   });
-});
+  </script>
+
+<!-- Mapbox Search result handler -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const el = document.getElementById("venue-search-box");
+
+    if (el) {
+      console.log("Mapbox Search Box initialized successfully.");
+
+      el.addEventListener("result", (evt) => {
+        const f = evt.detail;
+        console.log("Mapbox Result Fired:", f);
+
+        // Populate hidden fields with venue data
+        document.getElementById("id_venue_name").value = f.text || "";
+        document.getElementById("venue_city").value = (f.context || []).find(c => c.id.startsWith("place"))?.text || "";
+        document.getElementById("venue_country").value = (f.context || []).find(c => c.id.startsWith("country"))?.text || "";
+      });
+
+    } else {
+      console.error("Mapbox Search Box not found.");
+    }
+  });
 </script>
 
-{% endblock %}
+  {% endblock %}
+
+  

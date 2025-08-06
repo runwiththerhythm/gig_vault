@@ -1,7 +1,10 @@
 {% extends "gigs/dashboard_base.html" %}
-{% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4">My Gig Vault Dashboard</h2>
+
+{% block page_header %}
+<h2>My Gig Vault</h2>
+{% endblock %}
+
+{% block dashboard_content %}
 
   <h4>Upcoming Gigs</h4>
   {% if upcoming_gigs %}
