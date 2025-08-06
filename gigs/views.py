@@ -13,24 +13,7 @@ from django.conf import settings
 import os
 
 
-# Create your views here.
-
-# Main dashboard My Gig Vault view - Function based view for dashboard
-@login_required
-def gigs_dashboard(request):
-    attended_gigs = Gig.objects.filter(user=request.user).order_by('-date')[:50]
-    upcoming_gigs = Gig.objects.filter(user=request.user, status='upcoming').order_by('date')[:50]
-
-
-    return render(request, "gigs/dashboard.html", {
-        "attended_gigs": attended_gigs,
-        "upcoming_gigs": upcoming_gigs
-    })
-
-# Class based views for CRUD implementations
-
-# Gig list view
-class GigListView(LoginRequiredMixin, ListView):
+w(LoginRequiredMixin, ListView):
     model = Gig
     template_name = 'gigs/gig_list.html'
     context_object_name = 'gigs'

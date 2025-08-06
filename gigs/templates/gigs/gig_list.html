@@ -5,16 +5,53 @@
   <h2>Your Gigs</h2>
   <a href="{% url 'gig_create' %}" class="btn btn-success mb-3">+ Add New Gig</a>
   {% if gigs %}
-    <ul class="list-group">
-      {% for gig in gigs %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          {{ gig.band }} @ {{ gig.venue }} — {{ gig.date }}
-          <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-outline-primary">View</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>You haven't added any gigs yet.</p>
-  {% endif %}
+  <ul class="list-group">
+    {% for gig in gigs %}
+      <li class="list-group-item">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h5 class="mb-1">
+              {{ gig.band.name }}
+              {% if gig.tour_title %}
+                — <em>{{ gig.tour_title }}</em>
+              {% endif %}
+              {% if gig.is_festival %}
+                <span class="badge bg-warning text-dark ms-2">Festival</span>
+              {% endif %}
+            </h5>
+
+            <p class="mb-1 text-muted">
+              {{ gig.venue.name }}
+              {% if gig.venue.city %}, {{ gig.venue.city }}{% endif %}
+              {% if gig.venue.country %}, {{ gig.venue.country }}{% endif %}
+            </p>
+
+            <p class="mb-1">
+              <strong>Date:</strong> {{ gig.date|date:"F j, Y" }}<br>
+              <strong>Status:</strong> {{ gig.get_status_display }}
+            </p>
+
+            {% if gig.other_artists.all %}
+              <p class="mb-1">
+                <strong>Support:</strong>
+                {% for band in gig.other_artists.all %}
+                  {{ band.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </p>
+            {% endif %}
+          </div>
+
+          <div class="text-end">
+            <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-outline-primary mb-1">View</a><br>
+            <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-sm btn-outline-secondary mb-1">Edit</a><br>
+            <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You haven't added any gigs yet.</p>
+{% endif %}
 </div>
 {% endblock %}
