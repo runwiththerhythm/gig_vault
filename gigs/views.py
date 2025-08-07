@@ -13,9 +13,25 @@ from django.conf import settings
 import os
 
 
-w(LoginRequiredMixin, ListView):
+# Create your views here.
+
+# Main dashboard My Gig Vault view - Function based view for dashboard
+@login_required
+def gigs_dashboard(request):
+    attended_gigs = Gig.objects.filter(user=request.user, status='attended').order_by('-date')[:50]
+    upcoming_gigs = Gig.objects.filter(user=request.user, status='upcoming').order_by('date')[:50]
+
+    return render(request, "gigs/dashboard.html", {
+        "attended_gigs": attended_gigs,
+        "upcoming_gigs": upcoming_gigs
+    })
+
+# Class based views for CRUD implementations
+
+# My gigs view
+class MyGigsView(LoginRequiredMixin, ListView):
     model = Gig
-    template_name = 'gigs/gig_list.html'
+    template_name = 'gigs/my_gigs.html'
     context_object_name = 'gigs'
 
     def get_queryset(self):
@@ -26,7 +42,7 @@ class GigCreateView(LoginRequiredMixin, CreateView):
     model = Gig
     form_class = GigForm
     template_name = 'gigs/gig_form.html'
-    success_url = reverse_lazy('gig_list')
+    success_url = reverse_lazy('my_gigs')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -58,7 +74,7 @@ class GigCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('gig_list')
+        return reverse_lazy('my_gigs')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -79,7 +95,7 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
     model = Gig
     form_class = GigForm
     template_name = 'gigs/gig_form.html'
-    success_url = reverse_lazy('gig_list')
+    success_url = reverse_lazy('my_gigs')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -94,7 +110,7 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 class GigDeleteView(LoginRequiredMixin, DeleteView):
     model = Gig
     template_name = 'gigs/gig_confirm_delete.html'
-    success_url = reverse_lazy('gig_list')
+    success_url = reverse_lazy('my_gigs')
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user)

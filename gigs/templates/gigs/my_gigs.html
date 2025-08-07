@@ -1,0 +1,22 @@
+{% extends "gigs/dashboard_base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>My Gig Vault</h2>
+
+  <a href="{% url 'gig_create' %}" class="btn btn-success mb-3">+ Add New Gig</a>
+
+  
+  {% if gigs %}
+    <div class="gig-cards">
+      {% for gig in gigs %}
+        {% include "gigs/components/gig_card.html" with gig=gig %}
+      {% endfor %}
+    </div>
+
+{% else %}
+  <p>You haven't added any gigs yet.</p>
+{% endif %}
+</div>
+
+{% endblock %}
