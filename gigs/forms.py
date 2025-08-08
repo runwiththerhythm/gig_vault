@@ -14,18 +14,15 @@ class GigForm(forms.ModelForm):
         model = Gig
         fields = [
             'band', 'tour_title', 'other_artists',
-            # Hidden venue fields
-            'venue_name', 'venue_city', 'venue_country',
             'date', 'is_festival', 'status', 'notes'
         ]
         widgets = {
-            'band': autocomplete.ModelSelect2(url='band-autocomplete'),
+            'band': autocomplete.ModelSelect2(url='band-autocomplete', attrs={
+                'data-placeholder': 'Select a band...',
+                'data-allow-clear': 'false'}),
             'other_artists': autocomplete.ModelSelect2Multiple(url='band-autocomplete'),
             'date': forms.DateInput(attrs={'type': 'date'}),
             'notes': SummernoteWidget(),
-            'venue_name': forms.HiddenInput(),
-            'venue_city': forms.HiddenInput(),
-            'venue_country': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -33,9 +30,6 @@ class GigForm(forms.ModelForm):
 
         if 'band' in self.initial:
             self.fields['band'].initial = self.initial['band']
-
-        for field_name in ['venue_name', 'venue_city', 'venue_country', ]:
-            self.fields[field_name].required = False
 
         band_add_url = reverse('band_create') + '?next=' + reverse('gig_create')
         venue_add_url = reverse('venue_create') + '?next=' + reverse('gig_create')
@@ -57,9 +51,6 @@ class GigForm(forms.ModelForm):
                 f'Can’t find the venue? <a href="{venue_add_url}">Add a new one</a>.</small>'
             ),
             HTML('<div id="venue-search" class="mb-3"></div>'),
-            Field('venue_name'),
-            Field('venue_city'),
-            Field('venue_country'),
             Field('date'),
             Field('is_festival'),
             Field('status'),
