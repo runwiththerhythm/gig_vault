@@ -54,23 +54,28 @@ class GigCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
 
-        # Get venue details from POST data
-        venue_name = self.request.POST.get('venue_name')
-        venue_city = self.request.POST.get('venue_city')
-        venue_country = self.request.POST.get('venue_country')
+
+        venue_name = self.request.POST.get("venue_name", "").strip()
+        venue_city = self.request.POST.get("venue_city", "").strip()
+        venue_country = self.request.POST.get("venue_country", "").strip()
+        
+        print("Venue fields from POST:", venue_name, venue_city, venue_country)
 
 
-        # If the venue doesn't already exist, create a new venue
-        venue, created = Venue.objects.get_or_create(
-            name=venue_name,
-            city=venue_city,
-            country=venue_country,
-        )
+        if venue_name:
 
-        # Assign the created or existing venue to the gig
-        form.instance.venue = venue
+            venue, _ = Venue.objects.get_or_create(
+                name=venue_name,
+                defaults={
+                    "city": venue_city,
+                    "country": venue_country,
+                }
+            )
+            form.instance.venue = venue
 
-        # Proceed with form saving
+        else:
+            form.instance.venue = None  # Optional fallback
+
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -80,6 +85,7 @@ class GigCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
         return context
+
 
 # Gig detail view
 class GigDetailView(LoginRequiredMixin, DetailView):
@@ -99,13 +105,34 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.venue_name = self.request.POST.get('venue_name', '')
+
+        # Get venue data from POST
+        venue_name = self.request.POST.get("venue_name", "").strip()
+        venue_city = self.request.POST.get("venue_city", "").strip()
+        venue_country = self.request.POST.get("venue_country", "").strip()
+
+        print("Venue fields from POST:", venue_name, venue_city, venue_country)
+
+
+        if venue_name:
+            venue, _ = Venue.objects.get_or_create(
+                name=venue_name,
+                defaults={
+                    "city": venue_city,
+                    "country": venue_country,
+                }
+            )
+            form.instance.venue = venue
+        else:
+            form.instance.venue = None  # Optional fallback
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
         return context
+        
 # Gig delete view
 class GigDeleteView(LoginRequiredMixin, DeleteView):
     model = Gig

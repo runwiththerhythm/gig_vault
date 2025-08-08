@@ -19,9 +19,9 @@ class Venue(models.Model):
     city = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
 
-
     def __str__(self):
-        return f"{self.name}, {self.city}, {self.country}"
+        location = ", ".join(filter(None, [self.city, self.country]))
+        return f"{self.name} ({location})" if location else self.name
 
 # Genre model
 class Genre(models.Model):
@@ -64,11 +64,6 @@ class Gig(models.Model):
     other_artists = models.ManyToManyField(Band, blank=True, )
     venue = models.ForeignKey(Venue, on_delete=models.SET_NULL, null=True, blank=True, )
     date = models.DateField()
-    venue_name = models.CharField(max_length=255, blank=True)
-    venue_city = models.CharField(max_length=100, blank=True)
-    venue_country = models.CharField(max_length=100, blank=True)
-    venue_lat = models.FloatField(blank=True, null=True)
-    venue_lng = models.FloatField(blank=True, null=True)
     is_festival = models.BooleanField(default=False)
     notes = SummernoteTextField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="attended")
@@ -80,18 +75,19 @@ class Gig(models.Model):
         return self.get_display_name()
 
     def get_display_name(self):
-        """
-        Returns a human-readable title for the gig, combining:
-        - Band name (or fallback text)
-        - Optional tour title
-        - Venue name
-        - Date
-        Formatted with separators for clarity in lists or menus.
-        """
         band_name = self.band.name if self.band else "Unknown Band"
+        venue_display = self.venue.name if self.venue else "Unknown Venue"
+
         if self.tour_title:
-            name = f"{band_name} — {self.tour_title} @ {self.venue.name}"
+            name = f"{band_name} — {self.tour_title} @ {venue_display}"
         else:
-            name = f"{band_name} @ {self.venue.name}"
+            name = f"{band_name} @ {venue_display}"
+
         return f"{name} — {self.date.strftime('%Y-%m-%d')}"
 
+
+
+
+
+
+        

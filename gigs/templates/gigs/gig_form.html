@@ -2,7 +2,6 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-
 {% block head_extra %}
   {{ form.media }}
 {% endblock %}
@@ -44,27 +43,27 @@
       types="poi"
     ></mapbox-search-box>
 
-    {# ——— Hidden inputs for the selected venue ——— #}
+    {% if form.instance.venue %}
+  <p class="mt-2">
+    <strong>Selected venue:</strong> {{ form.instance.venue.name }},
+    {{ form.instance.venue.city }}{% if form.instance.venue.country %}, {{ form.instance.venue.country }}{% endif %}
+  </p>
+{% endif %}
+
     <input type="hidden"
-           id="id_venue_name"
-           name="venue_name"
-           value="{{ form.instance.venue_name }}">
-    <input type="hidden"
-           id="venue_city"
-           name="venue_city"
-           value="{{ form.instance.venue_city }}">
-    <input type="hidden"
-           id="venue_country"
-           name="venue_country"
-           value="{{ form.instance.venue_country }}">
-    <input type="hidden"
-           id="venue_lat"
-           name="venue_lat"
-           value="{{ form.instance.venue_lat }}">
-    <input type="hidden"
-           id="venue_lng"
-           name="venue_lng"
-           value="{{ form.instance.venue_lng }}">
+       id="id_venue_name"
+       name="venue_name"
+       value="{{ form.instance.venue.name|default:'' }}">
+<input type="hidden"
+       id="venue_city"
+       name="venue_city"
+       value="{{ form.instance.venue.city|default:'' }}">
+<input type="hidden"
+       id="venue_country"
+       name="venue_country"
+       value="{{ form.instance.venue.country|default:'' }}">
+
+
 
     {# ——— Remaining Fields ——— #}
     {{ form.date|as_crispy_field }}
@@ -161,29 +160,43 @@
   </script>
 
 <!-- Mapbox Search result handler -->
-<script>
+  <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const el = document.getElementById("venue-search-box");
+    const searchBox = document.querySelector("mapbox-search-box");
+    if (!searchBox) return;
 
-    if (el) {
-      console.log("Mapbox Search Box initialized successfully.");
+    console.log("✅ Mapbox Search Box initialized");
 
-      el.addEventListener("result", (evt) => {
-        const f = evt.detail;
-        console.log("Mapbox Result Fired:", f);
+    searchBox.addEventListener("retrieve", (e) => {
+      // Mapbox Search Web Component returns a FeatureCollection
+      const fc = e.detail;
+      const feat = fc?.features?.[0];
+      if (!feat) {
+        console.warn("No feature in retrieve event:", fc);
+        return;
+      }
 
-        // Populate hidden fields with venue data
-        document.getElementById("id_venue_name").value = f.text || "";
-        document.getElementById("venue_city").value = (f.context || []).find(c => c.id.startsWith("place"))?.text || "";
-        document.getElementById("venue_country").value = (f.context || []).find(c => c.id.startsWith("country"))?.text || "";
-      });
+      // Prefer properties.* (Search JS) and fall back to text/context if present
+      const props = feat.properties || {};
+      const name =
+        props.name ?? feat.text ?? ""; // headline/venue name
 
-    } else {
-      console.error("Mapbox Search Box not found.");
-    }
+      // Context is an object on Search JS (web component), not an array
+      const ctx = props.context || {};
+      const city =
+        ctx.place?.name ?? ctx.locality?.name ?? ""; // city-level name
+      const country =
+        ctx.country?.name ?? ""; // country name
+
+      document.getElementById("id_venue_name").value = name;
+      document.getElementById("venue_city").value = city;
+      document.getElementById("venue_country").value = country;
+
+      console.log("📌 Venue fields set:", { name, city, country });
+    });
   });
 </script>
 
-  {% endblock %}
+{% endblock %}
 
   
