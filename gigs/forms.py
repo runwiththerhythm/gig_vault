@@ -4,8 +4,9 @@ from django_summernote.widgets import SummernoteWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML, Div, Submit
 from crispy_bootstrap5.bootstrap5 import FloatingField
-from .models import Gig
+from .models import Gig, GigImage
 from django.urls import reverse
+from django.forms import inlineformset_factory
 
 
 
@@ -57,5 +58,21 @@ class GigForm(forms.ModelForm):
             Div('notes'),
             Submit('submit', 'Save', css_class='btn btn-primary'),
         )
+
+
+class GigImageForm(forms.ModelForm):
+    class Meta:
+        model = GigImage
+        fields = ['image', 'is_cover']
+
+
+# Inline formset: one gig, multiple images
+GigImageFormSet = inlineformset_factory(
+    Gig,
+    GigImage,
+    form=GigImageForm,
+    extra=2,  # how many empty image fields to show by default
+    can_delete=True
+)
 
 

@@ -5,12 +5,14 @@ from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
+
 # Band model
 class Band(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
+
 
 # Venue model
 class Venue(models.Model):
@@ -23,12 +25,14 @@ class Venue(models.Model):
         location = ", ".join(filter(None, [self.city, self.country]))
         return f"{self.name} ({location})" if location else self.name
 
+
 # Genre model
 class Genre(models.Model):
     name = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.name
+
         
 # Gig Images model
 class GigImage(models.Model):
@@ -47,7 +51,6 @@ class GigImage(models.Model):
         if self.is_cover and (not self.pk or not GigImage.objects.get(pk=self.pk).is_cover):
             GigImage.objects.filter(gig=self.gig, is_cover=True).exclude(pk=self.pk).update(is_cover=False)
         super().save(*args, **kwargs)
-
 
 
 # Main Gig model
@@ -86,8 +89,3 @@ class Gig(models.Model):
         return f"{name} — {self.date.strftime('%Y-%m-%d')}"
 
 
-
-
-
-
-        

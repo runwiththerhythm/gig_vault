@@ -4,7 +4,7 @@ from .models import Gig
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .forms import GigForm
+from .forms import GigForm, GigImageFormSet
 from dal import autocomplete
 from .models import Band, Venue
 from django.http import JsonResponse
@@ -26,7 +26,9 @@ def gigs_dashboard(request):
         "upcoming_gigs": upcoming_gigs
     })
 
+
 # Class based views for CRUD implementations
+
 
 # My gigs view
 class MyGigsView(LoginRequiredMixin, ListView):
@@ -36,6 +38,7 @@ class MyGigsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user).order_by('-date')
+
 
 # Create gig view
 class GigCreateView(LoginRequiredMixin, CreateView):
@@ -51,16 +54,25 @@ class GigCreateView(LoginRequiredMixin, CreateView):
             initial['band'] = Band.objects.get(id=band_id)
         return initial
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
+
+        if self.request.POST:
+            context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES)
+        else:
+            context['formset'] = GigImageFormSet()
+
+            return context
+
     def form_valid(self, form):
         form.instance.user = self.request.user
-
 
         venue_name = self.request.POST.get("venue_name", "").strip()
         venue_city = self.request.POST.get("venue_city", "").strip()
         venue_country = self.request.POST.get("venue_country", "").strip()
         
         print("Venue fields from POST:", venue_name, venue_city, venue_country)
-
 
         if venue_name:
 
@@ -74,17 +86,23 @@ class GigCreateView(LoginRequiredMixin, CreateView):
             form.instance.venue = venue
 
         else:
-            form.instance.venue = None  # Optional fallback
+            form.instance.venue = None
 
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+       #Save images from formset
+        formset = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        if formset.is_valid():
+            images = formset.save(commit=False)
+            for img in images:
+                img.user = self.request.user
+                img.save()
+            formset.save()
+
+        return response
 
     def get_success_url(self):
         return reverse_lazy('my_gigs')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
-        return context
 
 
 # Gig detail view
@@ -96,12 +114,24 @@ class GigDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         return Gig.objects.filter(user=self.request.user)
 
+
 # Gig update view
 class GigUpdateView(LoginRequiredMixin, UpdateView):
     model = Gig
     form_class = GigForm
     template_name = 'gigs/gig_form.html'
     success_url = reverse_lazy('my_gigs')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
+
+        if self.request.POST:
+            context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['formset'] = GigImageFormSet(instance=self.object)
+
+        return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -112,7 +142,6 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
         venue_country = self.request.POST.get("venue_country", "").strip()
 
         print("Venue fields from POST:", venue_name, venue_city, venue_country)
-
 
         if venue_name:
             venue, _ = Venue.objects.get_or_create(
@@ -128,11 +157,23 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
+        # Save images from formset
+        formset = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        if formset.is_valid():
+            images = formset.save(commit=False)
+            for img in images:
+                img.user = self.request.user
+                img.save()
+            formset.save()
+
+        return response
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
         return context
-        
+
+
 # Gig delete view
 class GigDeleteView(LoginRequiredMixin, DeleteView):
     model = Gig
@@ -155,6 +196,7 @@ class BandAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__icontains=self.q)
         return qs
+
 
 # Add new band view
 class BandCreateView(LoginRequiredMixin, CreateView):
@@ -183,6 +225,7 @@ class BandCreateView(LoginRequiredMixin, CreateView):
         next_url = self.request.GET.get('next')
         return next_url or reverse_lazy('gig_create')
 
+
 # Venue autocomplete
 class VenueAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -190,6 +233,7 @@ class VenueAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__icontains=self.q)
         return qs
+
 
 # Add new venue view
 class VenueCreateView(LoginRequiredMixin, CreateView):
@@ -199,4 +243,4 @@ class VenueCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         next_url = self.request.GET.get('next')
-        return next_url or reverse('gig_create')
+        return next_url or reverse_lazy('gig_create')

@@ -12,7 +12,7 @@
 
 {% block dashboard_content %}
 <div class="container mt-4">
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.errors }}
 
@@ -70,6 +70,50 @@
     {{ form.is_festival|as_crispy_field }}
     {{ form.status|as_crispy_field }}
     {{ form.notes|as_crispy_field }}
+
+    {# Image Formset Section #}
+<h4 class="mt-4">Images</h4>
+
+{{ formset.non_form_errors }}                {# show formset-level errors #}
+{{ formset.management_form }}
+
+{% for f in formset %}
+  <div class="mb-3 border p-2 rounded">
+
+    {# hidden fields like id #}
+    {% for hidden in f.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+
+    {# per-form non-field errors #}
+    {{ f.non_field_errors }}
+
+    <div class="mb-2">
+      {{ f.image.label_tag }} {{ f.image }}
+      {% if f.image.errors %}
+        <div class="text-danger small">{{ f.image.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="form-check mb-2">
+      {{ f.is_cover }} {{ f.is_cover.label_tag }}
+      {% if f.is_cover.errors %}
+        <div class="text-danger small">{{ f.is_cover.errors }}</div>
+      {% endif %}
+    </div>
+
+    {% if f.instance.pk %}
+      <div class="mt-2 d-flex align-items-center gap-3">
+        <img src="{{ f.instance.image.url }}" alt="" style="max-height:100px;">
+        <label class="form-check-label">
+          {{ f.DELETE }} Delete this image
+        </label>
+      </div>
+    {% endif %}
+  </div>
+{% empty %}
+  <p>No image forms found.</p>
+{% endfor %}
 
     <button type="submit" class="btn btn-primary mt-3">Save</button>
     <a href="{% url 'my_gigs' %}" class="btn btn-secondary mt-3">Cancel</a>
