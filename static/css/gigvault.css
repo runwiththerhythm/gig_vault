@@ -197,3 +197,47 @@ h2, h3, .display-1, .display-2 {
   box-shadow: var(--shadow-strong);
   border: 1px solid hsl(25 40% 35% / .4);
 }
+
+/* --------------------------------------
+   5) Gradient & Texture Utilities
+   -------------------------------------- */
+.gradient-sunset   { background: var(--gradient-sunset) !important; }
+.gradient-festival { background: var(--gradient-festival) !important; }
+.gradient-vinyl    { background: var(--gradient-vinyl) !important; }
+.gradient-metal    { background: var(--gradient-metal) !important; }
+.gradient-electric { background: var(--gradient-electric) !important; }
+
+.text-gradient-metal {
+  background: var(--gradient-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+/* Subtle “vinyl” panel */
+.panel-vinyl {
+  background: linear-gradient(180deg, hsl(270 30% 12%), hsl(270 30% 10%));
+  color: hsl(35 20% 96%);
+  border: 1px solid hsl(270 25% 25% / .6);
+  box-shadow: var(--shadow-strong);
+  border-radius: var(--bs-border-radius-lg);
+}
+
+/* Metal card with copper→gold chrome edge */
+.card-metal {
+  background: var(--color-card-bg);
+  border: 1px solid hsl(25 30% 50% / .35);
+  box-shadow: var(--shadow-soft);
+  border-radius: var(--bs-border-radius-lg);
+  position: relative;
+}
+.card-metal::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--gradient-metal);
+  filter: blur(8px);
+  opacity: .18;
+  z-index: -1;
+}
