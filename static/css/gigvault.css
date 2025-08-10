@@ -331,3 +331,32 @@ a:hover, .link:hover {
   border-radius: 999px;
   box-shadow: 0 0 18px hsl(15 100% 55% / .45);
 }
+
+/* --------------------------------------
+   8) Utilities
+   -------------------------------------- */
+.text-copper { color: var(--color-copper) !important; }
+.text-gold   { color: var(--color-gold) !important; }
+.text-silver { color: var(--color-silver) !important; }
+.text-accent { color: var(--color-accent) !important; }
+.text-primary-ink { color: var(--color-fg) !important; }
+
+.bg-copper { background-color: var(--color-copper) !important; color: #111; }
+.bg-gold   { background-color: var(--color-gold) !important; color: #111; }
+.bg-silver { background-color: var(--color-silver) !important; color: #111; }
+
+.glow-electric { text-shadow: 0 0 10px hsl(270 70% 65% / .5), 0 0 18px hsl(15 100% 55% / .35); }
+.stroke-ink { -webkit-text-stroke: 1px rgba(0,0,0,.65); }
+
+/* Spacing helpers tuned for chunky cards */
+.pad-lg { padding: 2rem !important; }
+.round-2xl { border-radius: 1.25rem !important; }
+
+/* --------------------------------------
+   9) Toasts/Alerts – palette alignment
+   -------------------------------------- */
+.alert-primary  { background: hsl(15 100% 55% / .12); border-color: hsl(15 90% 45% / .35); color: hsl(15 60% 35%); }
+.alert-info     { background: hsl(220 20% 70% / .12); border-color: hsl(220 20% 55% / .35); color: hsl(220 25% 40%); }
+.alert-success  { background: hsl(95 40% 50% / .12); border-color: hsl(95 35% 40% / .35); color: hsl(95 30% 30%); }
+.alert-warning  { background: hsl(40 100% 50% / .12); border-color: hsl(40 95% 45% / .35); color: hsl(32 80% 30%); }
+.alert-danger   { background: hsl(0 75% 50% / .12); border-color: hsl(0 70% 45% / .35); color: hsl(0 65% 32%); }
