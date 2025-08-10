@@ -241,3 +241,52 @@ h2, h3, .display-1, .display-2 {
   opacity: .18;
   z-index: -1;
 }
+
+/* --------------------------------------
+   6) Buttons & Interactive Bits
+   -------------------------------------- */
+.btn-electric {
+  --bs-btn-color: #111;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: transparent;
+  background: var(--gradient-electric);
+  border: none;
+  box-shadow: var(--shadow-soft);
+}
+.btn-electric:hover {
+  filter: brightness(1.05);
+  box-shadow: var(--shadow-strong);
+}
+
+.btn-metal {
+  --bs-btn-color: #111;
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: hsl(25 50% 45% / .5);
+  background: var(--gradient-metal);
+  border: 1px solid var(--bs-btn-border-color);
+  box-shadow: var(--shadow-soft);
+}
+.btn-metal:hover {
+  filter: saturate(1.06) brightness(1.03);
+}
+
+/* Pill tags for genres/status */
+.badge-copper {
+  background: hsl(25 50% 40% / .12);
+  color: hsl(25 60% 30%);
+  border: 1px solid hsl(25 40% 35% / .3);
+}
+.badge-purple {
+  background: hsl(270 70% 65% / .14);
+  color: hsl(270 65% 40%);
+  border: 1px solid hsl(270 50% 45% / .3);
+}
+
+/* Links with subtle electric hover */
+a, .link {
+  transition: color .15s ease, text-shadow .2s ease;
+}
+a:hover, .link:hover {
+  color: hsl(270 70% 58%);
+  text-shadow: 0 0 8px hsl(270 70% 65% / .35);
+}
