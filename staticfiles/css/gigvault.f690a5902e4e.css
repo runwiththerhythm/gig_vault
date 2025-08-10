@@ -102,7 +102,7 @@
 /* If you have the Modern Thrash font file, declare it here. Replace URL. */
 @font-face {
   font-family: "Modern Thrash";
-  src: url("/static/fonts/ModernThrash.otf") format("otf");
+  src: url("/static/fonts/ModernThrash.469ddf24ffed.otf") format("otf");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
