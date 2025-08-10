@@ -94,3 +94,106 @@
   body:not([data-theme="light"]) { --apply your [data-theme="dark"] overrides here if desired; }
 }
 */
+
+/* --------------------------------------
+   4) Typography & “Modern Thrash” styles
+   -------------------------------------- */
+
+/* If you have the Modern Thrash font file, declare it here. Replace URL. */
+@font-face {
+  font-family: "Modern Thrash";
+  src: url("static/fonts/ModernThrash.otf") format("otf");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Main Heading Style - Modern Thrash with gradient + glow */
+h1,
+.display-1 {
+  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  position: relative;
+  transform: skewX(-6deg);
+  -webkit-text-stroke: 1px rgba(0,0,0,.65);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.4),
+    0 8px 24px rgba(0,0,0,.3),
+    0 0 22px hsl(270 70% 65% / .45),
+    0 0 36px hsl(15 100% 55% / .35);
+  background: var(--gradient-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle edge lighting */
+h1::before,
+h1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: skewX(2deg);
+  filter: blur(1px);
+  mix-blend-mode: overlay;
+  background: radial-gradient(120% 60% at 0% 50%, hsl(15 100% 55% / .25), transparent 55%),
+              radial-gradient(120% 60% at 100% 50%, hsl(270 70% 65% / .25), transparent 55%);
+  pointer-events: none;
+}
+
+/* Other headers: keep readable system sans, but allow a display class for the logo etc */
+h2, h3, .display-1, .display-2 {
+  letter-spacing: .2px;
+}
+
+/* Thrash/Metallica-inspired logo text (no trademarked shapes, but sharp, energetic vibe) */
+.logo-thrash {
+  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  position: relative;
+  /* angled energy */
+  transform: skewX(-6deg);
+  /* metal outline & glow */
+  -webkit-text-stroke: 1px rgba(0,0,0,.65);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.4),
+    0 8px 24px rgba(0,0,0,.3),
+    0 0 22px hsl(270 70% 65% / .45),    /* purple glow */
+    0 0 36px hsl(15 100% 55% / .35);   /* orange glow */
+  /* gradient fill */
+  background: var(--gradient-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Optional variant with stronger spikes via pseudo “edges” */
+.logo-thrash::before,
+.logo-thrash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: skewX(2deg);
+  filter: blur(1px);
+  mix-blend-mode: overlay;
+  background: radial-gradient(120% 60% at 0% 50%, hsl(15 100% 55% / .25), transparent 55%),
+              radial-gradient(120% 60% at 100% 50%, hsl(270 70% 65% / .25), transparent 55%);
+  pointer-events: none;
+}
+
+/* Compact badge mark for “GV” circles/icons */
+.logo-badge {
+  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: .5px;
+  background: var(--gradient-electric);
+  color: #111;
+  border-radius: 999px;
+  padding: .4rem .7rem;
+  box-shadow: var(--shadow-strong);
+  border: 1px solid hsl(25 40% 35% / .4);
+}
