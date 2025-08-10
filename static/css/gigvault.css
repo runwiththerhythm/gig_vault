@@ -68,3 +68,29 @@
   --bs-border-radius-lg: .9rem;
   --bs-border-radius-sm: .4rem;
 }
+
+/* ------------------------------------
+   3) Optional Dark Mode (scoped toggle)
+   ------------------------------------ */
+[data-theme="dark"] {
+  --color-bg: hsl(25 25% 12%);
+  --color-fg: hsl(35 20% 96%);
+  --color-card-bg: hsl(20 10% 18%);
+  --color-panel-dark: hsl(20 5% 10%);
+
+  --bs-body-bg: var(--color-bg);
+  --bs-body-color: var(--color-fg);
+  --bs-dark: var(--color-panel-dark);
+
+  /* Dial back saturation just a tad for comfort on dark */
+  --color-primary: hsl(15 95% 55%);
+  --color-accent: hsl(270 65% 65%);
+}
+
+/* Optionally sync to OS dark mode by default */
+/*
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; }
+  body:not([data-theme="light"]) { --apply your [data-theme="dark"] overrides here if desired; }
+}
+*/
