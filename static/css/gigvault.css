@@ -290,3 +290,44 @@ a:hover, .link:hover {
   color: hsl(270 70% 58%);
   text-shadow: 0 0 8px hsl(270 70% 65% / .35);
 }
+
+/* --------------------------------------
+   7) Forms, Cards, Headers
+   -------------------------------------- */
+.card {
+  border-radius: var(--bs-border-radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.card.gigvault {
+  background: var(--color-card-bg);
+  border: 1px solid hsl(25 15% 45% / .2);
+}
+
+.form-control, .form-select {
+  border-radius: .6rem;
+  border-color: hsl(25 15% 45% / .35);
+}
+.form-control:focus, .form-select:focus {
+  border-color: hsl(270 70% 65% / .6);
+  box-shadow: 0 0 0 .2rem hsl(270 70% 65% / .25);
+}
+
+/* Section headers with “amp glow” */
+.section-title {
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--color-fg);
+  position: relative;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 64px;
+  margin-top: .4rem;
+  background: var(--gradient-sunset);
+  border-radius: 999px;
+  box-shadow: 0 0 18px hsl(15 100% 55% / .45);
+}
