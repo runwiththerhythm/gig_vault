@@ -360,3 +360,14 @@ a:hover, .link:hover {
 .alert-success  { background: hsl(95 40% 50% / .12); border-color: hsl(95 35% 40% / .35); color: hsl(95 30% 30%); }
 .alert-warning  { background: hsl(40 100% 50% / .12); border-color: hsl(40 95% 45% / .35); color: hsl(32 80% 30%); }
 .alert-danger   { background: hsl(0 75% 50% / .12); border-color: hsl(0 70% 45% / .35); color: hsl(0 65% 32%); }
+
+/* ---------------------
+   10) Header / Hero
+   --------------------- */
+.hero-gigvault {
+  background: var(--gradient-vinyl);
+  color: hsl(35 20% 96%);
+  padding: clamp(2rem, 4vw, 4rem) 1rem;
+  border-bottom: 1px solid hsl(270 25% 25% / .5);
+  box-shadow: 0 8px 28px hsl(270 50% 20% / .35) inset;
+}
