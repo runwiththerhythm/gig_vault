@@ -3,67 +3,102 @@ from dal import autocomplete
 from django_summernote.widgets import SummernoteWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML, Div, Submit
-from crispy_bootstrap5.bootstrap5 import FloatingField
-from .models import Gig, GigImage
 from django.urls import reverse
 from django.forms import inlineformset_factory
 
+from .models import Gig, GigImage
+
+class MultiFileClearableInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
 
 
 class GigForm(forms.ModelForm):
+    images = forms.ImageField(
+        widget=MultiFileClearableInput(attrs={
+            "multiple": True,
+            "accept": "image/*",
+            "class": "d-none",
+            "id": "id_images"
+        }),
+        required=False,
+        help_text="You can select multiple images."
+    )
+
     class Meta:
         model = Gig
         fields = [
-            'band', 'tour_title', 'other_artists',
-            'date', 'is_festival', 'status', 'notes'
+            "band", "tour_title", "other_artists",
+            "date", "is_festival", "status", "notes",
         ]
         widgets = {
-            'band': autocomplete.ModelSelect2(url='band-autocomplete', attrs={
-                'data-placeholder': 'Select a band...',
-                'data-allow-clear': 'false'}),
-            'other_artists': autocomplete.ModelSelect2Multiple(url='band-autocomplete'),
-            'date': forms.DateInput(attrs={'type': 'date'}),
-            'notes': SummernoteWidget(),
+            "band": autocomplete.ModelSelect2(
+                url="band-autocomplete",
+                attrs={
+                    "data-placeholder": "Select a band...",
+                    "data-allow-clear": "false",
+                    "data-minimum-input-length": 1,
+                },
+            ),
+            "other_artists": autocomplete.ModelSelect2Multiple(
+                url="band-autocomplete",
+                attrs={
+                    "data-placeholder": "Add support/other artists…",
+                    "data-minimum-input-length": 1,
+                },
+            ),
+            "date": forms.DateInput(attrs={"type": "date"}),
+            "notes": SummernoteWidget(),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if 'band' in self.initial:
-            self.fields['band'].initial = self.initial['band']
+        if "band" in self.initial:
+            self.fields["band"].initial = self.initial["band"]
 
-        band_add_url = reverse('band_create') + '?next=' + reverse('gig_create')
-        venue_add_url = reverse('venue_create') + '?next=' + reverse('gig_create')
+        band_add_url = reverse("band_create") + "?next=" + reverse("gig_create")
+        venue_add_url = reverse("venue_create") + "?next=" + reverse("gig_create")
 
         self.helper = FormHelper()
-        self.helper.form_method = 'post'
+        self.helper.form_method = "post"
+        self.helper.form_enctype = "multipart/form-data"
+        self.helper.form_tag = False
+
         self.helper.layout = Layout(
-            Field('band'),
+            Field("band"),
             HTML(
-                '<small class="form-text text-muted">'
-                'Can’t find the band? <button type="button" class="btn btn-link p-0" '
+                # NOTE: plain string, not an f-string (to avoid brace issues)
+                '<button type="button" class="btn btn-link p-0 mt-1" '
                 'data-bs-toggle="modal" data-bs-target="#addBandModal">'
-                'Add a new one</button>.</small>'
+                'Can’t find the band? Add a new one'
+                '</button>'
             ),
-            Field('tour_title'),
-            Field('other_artists'),
-            HTML(
-                '<small class="form-text text-muted">'
-                f'Can’t find the venue? <a href="{venue_add_url}">Add a new one</a>.</small>'
+            Field("tour_title"),
+            Field("other_artists"),
+
+            Div(
+                Div(Field("date"), css_class="col-sm-4"),
+                Div(
+                    HTML(
+                        '<div class="form-check mt-4">'
+                        '{{ form.is_festival }} '
+                        '<label class="form-check-label" for="{{ form.is_festival.id_for_label }}">Festival</label>'
+                        '</div>'
+                    ),
+                    css_class="col-sm-4"
+                ),
+                Div(Field("status"), css_class="col-sm-4"),
+                css_class="row g-3"
             ),
-            HTML('<div id="venue-search" class="mb-3"></div>'),
-            Field('date'),
-            Field('is_festival'),
-            Field('status'),
-            Div('notes'),
-            Submit('submit', 'Save', css_class='btn btn-primary'),
+
+            Div("notes"),
         )
 
 
 class GigImageForm(forms.ModelForm):
     class Meta:
         model = GigImage
-        fields = ['image', 'is_cover']
+        fields = ["image", "is_cover"]  # add 'caption' here if added to model
 
 
 # Inline formset: one gig, multiple images
@@ -71,7 +106,7 @@ GigImageFormSet = inlineformset_factory(
     Gig,
     GigImage,
     form=GigImageForm,
-    extra=2,  # how many empty image fields to show by default
+    extra=0,
     can_delete=True
 )
 

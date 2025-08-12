@@ -1,16 +1,17 @@
+import os
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import Gig
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .forms import GigForm, GigImageFormSet
 from dal import autocomplete
-from .models import Band, Venue
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-import os
+from django.shortcuts import redirect
+
+
+from .models import Band, Venue, Gig, GigImage
+from .forms import GigForm, GigImageFormSet
 
 
 # Create your views here.
@@ -57,13 +58,16 @@ class GigCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
-
-        if self.request.POST:
-            context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES)
+        # Create:
+        if isinstance(self, GigCreateView):
+            context['formset'] = GigImageFormSet(instance=Gig())
+        # Update:
         else:
-            context['formset'] = GigImageFormSet()
-
-            return context
+            if self.request.method == "POST":
+                context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+            else:
+                context['formset'] = GigImageFormSet(instance=self.object)
+        return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -88,21 +92,25 @@ class GigCreateView(LoginRequiredMixin, CreateView):
         else:
             form.instance.venue = None
 
-        response = super().form_valid(form)
+        # Save the Gig
+        self.object = form.save()
 
-     # Save images from formset
-        formset = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
-        if formset.is_valid():
-            images = formset.save(commit=False)
-            for img in images:
-                img.user = self.request.user
-                img.save()
-            formset.save()
 
-        return response
+# Add all files from the multi-upload field
+        for f in self.request.FILES.getlist("images"):
+            GigImage.objects.create(gig=self.object, user=self.request.user, image=f)
 
-    def get_success_url(self):
-        return reverse_lazy('my_gigs')
+        # Ensure one cover image exists
+        if not self.object.images.filter(is_cover=True).exists():
+            first = self.object.images.first()
+            if first:
+                first.is_cover = True
+                first.save(update_fields=["is_cover"])
+
+        return redirect(self.get_success_url())
+
+        def get_success_url(self):
+            return reverse_lazy("my_gigs")
 
 
 # Gig detail view
@@ -126,10 +134,9 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['mapbox_token'] = os.environ.get('MAPBOX_TOKEN')
 
-        if self.request.POST:
-            context['formset'] = GigImageFormSet(
-                self.request.POST, self.request.FILES, instance=self.object
-            )
+        # Provide the inline formset for existing images
+        if self.request.method == "POST":
+            context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
         else:
             context['formset'] = GigImageFormSet(instance=self.object)
 
@@ -138,7 +145,7 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
 
-        # Venue handling (unchanged)
+        # Venue handling
         venue_name = self.request.POST.get("venue_name", "").strip()
         venue_city = self.request.POST.get("venue_city", "").strip()
         venue_country = self.request.POST.get("venue_country", "").strip()
@@ -152,20 +159,40 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.instance.venue = None
 
-        # Save gig first
-        response = super().form_valid(form)
+        self.object = form.save()
 
-        # Save images from formset (do this BEFORE returning)
+         # Add new files from multi-upload
+        for f in self.request.FILES.getlist("images"):
+            GigImage.objects.create(gig=self.object, user=self.request.user, image=f)
+
+        # Process inline formset: edit/delete + cover
         formset = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
         if formset.is_valid():
-            images = formset.save(commit=False)
-            for img in images:
-                img.user = self.request.user
-                img.save()
-            formset.save()
-        # (optional) else: surface errors if you want
+            instances = formset.save(commit=False)
 
-        return response
+            for to_del in formset.deleted_objects:
+                to_del.delete()
+
+            for inst in instances:
+                inst.gig = self.object
+                inst.user = self.request.user
+                inst.save()
+
+            formset.save_m2m()
+        else:
+            return self.form_invalid(form)
+
+        # Ensure exactly one cover
+        if not self.object.images.filter(is_cover=True).exists():
+            first = self.object.images.first()
+            if first:
+                first.is_cover = True
+                first.save(update_fields=["is_cover"])
+
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy("my_gigs")
 
 
 # Gig delete view

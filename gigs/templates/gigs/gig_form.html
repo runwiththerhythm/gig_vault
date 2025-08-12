@@ -12,73 +12,65 @@
 
 {% block dashboard_content %}
 <div class="container mt-4">
-  <form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.errors }}
+    {{ form|crispy }}
 
-  {{ form.non_field_errors }}
+  <!-- Mapbox Search element (needs mapbox_token from context) -->
+  <mapbox-search-box
+    id="venue-search-box"
+    access-token="{{ mapbox_token }}"
+    placeholder="Search for a venue…"
+    style="width:100%; max-width:400px;"
+    countries="gb"
+    types="poi">
+  </mapbox-search-box>
 
-{# ——— Band Field + “Add Band” Modal Trigger ——— #}
-    <div class="mb-3">
-      {{ form.band|as_crispy_field }}
-      <button type="button"
-              class="btn btn-link p-0 mt-1"
-              data-bs-toggle="modal"
-              data-bs-target="#addBandModal">
-        Can’t find the band? Add a new one
-      </button>
-    </div>
+  {% if form.instance.venue %}
+    <p class="mt-2">
+      <strong>Selected venue:</strong>
+      {{ form.instance.venue.name }}, {{ form.instance.venue.city }}{% if form.instance.venue.country %}, {{ form.instance.venue.country }}{% endif %}
+    </p>
+  {% endif %}
 
-    {# ——— Other Form Fields ——— #}
-    {{ form.tour_title|as_crispy_field }}
-    {{ form.other_artists|as_crispy_field }}
-
-    {# ——— Mapbox Search Element ——— #}
-    <mapbox-search-box
-      id="venue-search-box"
-      access-token="{{ mapbox_token }}"
-      placeholder="Search for a venue…"
-      style="width:100%; max-width:400px;"
-      countries="gb"
-      types="poi"
-    ></mapbox-search-box>
-
-    {% if form.instance.venue %}
-  <p class="mt-2">
-    <strong>Selected venue:</strong> {{ form.instance.venue.name }},
-    {{ form.instance.venue.city }}{% if form.instance.venue.country %}, {{ form.instance.venue.country }}{% endif %}
-  </p>
-{% endif %}
-
-    <input type="hidden"
-       id="id_venue_name"
-       name="venue_name"
-       value="{{ form.instance.venue.name|default:'' }}">
-<input type="hidden"
-       id="venue_city"
-       name="venue_city"
-       value="{{ form.instance.venue.city|default:'' }}">
-<input type="hidden"
-       id="venue_country"
-       name="venue_country"
-       value="{{ form.instance.venue.country|default:'' }}">
+  <!-- Hidden venue fields the view expects -->
+  <input type="hidden" id="id_venue_name" name="venue_name" value="{{ form.instance.venue.name|default:'' }}">
+  <input type="hidden" id="venue_city" name="venue_city" value="{{ form.instance.venue.city|default:'' }}">
+  <input type="hidden" id="venue_country" name="venue_country" value="{{ form.instance.venue.country|default:'' }}">
 
 
+{# --- New uploads (multi) --- #}
+  <div class="mt-4">
+  <h4 class="mb-2">Add Photos</h4>
 
-    {# ——— Remaining Fields ——— #}
-    {{ form.date|as_crispy_field }}
-    {{ form.is_festival|as_crispy_field }}
-    {{ form.status|as_crispy_field }}
-    {{ form.notes|as_crispy_field }}
+  {{ form.images }}  {# hidden multiple input with id="id_images" #}
+
+  <!-- Dropzone + button -->
+  <div id="image-dropzone" class="border rounded p-4 text-center bg-light">
+    <p class="mb-2">Drag & drop images here, or</p>
+    <button type="button" id="btn-pick-images" class="btn btn-outline-primary">
+      Select images…
+    </button>
+    <div class="form-text mt-2" id="selected-images" aria-live="polite"></div>
+  </div>
+
+  <!-- Live preview grid -->
+  <div id="image-previews" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 mt-2"></div>
+
+  <small class="text-muted d-block mt-2">
+    JPG/PNG/WebP, up to ~10MB each. You can add more files in multiple picks/drops before saving.
+  </small>
+  </div>
 
     {# Image Formset Section #}
-<h4 class="mt-4">Images</h4>
+  <h4 class="mt-4">Images</h4>
 
-{{ formset.non_form_errors }}                {# show formset-level errors #}
-{{ formset.management_form }}
 
-{% for f in formset %}
-  <div class="mb-3 border p-2 rounded">
+  {{ formset.non_form_errors }}                {# show formset-level errors #}
+  {{ formset.management_form }}
+
+  {% for f in formset %}
+    <div class="mb-3 border p-2 rounded">
 
     {# hidden fields like id #}
     {% for hidden in f.hidden_fields %}
@@ -110,14 +102,14 @@
         </label>
       </div>
     {% endif %}
-  </div>
-{% empty %}
-  <p>No image forms found.</p>
-{% endfor %}
+    </div>
+  {% empty %}
+    <p>No image forms found.</p>
+  {% endfor %}
 
     <button type="submit" class="btn btn-primary mt-3">Save</button>
     <a href="{% url 'my_gigs' %}" class="btn btn-secondary mt-3">Cancel</a>
-  </form>
+</form>
 </div>
 
 <!-- Add Band Modal -->
@@ -150,6 +142,9 @@
 
 {% block scripts %}
   {{ block.super }}
+
+  <!-- Image preview js -->
+  <script src="{% static 'js/image-previews.js' %}"></script>
 
   <!-- Band Modal AJAX-->
   <script>
@@ -240,6 +235,9 @@
     });
   });
 </script>
+
+
+
 
 {% endblock %}
 
