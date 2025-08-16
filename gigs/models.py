@@ -119,9 +119,9 @@ class Gig(models.Model):
             return f"{self.band.name} {self.tour_title} {year}".strip()
 
         loc = (self.venue.name if self.venue and self.venue.name
-            else self.venue.city if self.venue and self.venue.city
-            else self.venue.country if self.venue and self.venue.country
-            else "")
+               else self.venue.city if self.venue and self.venue.city
+               else self.venue.country if self.venue and self.venue.country
+               else "")
         if self.band:
             return f"{self.band.name} {loc} {year}".strip()
 

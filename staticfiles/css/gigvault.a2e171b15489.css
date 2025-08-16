@@ -101,12 +101,12 @@
 
 /* If you have the Modern Thrash font file, declare it here. Replace URL. */
 @font-face {
-  font-family: "ModernThrash";
-  src: url("{% static 'fonts/ModernThrash.otf' %}") format("opentype");
-  font-weight: normal;
+  font-family: "Modern Thrash";
+  src: url("/static/fonts/ModernThrash.469ddf24ffed.otf") format("otf");
+  font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
-
 
 /* Main Heading Style - Modern Thrash with gradient + glow */
 h1,
