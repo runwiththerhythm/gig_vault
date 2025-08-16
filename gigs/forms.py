@@ -67,19 +67,10 @@ class GigForm(forms.ModelForm):
 
             Div(
                 Div(Field("date"), css_class="col-sm-4"),
-                Div(
-                    HTML(
-                        '<div class="form-check mt-4">'
-                        '{{ form.is_festival }} '
-                        '<label class="form-check-label" for="{{ form.is_festival.id_for_label }}">Festival</label>'
-                        '</div>'
-                    ),
-                    css_class="col-sm-4"
-                ),
+                Div(Field("is_festival"), css_class="col-sm-4 d-flex align-items-center mt-4"),
                 Div(Field("status"), css_class="col-sm-4"),
                 css_class="row g-3"
             ),
-
             Div("notes"),
         )
 

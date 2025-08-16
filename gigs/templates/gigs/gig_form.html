@@ -1,5 +1,5 @@
 {% extends "gigs/dashboard_base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags crispy_forms_filters %}
 {% load static %}
 
 {% block head_extra %}
@@ -11,10 +11,12 @@
 {% endblock %}
 
 {% block dashboard_content %}
+
 <div class="container mt-4">
+
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form|crispy }}
+    {% crispy form %}
 
   <!-- Mapbox Search element (needs mapbox_token from context) -->
   <mapbox-search-box
@@ -45,7 +47,7 @@
 
 <!-- Plain file input: not a Django form field -->
   <input id="id_images" name="images" type="file" multiple class="d-none" accept="image/*">
-  
+
   <!-- Dropzone + button -->
   <div id="image-dropzone" class="border rounded p-4 text-center bg-light">
     <p class="mb-2">Drag & drop images here, or</p>
@@ -179,9 +181,6 @@
         // Success: Add new option to band autocomplete and select it
         const newOption = new Option(data.name, data.id, true, true); // selected by default
         $(bandField).append(newOption).trigger('change');
-
-        // Pass the band ID to the gig creation page (redirect)
-      window.location.href = "{% url 'gig_create' %}?band_id=" + data.id;
 
         // Clear modal input and close modal
         bandNameInput.value = '';
