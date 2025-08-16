@@ -1,0 +1,102 @@
+<!-- FILE: templates/landing/about.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About • GigVault{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-dark text-light">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold mb-3">About <span class="text-warning">GigVault</span></h1>
+        <p class="lead mb-4">
+          Your personal vault for live music memories — from sweaty club shows to massive festival weekends.
+          GigVault helps you <strong>track, organize, and relive your live music experiences</strong>.
+        </p>
+
+        <div class="d-flex gap-3 flex-wrap">
+          {# If you use django-allauth, this URL name is common; otherwise adjust to your signup route #}
+          <a href="{% url 'account_signup' %}" class="btn btn-warning btn-lg fw-semibold">
+            Sign up now
+          </a>
+          <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-lg">
+            View your dashboard
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Optional hero/illustration; replace with your asset when ready -->
+        <div class="ratio ratio-16x9 rounded-4 overflow-hidden border border-warning-subtle">
+          <img src="{% static 'img/about-hero.jpg' %}" alt="Crowd at a concert with lights and stage"
+               class="w-100 h-100 object-fit-cover">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <h2 class="h3 mb-3">Why GigVault?</h2>
+        <p>
+          Every gig tells a story — the bands you saw, the friends you went with, the songs that stuck.
+          Memories fade, and ticket stubs only tell half the tale. GigVault was created out of a love for live music
+          and the desire to never lose those moments again.
+        </p>
+
+        <h3 class="h5 mt-4">Built for regular gig-goers and festival veterans</h3>
+        <ul class="list-unstyled mt-3">
+          <li class="mb-2">• <strong>Your gigs:</strong> Add past shows and upcoming events in one place.</li>
+          <li class="mb-2">• <strong>Your photos:</strong> Upload images that capture the atmosphere and your festival crew.</li>
+          <li class="mb-2">• <strong>Setlists & videos:</strong> Link to setlist.fm and discover YouTube clips to relive the music.</li>
+          <li class="mb-2">• <strong>Your dashboard:</strong> A clear view of what you’ve seen and what’s coming up.</li>
+        </ul>
+
+        <p class="mt-4">
+          It’s more than a log — it’s a <strong>living archive</strong> where festival energy meets personal storytelling.
+        </p>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="p-4 bg-body-tertiary rounded-4 border">
+          <h3 class="h5 mb-3">Highlights</h3>
+          <div class="vstack gap-3">
+            <div>
+              <div class="fw-semibold">Fast gig entry</div>
+              <small class="text-body-secondary">Autocomplete for bands and venues with clean, crispy forms.</small>
+            </div>
+            <div>
+              <div class="fw-semibold">Photos that shine</div>
+              <small class="text-body-secondary">Upload multiple images; pick a cover; beautiful gig cards.</small>
+            </div>
+            <div>
+              <div class="fw-semibold">Relive the set</div>
+              <small class="text-body-secondary">Setlist.fm links and YouTube embeds to replay the night.</small>
+            </div>
+            <div>
+              <div class="fw-semibold">Your space</div>
+              <small class="text-body-secondary">Private by default — it’s your diary, not social media.</small>
+            </div>
+          </div>
+
+          <a href="{% url 'account_signup' %}" class="btn btn-warning w-100 mt-4 fw-semibold">Create your account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="h3 mb-3">Ready to build your vault?</h2>
+      <p class="mb-4">Start your collection, keep your memories alive, and relive the music anytime.</p>
+      <a href="{% url 'account_signup' %}" class="btn btn-warning btn-lg fw-semibold">Sign up</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
