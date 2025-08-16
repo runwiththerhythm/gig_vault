@@ -1,0 +1,102 @@
+{% extends "gigs/dashboard_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block page_header %}
+  <h2>Videos for: {{ gig.band.name }} — {{ gig.date|date:"j M Y" }}</h2>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="container">
+  <div class="mb-4">
+    <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-outline-secondary btn-sm">&larr; Back to gig</a>
+  </div>
+
+  <div class="row g-3 mb-4">
+    {% for v in gig.videos.all %}
+      <div class="col-12 col-md-6">
+        <div class="card shadow-sm">
+          {% if v.embed_url %}
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="{{ v.embed_url }}"
+                title="{{ v.title|default:'YouTube video' }}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+          {% endif %}
+          <div class="card-body">
+            <h6 class="card-title mb-1">{{ v.title|default:v.video_id }}</h6>
+            <p class="text-muted small mb-0">{{ v.url }}</p>
+            {% if v.is_featured %}
+              <span class="badge bg-warning text-dark mt-2">Featured</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-secondary mb-0">
+          No videos yet. Paste some YouTube links below 👇
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <div class="card">
+      <div class="card-body">
+        {% for form in formset %}
+          <div class="border rounded-3 p-3 mb-3">
+            {{ form|crispy }}
+            {% if form.instance.video_id %}
+              <div class="mt-2">
+                <div class="ratio ratio-16x9">
+                  <iframe src="https://www.youtube-nocookie.com/embed/{{ form.instance.video_id }}"
+                          title="Preview" frameborder="0" allowfullscreen></iframe>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Save Videos</button>
+          <a class="btn btn-outline-secondary"
+             href="https://www.youtube.com/results?search_query={{ gig.band.name|urlencode }}+{{ gig.venue.name|urlencode }}+{{ gig.date|date:'Y' }}"
+             target="_blank" rel="noopener">Search YouTube</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Optional UX sugar: when user pastes a YouTube URL, try to autofill title via oEmbed (no API key)
+  // Safe to skip if you prefer pure-manual titles.
+  async function fetchTitle(url) {
+    try {
+      const o = await fetch("https://www.youtube.com/oembed?url=" + encodeURIComponent(url) + "&format=json");
+      if (!o.ok) return null;
+      const data = await o.json();
+      return data.title || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  document.querySelectorAll('input[name$="-url"]').forEach((input) => {
+    input.addEventListener("change", async () => {
+      const titleInput = input.closest(".border").querySelector('input[name$="-title"]');
+      if (input.value && titleInput && !titleInput.value) {
+        const t = await fetchTitle(input.value);
+        if (t) titleInput.value = t;
+      }
+    });
+  });
+</script>
+{% endblock %}
