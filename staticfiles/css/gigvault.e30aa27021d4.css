@@ -102,7 +102,7 @@
 /* If you have the Modern Thrash font file, declare it here. Replace URL. */
 @font-face {
   font-family: "Modern Thrash";
-  src: url("/static/fonts/ModernThrash.otf") format("otf");
+  src: url("/static/fonts/ModernThrash.469ddf24ffed.otf") format("otf");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -303,20 +303,6 @@ a:hover, .link:hover {
   background: var(--color-card-bg);
   border: 1px solid hsl(25 15% 45% / .2);
 }
-
-/* Thumbnail crop for gig cards */
-.card-img-fixed {
-  height: 160px;
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* Taller on md+ screens */
-@media (min-width: 768px) {
-  .card-img-fixed { height: 180px; }
-}
-
 
 .form-control, .form-select {
   border-radius: .6rem;

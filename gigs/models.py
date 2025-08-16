@@ -88,4 +88,12 @@ class Gig(models.Model):
 
         return f"{name} — {self.date.strftime('%Y-%m-%d')}"
 
-
+    def get_cover_image(self):
+        """Return the cover image, or fallback to first, or None."""
+        cover = self.images.filter(is_cover=True).first()
+        if cover:
+            return cover.image.url
+        first = self.images.first()
+        if first:
+            return first.image.url
+        return None
