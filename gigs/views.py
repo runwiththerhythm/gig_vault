@@ -1,17 +1,17 @@
 import os
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from dal import autocomplete
 from django.http import JsonResponse
 from django.conf import settings
-from django.shortcuts import redirect
 
 
-from .models import Band, Venue, Gig, GigImage
-from .forms import GigForm, GigImageFormSet
+from .models import Band, Venue, Gig, GigImage, GigVideo
+from .forms import GigForm, GigImageFormSet, GigVideoFormSet
 
 
 # Create your views here.
@@ -161,7 +161,7 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 
         self.object = form.save()
 
-         # Add new files from multi-upload
+        # Add new files from multi-upload
         for f in self.request.FILES.getlist("images"):
             GigImage.objects.create(gig=self.object, user=self.request.user, image=f)
 
@@ -265,3 +265,32 @@ class VenueCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         next_url = self.request.GET.get('next')
         return next_url or reverse_lazy('gig_create')
+
+@login_required
+def manage_gig_videos(request, pk):
+    gig = get_object_or_404(Gig, pk=pk, user=request.user)
+
+    if request.method == "POST":
+        formset = GigVideoFormSet(request.POST, instance=gig)
+        if formset.is_valid():
+            # attach user to new forms
+            instances = formset.save(commit=False)
+            for obj in instances:
+                if not obj.added_by_id:
+                    obj.added_by = request.user
+                obj.save()
+            # handle deletions
+            for obj in formset.deleted_objects:
+                obj.delete()
+            messages.success(request, "Videos updated.")
+            return redirect(reverse("gig_detail", args=[gig.pk]))
+        else:
+            messages.error(request, "Please fix the errors below.")
+    else:
+        formset = GigVideoFormSet(instance=gig)
+
+    return render(
+        request,
+        "gigs/gig_videos.html",
+        {"gig": gig, "formset": formset}
+    )

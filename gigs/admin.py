@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Band, Venue, Gig
+from .models import Band, Venue, Gig, GigVideo
 
 
 @admin.register(Band)
@@ -31,3 +31,9 @@ class GigAdmin(admin.ModelAdmin):
         # speed up admin list by joining FK tables
         qs = super().get_queryset(request)
         return qs.select_related('band', 'venue')
+
+@admin.register(GigVideo)
+class GigVideoAdmin(admin.ModelAdmin):
+    list_display = ("gig", "title", "video_id", "is_featured", "added_at")
+    list_filter = ("is_featured", "added_at")
+    search_fields = ("title", "url", "gig__band__name", "gig__venue__name")

@@ -4,6 +4,7 @@ from .views import (
     MyGigsView, GigCreateView, GigDetailView, GigUpdateView, GigDeleteView,
     BandAutocomplete, BandCreateView,
     VenueAutocomplete, VenueCreateView,
+    manage_gig_videos,
 )
 
 urlpatterns = [
@@ -16,7 +17,8 @@ urlpatterns = [
 
     path('band-autocomplete/', BandAutocomplete.as_view(), name='band-autocomplete'),
     path('bands/add/', BandCreateView.as_view(), name='band_create'),
-    
+   
     path('venue-autocomplete/', VenueAutocomplete.as_view(), name='venue-autocomplete'),
     path('venues/add/', VenueCreateView.as_view(), name='venue_create'),
-]
+
+    path("gigs/<int:pk>/videos/", manage_gig_videos, name="gig_videos"),]

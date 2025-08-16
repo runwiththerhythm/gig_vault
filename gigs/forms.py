@@ -6,7 +6,7 @@ from crispy_forms.layout import Layout, Field, HTML, Div, Submit
 from django.urls import reverse
 from django.forms import inlineformset_factory
 
-from .models import Gig, GigImage
+from .models import Gig, GigImage, GigVideo
 
 class MultiFileClearableInput(forms.ClearableFileInput):
     allow_multiple_selected = True
@@ -90,4 +90,18 @@ GigImageFormSet = inlineformset_factory(
     can_delete=True
 )
 
+class GigVideoForm(forms.ModelForm):
+    class Meta:
+        model = GigVideo
+        fields = ["url", "title", "is_featured"]
+        widgets = {
+            "url": forms.URLInput(attrs={"placeholder": "Paste a YouTube link"}),
+            "title": forms.TextInput(attrs={"placeholder": "Optional title"}), }
 
+GigVideoFormSet = inlineformset_factory(
+    Gig,
+    GigVideo,
+    form=GigVideoForm,
+    extra=1,
+    can_delete=True
+)
