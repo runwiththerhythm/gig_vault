@@ -100,18 +100,17 @@
    -------------------------------------- */
 
 @font-face {
-  font-family: "Lunatic";
-  src: url("../fonts/lunatic-regular.ttf") format("truetype");
-  font-weight: 400;
+  font-family: "Lunatic Regular";
+  src: url("../fonts/lunatic-regular.8ec046741b49.ttf") format("truetype");
+  font-weight: normal;
   font-style: normal;
-  font-display: swap;
 }
 
 
 /* Main Heading Style - Modern Thrash with gradient + glow */
 h1,
 .display-1 {
-  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Lunatic Regular", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -150,7 +149,7 @@ h2, h3, .display-1, .display-2 {
 
 /* Thrash/Metallica-inspired logo text (no trademarked shapes, but sharp, energetic vibe) */
 .logo-thrash {
-  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -187,7 +186,7 @@ h2, h3, .display-1, .display-2 {
 
 /* Compact badge mark for “GV” circles/icons */
 .logo-badge {
-  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 900;
   letter-spacing: .5px;
   background: var(--gradient-electric);

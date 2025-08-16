@@ -99,19 +99,19 @@
    4) Typography & “Modern Thrash” styles
    -------------------------------------- */
 
-/* If you have the Modern Thrash font file, declare it here. Replace URL. */
 @font-face {
-  font-family: "ModernThrash";
-  src: url("{% static 'fonts/ModernThrash.otf' %}") format("opentype");
-  font-weight: normal;
+  font-family: "Lunatic";
+  src: url("../fonts/lunatic-regular.ttf") format("truetype");
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 
 /* Main Heading Style - Modern Thrash with gradient + glow */
 h1,
 .display-1 {
-  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -150,7 +150,7 @@ h2, h3, .display-1, .display-2 {
 
 /* Thrash/Metallica-inspired logo text (no trademarked shapes, but sharp, energetic vibe) */
 .logo-thrash {
-  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -187,7 +187,7 @@ h2, h3, .display-1, .display-2 {
 
 /* Compact badge mark for “GV” circles/icons */
 .logo-badge {
-  font-family: "Modern Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 900;
   letter-spacing: .5px;
   background: var(--gradient-electric);
