@@ -39,12 +39,13 @@
   <input type="hidden" id="venue_country" name="venue_country" value="{{ form.instance.venue.country|default:'' }}">
 
 
-{# --- New uploads (multi) --- #}
+{# --- Images - New uploads (multi) --- #}
   <div class="mt-4">
   <h4 class="mb-2">Add Photos</h4>
 
-  {{ form.images }}  {# hidden multiple input with id="id_images" #}
-
+<!-- Plain file input: not a Django form field -->
+  <input id="id_images" name="images" type="file" multiple class="d-none" accept="image/*">
+  
   <!-- Dropzone + button -->
   <div id="image-dropzone" class="border rounded p-4 text-center bg-light">
     <p class="mb-2">Drag & drop images here, or</p>

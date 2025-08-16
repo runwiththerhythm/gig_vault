@@ -13,16 +13,6 @@ class MultiFileClearableInput(forms.ClearableFileInput):
 
 
 class GigForm(forms.ModelForm):
-    images = forms.ImageField(
-        widget=MultiFileClearableInput(attrs={
-            "multiple": True,
-            "accept": "image/*",
-            "class": "d-none",
-            "id": "id_images"
-        }),
-        required=False,
-        help_text="You can select multiple images."
-    )
 
     class Meta:
         model = Gig
@@ -67,7 +57,6 @@ class GigForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field("band"),
             HTML(
-                # NOTE: plain string, not an f-string (to avoid brace issues)
                 '<button type="button" class="btn btn-link p-0 mt-1" '
                 'data-bs-toggle="modal" data-bs-target="#addBandModal">'
                 'Can’t find the band? Add a new one'
