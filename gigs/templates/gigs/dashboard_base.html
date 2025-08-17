@@ -1,69 +1,65 @@
 {% extends "base.html" %}
 {% load static %}
 
- <!-- Navigation -->
+{% block title %}Dashboard • GigVault{% endblock %}
 
-    <main class="flex-shrink-0 main-bg">
-        {% if user.is_authenticated %}
-    <p class="text-end m-3">You are logged in as {{ user }}</p>
-    {% else %}
-    <p class="text-end m-3">You are not logged in</p>
-    {% endif %}
-
-        {% block content %}
+{% block content %}
 <div class="container-fluid">
-  <div class="row vh-100"> 
+  <div class="row g-0 h-100">
     <!-- Sidebar -->
-    <nav class="col-md-2 bg-dark text-white p-3 d-flex flex-column">
-      <a href="{{ home_url }}" class="text-white mb-4 h5 text-decoration-none">
-        <i class="fas fa-home me-2"></i>Home
+    <nav class="col-md-2 bg-dark text-white p-3 d-flex flex-column position-sticky top-0" style="min-height: 100%;">
+      <p class="small text-white-50 mb-3">
+        {% if user.is_authenticated %}
+          Logged in as <strong>{{ user }}</strong>
+        {% else %}
+          You are not logged in
+        {% endif %}
+      </p>
+
+      {# URL aliases #}
+      {% url 'home' as home_url %}
+      {% url 'dashboard' as dashboard_url %}
+      {% url 'my_gigs' as my_gigs_url %}
+      {% url 'gig_create' as gig_create_url %}
+      {% url 'account_logout' as logout_url %}
+
+      {# Active route name for safe comparisons #}
+      {% with active=request.resolver_match.url_name %}
+
+      <a href="{{ home_url }}" class="text-white mb-4 h5 text-decoration-none d-flex align-items-center gap-2 {% if active == 'home' %}fw-bold{% endif %}">
+        <i class="fas fa-home"></i><span>Home</span>
       </a>
 
-      <a href="{% url 'dashboard' %}" class="text-white mb-3">
-        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+      <a href="{{ dashboard_url }}" class="text-white mb-3 d-flex align-items-center gap-2 {% if active == 'dashboard' %}fw-bold{% endif %}">
+        <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
       </a>
-      <a href="{% url 'my_gigs' %}" class="text-white mb-3">
-        <i class="fas fa-music me-2"></i>My Gigs
+
+      <a href="{{ my_gigs_url }}" class="text-white mb-3 d-flex align-items-center gap-2 {% if active == 'my_gigs' %}fw-bold{% endif %}">
+        <i class="fas fa-music"></i><span>My Gigs</span>
       </a>
-      <a href="{% url 'gig_create' %}" class="text-white mb-3">
-        <i class="fas fa-plus-circle me-2"></i>Add New Gig
+
+      <a href="{{ gig_create_url }}" class="text-white mb-3 d-flex align-items-center gap-2 {% if active == 'gig_create' %}fw-bold{% endif %}">
+        <i class="fas fa-plus-circle"></i><span>Add New Gig</span>
       </a>
-      <div class="mt-auto">
-        <a href="{{ logout_url }}" class="text-white">
-          <i class="fas fa-sign-out-alt me-2"></i>Logout
+
+      <div class="mt-auto pt-3 border-top border-secondary">
+        <a href="{{ logout_url }}" class="text-white d-flex align-items-center gap-2">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
         </a>
       </div>
+
+      {% endwith %}
     </nav>
 
     <!-- Main content area -->
-    <main class="col-md-10 p-4 overflow-auto">
-      <!-- Optional page-specific header -->
+    <section class="col-md-10 p-4">
       {% block page_header %}
-      <h2 class="mb-4">{{ page_title|default:"Dashboard" }}</h2>
+        <h2 class="mb-4">{{ page_title|default:"Dashboard" }}</h2>
       {% endblock %}
-
-      {# Here all child templates render their own content #}
-      {% block dashboard_content %}
-      {% endblock %}
-    </main>
+      {% block dashboard_content %}{% endblock %}
+    </section>
   </div>
 </div>
 {% endblock %}
 
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer mt-auto py-3 dark-bg">
-        <p class="m-0 text-center text-white">2025 Gig Vault</p>
-        <p class="m-0 text-center text-white">Follow us: <i class="fab fa-facebook-square ms-3"></i>
-            <i class="fab fa-twitter-square ms-3"></i>
-            <i class="fab fa-instagram-square ms-3"></i>
-            <i class="fab fa-youtube-square ms-3"></i>
-        </p>
-    </footer>
-
-{% block scripts %}
-{% endblock %}
-
-
-
+{% block scripts %}{% endblock %}

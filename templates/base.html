@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-
 {% load static %}
-
-{% url 'home' as home_url %}
-{% url 'about' as about_url %}
-{% url 'dashboard' as dashboard_url %}
-{% url 'account_login' as login_url %}
-{% url 'account_signup' as signup_url %}
-{% url 'account_logout' as logout_url %}
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>{% block title %}GigVault{% endblock %}</title>
+    <title>{% block title %}GigVault{% endblock %}</title>
     
     
     <!-- Global CSS -->
@@ -26,25 +17,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-<!-- jQuery -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    
     <!-- Gig Vault custom CSS stylesheet -->
-      <link href="{% static 'css/gigvault.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/gigvault.css' %}" rel="stylesheet" />
 
       <!-- Favicon files -->
-<link rel="icon" type="image/png" sizes="96x96" href="{% static 'favicon/favicon-96x96.png' %}">
-<link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-<link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
-<link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
-<meta name="apple-mobile-web-app-title" content="Gig Vault">
-<link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'favicon/favicon-96x96.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <meta name="apple-mobile-web-app-title" content="Gig Vault">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
 
   {% block extra_head %}{% endblock %}
 
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column min-vh-100">
+
+{% url 'home' as home_url %}
+{% url 'about' as about_url %}
+{% url 'dashboard' as dashboard_url %}
+{% url 'account_login' as login_url %}
+{% url 'account_signup' as signup_url %}
+{% url 'account_logout' as logout_url %}
 
 
     <!-- Navigation -->
@@ -102,7 +100,7 @@
   </div>
   {% endif %}
 
-  <main class="flex-shrink-0">
+  <main class="flex-grow-1">
     <div class="container">
       <div class="d-flex justify-content-end">
         {% if user.is_authenticated %}
@@ -118,7 +116,7 @@
 
   <footer class="footer mt-auto py-3 bg-dark">
     <div class="container text-center text-white">
-      <p class="m-0">&copy; {{ now|date:"Y" }} Gig Vault</p>
+      <p class="m-0">&copy; {% now "Y" %} Gig Vault</p>
       <p class="m-0">
         Follow us:
         <i class="fab fa-facebook-square ms-3"></i>
