@@ -40,17 +40,6 @@
   Video Vault
 </a>
 
-
-          {% if gig.venue %}
-            <p class="card-subtitle text-muted mb-2">
-              {{ gig.venue.name }}
-              {% if gig.venue.city %}, {{ gig.venue.city }}{% endif %}
-              {% if gig.venue.country %}, {{ gig.venue.country }}{% endif %}
-            </p>
-          {% else %}
-            <p class="card-subtitle text-muted mb-2">Unknown Venue</p>
-          {% endif %}
-
           <p class="mb-2">
             <strong>Date:</strong> {{ gig.date|date:"F j, Y" }}<br>
             <strong>Status:</strong> {{ gig.get_status_display }}
