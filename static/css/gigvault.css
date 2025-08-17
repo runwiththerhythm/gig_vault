@@ -344,6 +344,9 @@ a:hover, .link:hover {
   box-shadow: 0 0 0 .2rem hsl(270 70% 65% / .25);
 }
 
+/* Make DAL/Select2 fill width and have a gap below */
+.select2-container { width: 100% !important; margin-bottom: .75rem; }
+
 /* Section headers with “amp glow” */
 .section-title {
   font-weight: 800;
