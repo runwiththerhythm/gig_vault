@@ -58,12 +58,6 @@ class GigForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             Field("band"),
-            HTML(
-                '<button type="button" class="btn btn-link p-0 mt-1" '
-                'data-bs-toggle="modal" data-bs-target="#addBandModal">'
-                'Can’t find the band? Add a new one'
-                '</button>'
-            ),
             Field("tour_title"),
             Field("other_artists"),
 

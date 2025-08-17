@@ -270,6 +270,20 @@ h2, h3, .display-1, .display-2 {
   filter: saturate(1.06) brightness(1.03);
 }
 
+/* Consistent "Add Band" buttons (headliner + supports) */
+.btn-add-band {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  line-height: 1.2;
+}
+.btn-add-band:focus {
+  outline: 2px solid var(--bs-secondary);
+  outline-offset: 1px;
+}
+
 /* Pill tags for genres/status */
 .badge-copper {
   background: hsl(25 50% 40% / .12);

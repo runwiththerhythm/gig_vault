@@ -19,12 +19,23 @@
     {% crispy form %}
 
 <button type="button"
-        id="btn-add-support-artist"
-        class="btn btn-outline-secondary btn-sm d-none"
+        id="btn-add-headliner"
+        class="btn btn-outline-secondary btn-sm btn-add-band d-none"
         data-bs-toggle="modal"
         data-bs-target="#addBandModal"
-        data-add-band-target="#supports-field">
-  + Add support artist
+        data-add-band-target="#band-field"
+        aria-label="Add headliner band">
+        <i class="fas fa-plus me-1" aria-hidden="true"></i> Not listed? Add new band
+</button>
+
+<button type="button"
+        id="btn-add-support"
+        class="btn btn-outline-secondary btn-sm btn-add-band d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#addBandModal"
+        data-add-band-target="#supports-field"
+        aria-label="Add support artist">
+        <i class="fas fa-plus me-1" aria-hidden="true"></i> Not listed? Add new support band
 </button>
 
   <!-- Mapbox Search element (needs mapbox_token from context) -->
@@ -218,6 +229,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // default target = headliner
   let activeSelectEl   = headlinerField;
+
+  // --- place the Add buttons under the right fields
+  const btnAddHeadliner = document.getElementById('btn-add-headliner');
+  const btnAddSupport   = document.getElementById('btn-add-support');
+
+  if (btnAddHeadliner && headlinerField) {
+    headlinerField.insertAdjacentElement('afterend', btnAddHeadliner);
+    btnAddHeadliner.classList.remove('d-none');
+  }
+  if (btnAddSupport && supportsField) {
+    supportsField.insertAdjacentElement('afterend', btnAddSupport);
+    btnAddSupport.classList.remove('d-none');
+  }
 
   // --- modal form + bits
   const bandForm      = document.getElementById('add-band-form');
