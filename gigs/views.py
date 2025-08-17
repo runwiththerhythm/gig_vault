@@ -8,6 +8,9 @@ from django.urls import reverse_lazy, reverse
 from dal import autocomplete
 from django.http import JsonResponse
 from django.conf import settings
+from django.views.decorators.http import require_GET, require_POST
+from django.db.models import Q
+
 
 
 from .models import Band, Venue, Gig, GigImage, GigVideo
@@ -226,15 +229,25 @@ class BandCreateView(LoginRequiredMixin, CreateView):
     template_name = 'gigs/band_form.html'
 
     def form_valid(self, form):
+        """
+        For AJAX: return JSON {id, name}.
+        De-duplicate: If a Band with case-insensitive same name exists, return that instead of creating a new one.
+        """
+        name = form.cleaned_data.get("name", "").strip()
+        if self.request.headers.get("x-requested-with") == "XMLHttpRequest":
+            existing = Band.objects.filter(name__iexact=name).first()
+            if existing:
+                self.object = existing
+            else:
+                self.object = form.save()
+            return JsonResponse({"id": self.object.id, "name": self.object.name})
+        # Non-AJAX fallback
+        existing = Band.objects.filter(name__iexact=name).first()
+        if existing:
+            self.object = existing
+            return super().form_valid(form)  # redirects as usual
         self.object = form.save()
-
-        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({
-                'id': self.object.id,
-                'name': self.object.name,
-            })
-        else:
-            return super().form_valid(form)
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -294,3 +307,43 @@ def manage_gig_videos(request, pk):
         "gigs/gig_videos.html",
         {"gig": gig, "formset": formset}
     )
+
+# --- AJAX lookup for duplicates (typeahead / hints) ---
+@login_required
+@require_GET
+def band_lookup_ajax(request):
+    """
+    GET /bands/lookup/?q=term
+    Returns JSON with an exact match (case-insensitive) if present, and up to 5 similar names.
+    """
+    q = (request.GET.get("q") or "").strip()
+    if not q:
+        return JsonResponse({"exact": None, "similar": []})
+
+    exact = Band.objects.filter(name__iexact=q).values("id", "name").first()
+    similar = list(
+        Band.objects.filter(name__icontains=q)
+        .exclude(name__iexact=q)
+        .order_by("name")
+        .values_list("name", flat=True)[:5]
+    )
+    return JsonResponse({"exact": exact, "similar": similar})
+
+
+# --- AJAX delete for Undo (guard if referenced by any Gig) ---
+@login_required
+@require_POST
+def band_delete_ajax(request, pk: int):
+    """
+    Deletes a Band only if it is not referenced by any gigs (as headliner or support).
+    200: {"ok": True} on success
+    409: {"ok": False, "reason": "in_use"} if it is referenced
+    """
+    band = get_object_or_404(Band, pk=pk)
+    in_use = Gig.objects.filter(Q(band=band) | Q(other_artists=band)).exists()
+    if in_use:
+        return JsonResponse({"ok": False, "reason": "in_use"}, status=409)
+
+    band.delete()
+    return JsonResponse({"ok": True})
+

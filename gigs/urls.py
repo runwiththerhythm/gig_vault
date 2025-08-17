@@ -5,6 +5,7 @@ from .views import (
     BandAutocomplete, BandCreateView,
     VenueAutocomplete, VenueCreateView,
     manage_gig_videos,
+    band_lookup_ajax, band_delete_ajax,
 )
 
 urlpatterns = [
@@ -21,4 +22,7 @@ urlpatterns = [
     path('venue-autocomplete/', VenueAutocomplete.as_view(), name='venue-autocomplete'),
     path('venues/add/', VenueCreateView.as_view(), name='venue_create'),
 
-    path("gigs/<int:pk>/videos/", manage_gig_videos, name="gig_videos"),]
+    path("gigs/<int:pk>/videos/", manage_gig_videos, name="gig_videos"),
+    
+    path("bands/lookup/", band_lookup_ajax, name="band_lookup_ajax"),
+    path("bands/<int:pk>/delete/", band_delete_ajax, name="band_delete_ajax"),]
