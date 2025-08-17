@@ -24,6 +24,7 @@ class GigForm(forms.ModelForm):
             "band": autocomplete.ModelSelect2(
                 url="band-autocomplete",
                 attrs={
+                    "id": "band-field",
                     "data-placeholder": "Select a band...",
                     "data-allow-clear": "false",
                     "data-minimum-input-length": 1,
@@ -32,6 +33,7 @@ class GigForm(forms.ModelForm):
             "other_artists": autocomplete.ModelSelect2Multiple(
                 url="band-autocomplete",
                 attrs={
+                    "id": "supports-field",
                     "data-placeholder": "Add support/other artists…",
                     "data-minimum-input-length": 1,
                 },

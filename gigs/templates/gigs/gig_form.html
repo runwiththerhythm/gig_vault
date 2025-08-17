@@ -18,6 +18,15 @@
     {% csrf_token %}
     {% crispy form %}
 
+<button type="button"
+        id="btn-add-support-artist"
+        class="btn btn-outline-secondary btn-sm d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#addBandModal"
+        data-add-band-target="#supports-field">
+  + Add support artist
+</button>
+
   <!-- Mapbox Search element (needs mapbox_token from context) -->
   <mapbox-search-box
     id="venue-search-box"
@@ -202,246 +211,279 @@
 
   <!-- Band Modal AJAX-->
   <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const bandForm      = document.getElementById('add-band-form');
-    if (!bandForm) return;
+document.addEventListener('DOMContentLoaded', function () {
+  // --- selects: headliner + supports
+  const headlinerField = document.querySelector('#band-field');     // explicit id from GigForm widgets
+  const supportsField  = document.querySelector('#supports-field'); // explicit id from GigForm widgets
 
-    const bandInput     = document.getElementById('id_name');
-    const bandField     = document.querySelector('#id_band'); // DAL select
-    const addModalEl    = document.getElementById('addBandModal');
+  // default target = headliner
+  let activeSelectEl   = headlinerField;
 
-    // Confirm modal
-    const confirmEl     = document.getElementById('confirmBandModal');
-    const confirmNameEl = document.getElementById('confirm-band-name');
-    const confirmBtn    = document.getElementById('btn-confirm-create');
-    const confirmModal  = confirmEl ? new bootstrap.Modal(confirmEl) : null;
+  // --- modal form + bits
+  const bandForm      = document.getElementById('add-band-form');
+  if (!bandForm) return;
 
-    // Toasts
-    const toastEl       = document.getElementById('band-toast');
-    const toastNameEl   = document.getElementById('band-toast-name');
-    const toastUndoBtn  = document.getElementById('band-toast-undo');
-    const errorToastEl  = document.getElementById('band-toast-error');
-    const errorTextEl   = document.getElementById('band-toast-error-text');
-    const toast         = toastEl ? new bootstrap.Toast(toastEl) : null;
-    const errorToast    = errorToastEl ? new bootstrap.Toast(errorToastEl) : null;
+  const bandInput     = document.getElementById('id_name');
+  const addModalEl    = document.getElementById('addBandModal');
 
-    // Hints / errors
-    const hintBox       = document.getElementById('band-similar-hint');
-    const errorBox      = document.getElementById('band-error');
-    const submitBtn     = bandForm.querySelector('button[type="submit"]');
+  // Confirm modal
+  const confirmEl     = document.getElementById('confirmBandModal');
+  const confirmNameEl = document.getElementById('confirm-band-name');
+  const confirmBtn    = document.getElementById('btn-confirm-create');
+  const confirmModal  = confirmEl ? new bootstrap.Modal(confirmEl) : null;
 
-    // CSRF (read from the form)
-    function getCsrfFromForm() {
-      const fd = new FormData(bandForm);
-      return fd.get('csrfmiddlewaretoken') || '';
-    }
-    // CSRF cookie (for Undo)
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
-    }
-    const csrftokenCookie = getCookie('csrftoken') || getCookie('csrftoken');
+  // Toasts
+  const toastEl       = document.getElementById('band-toast');
+  const toastNameEl   = document.getElementById('band-toast-name');
+  const toastUndoBtn  = document.getElementById('band-toast-undo');
+  const errorToastEl  = document.getElementById('band-toast-error');
+  const errorTextEl   = document.getElementById('band-toast-error-text');
+  const toast         = toastEl ? new bootstrap.Toast(toastEl) : null;
+  const errorToast    = errorToastEl ? new bootstrap.Toast(errorToastEl) : null;
 
-    let lastCreated = null; // {id, name, prevValue}
+  // Hints / errors
+  const hintBox       = document.getElementById('band-similar-hint');
+  const errorBox      = document.getElementById('band-error');
+  const submitBtn     = bandForm.querySelector('button[type="submit"]');
 
-    // Debounce
-    function debounce(fn, delay=300){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay); }; }
+  // CSRF (from form + cookie)
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return decodeURIComponent(parts.pop().split(';').shift());
+  }
+  const csrftokenCookie = getCookie('csrftoken') || '';
 
-    // Live duplicate lookup
-    const fetchSimilar = debounce(async function () {
-      const q = (bandInput.value || '').trim();
-      if (!q) { hintBox.innerHTML = ''; hintBox.style.display='none'; return; }
-      try {
-        const url = new URL("{% url 'band_lookup_ajax' %}", window.location.origin);
-        url.searchParams.set('q', q);
-        const resp = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
-        const data = await resp.json();
-        renderSimilarHint(data);
-      } catch {
-        hintBox.innerHTML = ''; hintBox.style.display='none';
-      }
-    }, 300);
+  let lastCreated = null; // {id, name, prevValue, targetId}
 
-    function renderSimilarHint(payload) {
-      if (!hintBox) return;
-      const exact = payload?.exact;
-      const list  = payload?.similar || [];
-      let html = '';
-      if (exact) {
-        html += `
-          <div class="mb-1">
-            Already exists: <strong>${exact.name}</strong>
-            <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="btn-use-existing">Use existing</button>
-          </div>`;
-      }
-      if (list.length) {
-        html += `<div class="mt-1">Similar: ${
-          list.map(s => `<span class="badge bg-secondary me-1">${s}</span>`).join('')
-        }</div>`;
-      }
-      hintBox.innerHTML = html;
-      hintBox.style.display = html ? 'block' : 'none';
+  // If you used the “temporary button” trick for supports, move it under the select:
+  const addSupportBtn = document.getElementById('btn-add-support-artist');
+  if (addSupportBtn && supportsField) {
+    supportsField.insertAdjacentElement('afterend', addSupportBtn);
+    addSupportBtn.classList.remove('d-none');
+  }
 
-      // Use existing -> select in DAL, close modal
-      if (exact) {
-        const btn = document.getElementById('btn-use-existing');
-        btn?.addEventListener('click', () => {
-          const idStr = String(exact.id);
-          if (bandField) {
-            const exists = Array.from(bandField.options).some(o => o.value === idStr);
-            if (!exists) {
-              const opt = new Option(exact.name, idStr, true, true);
-              if (window.jQuery) jQuery(bandField).append(opt).trigger('change');
-              else { bandField.appendChild(opt); bandField.value = idStr; bandField.dispatchEvent(new Event('change', {bubbles:true})); }
-            } else {
-              if (window.jQuery) jQuery(bandField).val(idStr).trigger('change');
-              else { bandField.value = idStr; bandField.dispatchEvent(new Event('change', {bubbles:true})); }
-            }
-          }
-          bootstrap.Modal.getInstance(addModalEl)?.hide();
-        });
-      }
-    }
-
-    bandInput?.addEventListener('input', () => {
-      if (errorBox) { errorBox.textContent=''; errorBox.classList.add('d-none'); }
-      bandInput.classList.remove('is-invalid');
-      fetchSimilar();
-    });
-
-    // Submit -> confirm first (no save yet)
-    bandForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = (bandInput.value || '').trim();
-      if (!name) {
-        if (errorBox) { errorBox.textContent='Please enter a band name.'; errorBox.classList.remove('d-none'); }
-        bandInput.classList.add('is-invalid');
-        return;
-      }
-      if (confirmModal && confirmNameEl) {
-        confirmNameEl.textContent = name;
-        confirmModal.show();
-      } else {
-        doCreate();
-      }
-    });
-
-    // Confirm -> actually create (AJAX)
-    confirmBtn?.addEventListener('click', async function () {
-      confirmModal?.hide();
-      await doCreate();
-    });
-
-    async function doCreate() {
-      // Button loading state
-      const originalText = submitBtn?.textContent || '';
-      submitBtn?.setAttribute('disabled','disabled');
-      if (submitBtn) submitBtn.textContent = 'Saving…';
-
-      const formData = new FormData(bandForm);
-      const name = (formData.get('name') || '').toString().trim();
-      const prevValue = bandField ? (window.jQuery ? jQuery(bandField).val() : bandField.value) : null;
-      const csrfForm = formData.get('csrfmiddlewaretoken');
-
-      try {
-        const resp = await fetch(bandForm.action || "{% url 'band_create' %}", {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            // IMPORTANT: send CSRF with AJAX create
-            'X-CSRFToken': csrfForm || csrftokenCookie || ''
-          }
-        });
-        const data = await resp.json();
-        if (!resp.ok || typeof data.id === 'undefined') {
-          throw (data?.errors?.name?.join(', ') || 'Could not add band.');
-        }
-
-        const idStr = String(data.id);
-
-        // Insert/select in DAL
-        if (bandField) {
-          const exists = Array.from(bandField.options).some(o => o.value === idStr);
-          if (!exists) {
-            const opt = new Option(data.name, idStr, true, true);
-            if (window.jQuery) jQuery(bandField).append(opt).trigger('change');
-            else { bandField.appendChild(opt); bandField.value = idStr; bandField.dispatchEvent(new Event('change', {bubbles:true})); }
-          } else {
-            if (window.jQuery) jQuery(bandField).val(idStr).trigger('change');
-            else { bandField.value = idStr; bandField.dispatchEvent(new Event('change', {bubbles:true})); }
-          }
-        }
-
-        // Close modal, show toast + Undo
-        bootstrap.Modal.getInstance(addModalEl)?.hide();
-        lastCreated = { id: idStr, name: data.name, prevValue };
-        if (toast && toastNameEl) {
-          toastNameEl.textContent = data.name;
-          toast.show();
-        }
-
-        // Reset input/hints
-        bandInput.value = '';
-        hintBox.innerHTML = ''; hintBox.style.display='none';
-
-      } catch (err) {
-        if (errorToast && errorTextEl) {
-          errorTextEl.textContent = (typeof err === 'string') ? err : 'Could not add band.';
-          errorToast.show();
-        } else {
-          alert((typeof err === 'string') ? err : 'Could not add band.');
-        }
-      } finally {
-        if (submitBtn) submitBtn.textContent = originalText;
-        submitBtn?.removeAttribute('disabled');
-      }
-    }
-
-    // Undo -> server delete (guard) + restore DAL selection
-    toastUndoBtn?.addEventListener('click', async function () {
-      if (!lastCreated) return;
-      try {
-        const url = "{% url 'band_delete_ajax' 0 %}".replace('/0/', `/${lastCreated.id}/`);
-        const resp = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrftokenCookie || ''
-          }
-        });
-        const data = await resp.json();
-        if (!resp.ok || data.ok !== true) {
-          if (data?.reason === 'in_use') throw 'Cannot undo: band is already referenced by a gig.';
-          throw 'Undo failed.';
-        }
-
-        if (bandField) {
-          const opt = Array.from(bandField.options).find(o => o.value === lastCreated.id);
-          if (opt) opt.remove();
-          if (window.jQuery) {
-            jQuery(bandField).val(lastCreated.prevValue).trigger('change');
-          } else {
-            bandField.value = lastCreated.prevValue ?? '';
-            bandField.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-        }
-
-        new bootstrap.Toast(toastEl).hide();
-        lastCreated = null;
-
-      } catch (err) {
-        if (errorToast && errorTextEl) {
-          errorTextEl.textContent = (typeof err === 'string') ? err : 'Undo failed.';
-          errorToast.show();
-        } else {
-          alert((typeof err === 'string') ? err : 'Undo failed.');
-        }
-      }
+  // Which select opened the modal?
+  document.querySelectorAll('[data-add-band-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sel = btn.getAttribute('data-add-band-target');
+      const el  = sel ? document.querySelector(sel) : null;
+      activeSelectEl = el || headlinerField;
     });
   });
-  </script>
+  addModalEl?.addEventListener('show.bs.modal', () => {
+    if (!activeSelectEl) activeSelectEl = headlinerField;
+  });
+
+  // Debounce helper
+  function debounce(fn, delay=300){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay); }; }
+
+  // Live duplicate lookup
+  const fetchSimilar = debounce(async function () {
+    const q = (bandInput.value || '').trim();
+    if (!q) { hintBox.innerHTML = ''; hintBox.style.display='none'; return; }
+    try {
+      const url = new URL("{% url 'band_lookup_ajax' %}", window.location.origin);
+      url.searchParams.set('q', q);
+      const resp = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      const data = await resp.json();
+      renderSimilarHint(data);
+    } catch {
+      hintBox.innerHTML = ''; hintBox.style.display='none';
+    }
+  }, 300);
+
+  function renderSimilarHint(payload) {
+    if (!hintBox) return;
+    const exact = payload?.exact;
+    const list  = payload?.similar || [];
+    let html = '';
+    if (exact) {
+      html += `
+        <div class="mb-1">
+          Already exists: <strong>${exact.name}</strong>
+          <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="btn-use-existing">Use existing</button>
+        </div>`;
+    }
+    if (list.length) {
+      html += `<div class="mt-1">Similar: ${
+        list.map(s => `<span class="badge bg-secondary me-1">${s}</span>`).join('')
+      }</div>`;
+    }
+    hintBox.innerHTML = html;
+    hintBox.style.display = html ? 'block' : 'none';
+
+    // Use existing -> select in the *active* select, close modal
+    if (exact) {
+      const btn = document.getElementById('btn-use-existing');
+      btn?.addEventListener('click', () => {
+        const idStr = String(exact.id);
+        if (activeSelectEl) {
+          const exists = Array.from(activeSelectEl.options).some(o => o.value === idStr);
+          if (!exists) {
+            const opt = new Option(exact.name, idStr, true, true);
+            if (window.jQuery) jQuery(activeSelectEl).append(opt).trigger('change');
+            else { activeSelectEl.appendChild(opt); activeSelectEl.value = idStr; activeSelectEl.dispatchEvent(new Event('change', {bubbles:true})); }
+          } else {
+            if (window.jQuery) jQuery(activeSelectEl).val(idStr).trigger('change');
+            else { activeSelectEl.value = idStr; activeSelectEl.dispatchEvent(new Event('change', {bubbles:true})); }
+          }
+        }
+        bootstrap.Modal.getInstance(addModalEl)?.hide();
+      });
+    }
+  }
+
+  bandInput?.addEventListener('input', () => {
+    if (errorBox) { errorBox.textContent=''; errorBox.classList.add('d-none'); }
+    bandInput.classList.remove('is-invalid');
+    fetchSimilar();
+  });
+
+  // Submit -> confirm first (no save yet)
+  bandForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = (bandInput.value || '').trim();
+    if (!name) {
+      if (errorBox) { errorBox.textContent='Please enter a band name.'; errorBox.classList.remove('d-none'); }
+      bandInput.classList.add('is-invalid');
+      return;
+    }
+    if (confirmModal && confirmNameEl) {
+      confirmNameEl.textContent = name;
+      confirmModal.show();
+    } else {
+      doCreate();
+    }
+  });
+
+  // Confirm -> actually create (AJAX)
+  confirmBtn?.addEventListener('click', async function () {
+    confirmModal?.hide();
+    await doCreate();
+  });
+
+  async function doCreate() {
+    // Button loading state
+    const originalText = submitBtn?.textContent || '';
+    submitBtn?.setAttribute('disabled','disabled');
+    if (submitBtn) submitBtn.textContent = 'Saving…';
+
+    const formData = new FormData(bandForm);
+    const csrfForm = formData.get('csrfmiddlewaretoken') || csrftokenCookie;
+    const prevValue = activeSelectEl
+      ? (window.jQuery ? jQuery(activeSelectEl).val() : activeSelectEl.value)
+      : null;
+
+    try {
+      const resp = await fetch(bandForm.action || "{% url 'band_create' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': csrfForm || ''
+        }
+      });
+      const data = await resp.json();
+      if (!resp.ok || typeof data.id === 'undefined') {
+        throw (data?.errors?.name?.join(', ') || 'Could not add band.');
+      }
+
+      const idStr = String(data.id);
+
+      // Insert/select in the *active* select
+      if (activeSelectEl) {
+        const exists = Array.from(activeSelectEl.options).some(o => o.value === idStr);
+        if (!exists) {
+          const opt = new Option(data.name, idStr, true, true);
+          if (window.jQuery) jQuery(activeSelectEl).append(opt).trigger('change');
+          else { activeSelectEl.appendChild(opt); activeSelectEl.value = idStr; activeSelectEl.dispatchEvent(new Event('change', {bubbles:true})); }
+        } else {
+          if (window.jQuery) jQuery(activeSelectEl).val(idStr).trigger('change');
+          else { activeSelectEl.value = idStr; activeSelectEl.dispatchEvent(new Event('change', {bubbles:true})); }
+        }
+      }
+
+      // Close modal, show toast + Undo
+      bootstrap.Modal.getInstance(addModalEl)?.hide();
+      lastCreated = {
+        id: idStr,
+        name: data.name,
+        prevValue,
+        targetId: activeSelectEl?.id || 'band-field'
+      };
+      if (toast && toastNameEl) {
+        toastNameEl.textContent = data.name;
+        toast.show();
+      }
+
+      // Reset input/hints
+      bandInput.value = '';
+      hintBox.innerHTML = ''; hintBox.style.display='none';
+
+    } catch (err) {
+      if (errorToast && errorTextEl) {
+        errorTextEl.textContent = (typeof err === 'string') ? err : 'Could not add band.';
+        errorToast.show();
+      } else {
+        alert((typeof err === 'string') ? err : 'Could not add band.');
+      }
+    } finally {
+      if (submitBtn) submitBtn.textContent = originalText;
+      submitBtn?.removeAttribute('disabled');
+    }
+  }
+
+  // Undo -> server delete (guard) + restore the correct field’s selection
+  toastUndoBtn?.addEventListener('click', async function () {
+    if (!lastCreated) return;
+    try {
+      const url = "{% url 'band_delete_ajax' 0 %}".replace('/0/', `/${lastCreated.id}/`);
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': csrftokenCookie || ''
+        }
+      });
+      const data = await resp.json();
+      if (!resp.ok || data.ok !== true) {
+        if (data?.reason === 'in_use') throw 'Cannot undo: band is already referenced by a gig.';
+        throw 'Undo failed.';
+      }
+
+      // choose the right select to update
+      const targetEl = (lastCreated?.targetId === 'supports-field') ? supportsField : headlinerField;
+      if (targetEl) {
+        const opt = Array.from(targetEl.options).find(o => o.value === lastCreated.id);
+        if (opt) opt.remove();
+
+        if (window.jQuery) {
+          jQuery(targetEl).val(lastCreated.prevValue).trigger('change');
+        } else {
+          if (Array.isArray(lastCreated.prevValue)) {
+            [...targetEl.options].forEach(o => { o.selected = lastCreated.prevValue.includes(o.value); });
+          } else {
+            targetEl.value = lastCreated.prevValue ?? '';
+          }
+          targetEl.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+
+      new bootstrap.Toast(toastEl).hide();
+      lastCreated = null;
+
+    } catch (err) {
+      if (errorToast && errorTextEl) {
+        errorTextEl.textContent = (typeof err === 'string') ? err : 'Undo failed.';
+        errorToast.show();
+      } else {
+        alert((typeof err === 'string') ? err : 'Undo failed.');
+      }
+    }
+  });
+});
+</script>
 
 <!-- Mapbox Search result handler -->
   <script>
