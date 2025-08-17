@@ -326,7 +326,7 @@ a:hover, .link:hover {
   height: 160px;
   width: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: top;
 }
 
 /* Taller on md+ screens */
