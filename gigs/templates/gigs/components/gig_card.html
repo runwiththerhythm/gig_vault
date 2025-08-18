@@ -37,11 +37,15 @@
 {# YouTube button uses the helper #}
 <a href="{% url 'gig_videos' gig.pk %}?q={{ gig.youtube_query|urlencode }}"
    class="btn btn-sm btn-outline-primary">
-  Video Vault
+  youtube vault
 </a>
 
           <p class="mb-2">
             <strong>Date:</strong> {{ gig.date|date:"F j, Y" }}<br>
+            
+            {% load gig_extras %}
+{% countdown_badge gig %}
+
             <strong>Status:</strong> {{ gig.get_status_display }}
           </p>
 
@@ -60,10 +64,10 @@
             <i class="fas fa-eye"></i>View</a><br>
           <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-sm btn-outline-secondary mb-1">
             <i class="fas fa-edit"></i>Edit</a><br>
-          <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-sm btn-outline-danger">
-            <i class="fas fa-trash"></i>Delete</a>
-          <a href="{% url 'gig_videos' gig.pk %}" class="btn btn-outline-warning btn-sm">
-            <i class="fab fa-youtube"></i> Vault</a>
+          <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-sm btn-outline-danger mb-1">
+            <i class="fas fa-trash"></i>Delete</a><br>
+          <a href="{% url 'gig_videos' gig.pk %}" class="btn btn-outline-warning btn-sm mb-1">
+            <i class="fab fa-youtube"></i> Video Vault</a><br>
         </div>
       </div>
     </div>

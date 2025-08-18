@@ -8,6 +8,10 @@
   <p><strong>Status:</strong> {{ gig.status }}</p>
   <p><strong>Notes:</strong> {{ gig.notes|linebreaks }}</p>
 
+  {% load gig_extras %}
+{% countdown_badge gig %}
+
+
   <!-- Video section -->
 <section class="mt-4">
   <div class="d-flex justify-content-between align-items-center mb-2">

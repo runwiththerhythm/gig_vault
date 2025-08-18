@@ -323,7 +323,7 @@ a:hover, .link:hover {
 
 /* Thumbnail crop for gig cards */
 .card-img-fixed {
-  height: 160px;
+  height: 333px;
   width: 100%;
   object-fit: cover;
   object-position: top;
@@ -331,7 +331,7 @@ a:hover, .link:hover {
 
 /* Taller on md+ screens */
 @media (min-width: 768px) {
-  .card-img-fixed { height: 180px; }
+  .card-img-fixed { height: 333px; }
 }
 
 
