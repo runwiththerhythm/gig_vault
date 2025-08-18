@@ -30,7 +30,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False").lower() in ("1","true","yes")
 
 ALLOWED_HOSTS = ['.herokuapp.com',
 '127.0.0.1',]
@@ -59,6 +59,10 @@ INSTALLED_APPS = [
     'dal_select2',
     'django_extensions',
 ]
+
+# Only add in development (local)
+if DEBUG:
+    INSTALLED_APPS += ["django_extensions"]
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/dashboard/'
