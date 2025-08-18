@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'dal',
     'dal_select2',
-    'django_extensions',
 ]
 
 # Only add in development (local)
