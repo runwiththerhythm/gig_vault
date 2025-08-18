@@ -1,4 +1,6 @@
 {% extends "gigs/dashboard_base.html" %}
+{% load gig_extras %}
+
 
 {% block content %}
 <div class="container mt-4">
@@ -8,8 +10,7 @@
   <p><strong>Status:</strong> {{ gig.status }}</p>
   <p><strong>Notes:</strong> {{ gig.notes|linebreaks }}</p>
 
-  {% load gig_extras %}
-{% countdown_badge gig %}
+  {% countdown_badge gig %}
 
 
   <!-- Video section -->
