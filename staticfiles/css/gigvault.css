@@ -428,3 +428,16 @@ a:hover, .link:hover {
   margin-top: .35rem;
   word-break: break-word;
 }
+
+/* Responsive Layout */
+
+@media (max-width: 767.98px) {
+  .dashboard-content {
+    padding-top: 3.25rem;
+  }
+}
+
+/* Ensure the hamburger stays tappable above offcanvas/backdrop */
+.hamburger-btn {
+  z-index: 1046; /* offcanvas/backdrop is ~1045 in Bootstrap */
+}
