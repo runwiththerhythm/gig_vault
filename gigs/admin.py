@@ -32,6 +32,7 @@ class GigAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.select_related('band', 'venue')
 
+
 @admin.register(GigVideo)
 class GigVideoAdmin(admin.ModelAdmin):
     list_display = ("gig", "title", "video_id", "is_featured", "added_at")

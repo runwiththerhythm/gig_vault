@@ -63,7 +63,8 @@ class GigForm(forms.ModelForm):
 
             Div(
                 Div(Field("date"), css_class="col-sm-4"),
-                Div(Field("is_festival"), css_class="col-sm-4 d-flex align-items-center mt-4"),
+                Div(Field("is_festival"),
+                    css_class="col-sm-4 d-flex align-items-center mt-4"),
                 Div(Field("status"), css_class="col-sm-4"),
                 css_class="row g-3"
             ),
@@ -86,13 +87,17 @@ GigImageFormSet = inlineformset_factory(
     can_delete=True
 )
 
+
 class GigVideoForm(forms.ModelForm):
     class Meta:
         model = GigVideo
         fields = ["url", "title", "is_featured"]
         widgets = {
-            "url": forms.URLInput(attrs={"placeholder": "Paste a YouTube link"}),
-            "title": forms.TextInput(attrs={"placeholder": "Optional title"}), }
+            "url": forms.URLInput(attrs={
+                "placeholder": "Paste a YouTube link"}),
+            "title": forms.TextInput(attrs={
+                "placeholder": "Optional title"}), }
+
 
 GigVideoFormSet = inlineformset_factory(
     Gig,

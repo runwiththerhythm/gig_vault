@@ -22,8 +22,10 @@ from .forms import GigForm, GigImageFormSet, GigVideoFormSet
 # Main dashboard My Gig Vault view - Function based view for dashboard
 @login_required
 def gigs_dashboard(request):
-    attended_gigs = Gig.objects.filter(user=request.user, status='attended').order_by('-date')[:50]
-    upcoming_gigs = Gig.objects.filter(user=request.user, status='upcoming').order_by('date')[:50]
+    attended_gigs = Gig.objects.filter(user=request.user,
+            status='attended').order_by('-date')[:50]
+    upcoming_gigs = Gig.objects.filter(user=request.user,
+            status='upcoming').order_by('date')[:50]
 
     return render(request, "gigs/dashboard.html", {
         "attended_gigs": attended_gigs,
@@ -279,6 +281,7 @@ class VenueCreateView(LoginRequiredMixin, CreateView):
         next_url = self.request.GET.get('next')
         return next_url or reverse_lazy('gig_create')
 
+
 @login_required
 def manage_gig_videos(request, pk):
     gig = get_object_or_404(Gig, pk=pk, user=request.user)
@@ -309,6 +312,8 @@ def manage_gig_videos(request, pk):
     )
 
 # --- AJAX lookup for duplicates (typeahead / hints) ---
+
+
 @login_required
 @require_GET
 def band_lookup_ajax(request):
@@ -346,4 +351,3 @@ def band_delete_ajax(request, pk: int):
 
     band.delete()
     return JsonResponse({"ok": True})
-

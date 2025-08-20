@@ -10,4 +10,3 @@ class AboutView(TemplateView):
 # Home page view
 def site_home(request):
     return render(request, 'home.html')
-
