@@ -10,7 +10,7 @@ Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 
 ## Introduction
 
-Gig Vault is a personal live music diary that helps fans track, organize, and relive their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their live music journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
+Gig Vault is a personal live music diary application that helps fans track, organize, and relive their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their concert journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
 
 ---
 
@@ -156,26 +156,24 @@ In this section, list all of your possible user stories for the project. Samples
 
 | Target | Expectation | Outcome |
 | --- | --- | --- |
-| As a blog owner | I would like to create new blog posts with a title, featured image, and content | so that I can share my experiences with my audience. |
-| As a blog owner | I would like to update existing blog posts | so that I can correct or add new information to my previous stories. |
-| As a blog owner | I would like to delete blog posts | so that I can remove outdated or irrelevant content from my blog. |
-| As a blog owner | I would like to retrieve a list of all my published blog posts | so that I can manage them from a central dashboard. |
-| As a blog owner | I would like to preview a post as draft before publishing it | so that I can ensure formatting and content appear correctly. |
-| As a blog owner | I would like to review comments before they are published | so that I can filter out spam or inappropriate content. |
-| As a blog owner | I would like to approve or reject comments from users | so that I can maintain control over the discussion on my posts. |
-| As a blog owner | I would like to view a list of all comments (both approved and pending) | so that I can manage user engagement effectively. |
-| As a blog owner | I would like to edit or delete user comments | so that I can clean up or remove inappropriate responses after they've been posted. |
-| As a registered user | I would like to log in to the site | so that I can leave comments on blog posts. |
-| As a registered user | I would like to register for an account | so that I can become part of the community and engage with the blog. |
-| As a registered user | I would like to leave a comment on a blog post | so that I can share my thoughts or ask questions about the owner's experiences. |
-| As a registered user | I would like my comment to show my name and the timestamp | so that others can see who I am and when I left the comment. |
-| As a registered user | I would like to receive a notification or message saying my comment is pending approval | so that I understand it hasn't been posted immediately. |
-| As a registered user | I would like to edit or delete my own comments | so that I can fix mistakes or retract my statement. |
-| As a guest user | I would like to read blog posts without registering | so that I can enjoy the content without needing to log in. |
-| As a guest user | I would like to browse past posts | so that I can explore the blog's full content history. |
-| As a guest user | I would like to register for an account | so that I can participate in the community by leaving comments on posts. |
-| As a guest user | I would like to see the names of other commenters on posts | so that I can get a sense of community interaction before registering. |
-| As a user | I would like to see a 404 error page if I get lost | so that it's obvious that I've stumbled upon a page that doesn't exist. |
+| As a first time visitor,|  I can view detailed information about the app without having to register, | so that I can decide if I want to use it. |
+| As a first time visitor, | I would like to be able to navigate the site easily | so that I can find relevant information quickly. |
+| As a new user | I can sign up easily using a registration form | so that I can create an account and start using the app. |
+| As a registered user | I can log in securely | so that I can access my private dashboard and saved gigs.|
+| As a user who forgot my password | I can reset it via email | so that I can regain access to my account.
+| As a logged in user,| I can log out, | so that I can end my session securely.|
+| As a user,| I can view a friendly error page if I hit a dead link | so that I’m not confused or lost. |
+| As a logged in user,| I want to add a gig I attended | so that I can manage user engagement effectively. |
+| As a logged in user, | I want the band field to autocomplete when typing| so I don’t create duplicate entries. |
+| As a logged in user, | I want to view the full details of a specific gig, | so I can revisit memories and see all the information I entered.|
+| As a logged in user, | I want to edit an existing gig,  | so I can fix mistakes or update information like venue, date, or notes.|
+| As a logged in user, |  I want to delete a gig, | so I can remove any accidental or unwanted entries.|
+| As a logged in user, | I want to view a list of all gigs I’ve entered,| so I can browse my gig history easily.|
+| As a registered user | I want to upload and manage images for a gig,| so I can visually document the concert experience.|
+| As a registered user |I want to record a festival as a gig that contains multiple band performances, | so I can document the full experience in one place.|
+| As a guest user | I want to add other artists who performed at the same gig,  | sso I can log the full lineup. |
+| As a guest user | I want to see relevant YouTube videos from a gig,| so I can relive the performance without having to manually search. |
+| As a guest user | I want to quickly see the setlist from the gig,| so I can remember what songs were played. |
 
 ## Features
 
@@ -191,50 +189,40 @@ In this section, you should go over the different parts of your project, and des
 
 | Feature | Notes | Screenshot |
 | --- | --- | --- |
-| Register | Authentication is handled by allauth, allowing users to register accounts. | ![screenshot](documentation/features/register.png) |
-| Login | Authentication is handled by allauth, allowing users to log in to their existing accounts. | ![screenshot](documentation/features/login.png) |
-| Logout | Authentication is handled by allauth, allowing users to log out of their accounts. | ![screenshot](documentation/features/logout.png) |
-| Blog List | The homepage displays basic information about blog posts, including image, title, author, date, and a brief excerpt. | ![screenshot](documentation/features/blog-list.png) |
+| Register / Login / Logout | Handled by django-allauth, allowing users to create secure accounts, log in, and log out. | ![screenshot](documentation/features/register.png) |
+
+| Dashboard | The central hub showing upcoming gigs, attended gigs, quick stats, and “On This Day” reminders. | ![screenshot](documentation/features/blog-list.png) |
 | View Post | Users can view the full blog post details, including any comments. | ![screenshot](documentation/features/view-post.png) |
 | Pagination | Blog posts are displayed in pages, with six posts per page. This provides better navigation for users through the post list. | ![screenshot](documentation/features/pagination.png) |
-| Add Comments | Authenticated visitors can comment on blog posts; comments require approval before being published. | ![screenshot](documentation/features/add-comment.png) |
-| Edit Comments | Authenticated visitors can edit their own comments. | ![screenshot](documentation/features/edit-comment.png) |
-| Delete Comments | Authenticated visitors can delete their own comments. | ![screenshot](documentation/features/delete-comment.png) |
-| Comment Approvals | Admins can approve or disapprove comments submitted by users before they are visible on the blog post. | ![screenshot](documentation/features/comment-approval.png) |
-| Create Post | Site owners can create/publish blog posts, including setting a featured image using Cloudinary, all from the Django admin dashboard. | ![screenshot](documentation/features/create-post.png) |
-| Update Post | Site owners can update/manage blog posts from the Django admin dashboard. | ![screenshot](documentation/features/update-post.png) |
-| Delete Post | Site owners can delete blog posts from the Django admin dashboard. | ![screenshot](documentation/features/delete-post.png) |
-| About Page | The About page displays the latest information about the site author, along with the option for visitors to send collaboration requests. | ![screenshot](documentation/features/about.png) |
-| Collaboration Requests | Visitors can submit collaboration requests from the *About* page, which are later reviewed by the admin. | ![screenshot](documentation/features/collaboration.png) |
-| User Feedback | Clear and obvious Django messages are used to provide feedback to user actions. | ![screenshot](documentation/features/messages.png) |
-| Heroku Deployment | The site is fully deployed to Heroku, making it accessible online and easy to manage. | ![screenshot](documentation/features/heroku.png) |
+| My Gigs | Full list view of all a user’s gigs with filtering for upcoming vs past gigs. Entries are displayed as cards with cover images and details. | ![screenshot](documentation/features/add-comment.png) |
+|Add Gig | Users can log a gig they attended or are planning to attend. The form supports band autocomplete, venue search (Mapbox), gig date, status, and genre.| ![screenshot](documentation/features/edit-comment.png) |
+| Edit / Delete Gig | Existing gig entries can be updated or removed, giving users full control over their vault. | ![screenshot](documentation/features/delete-comment.png) |
+| Band Autocomplete | Powered by django-autocomplete-light, users can quickly search and select existing bands or add new ones via modal. | ![screenshot](documentation/features/comment-approval.png) |
+| Venue Search | Uses Mapbox Search JS to autocomplete venue details. Venue name, city, and country are stored without needing coordinates. | ![screenshot](documentation/features/create-post.png) |
+| Image Uploads | Users can upload multiple gig images (via Cloudinary). One image can be marked as the cover, and previews are shown before saving. | ![screenshot](documentation/features/update-post.png) |
+| YouTube Integration | Users can auto-search YouTube for videos of their gig and link them directly into the entry. | ![screenshot](documentation/features/delete-post.png) |
+| Setlist.fm Integration | Users can quickly link to or search for setlists without manually copying/pasting URLs. | ![screenshot](documentation/features/about.png) |
+| Gig Stats | Dashboard highlights stats such as total gigs attended, most-seen band, and more. | ![screenshot](documentation/features/collaboration.png) |
+| On This Day | If a gig was attended on the same calendar date in the past, it appears as a memory prompt. | ![screenshot](documentation/features/messages.png) |
+| About Page | Introduces the GigVault project and its purpose.| ![screenshot](documentation/features/heroku.png) |
 | 404 | The 404 error page will indicate when a user has navigated to a page that doesn't exist, replacing the default Heroku 404 page with one that ties into the site's look and feel. | ![screenshot](documentation/features/404.png) |
+| Messages / Feedback | Django messages framework provides clear feedback for actions (e.g., gig created, updated, deleted). | ![screenshot](documentation/features/404.png) |
+| Heroku Deployment | Fully deployed to Heroku with Postgres, Cloudinary, and Whitenoise. | ![screenshot](documentation/features/404.png) |
 
 ### Future Features
 
-⚠️ INSTRUCTIONS ⚠️
-
-Do you have additional ideas that you'd like to include on your project in the future? Fantastic, list them here! It's always great to have plans for future improvements. Consider adding any helpful links or notes to help remind you in the future, if you revisit the project in a couple years.
-
-A few examples are listed below to align with possible ways to improve on the sample walkthrough project, to give you some inspiration.
-
-⚠️ --- END ---⚠️
-
-- **Post Categories/Tags**: Allow users to categorize and tag blog posts, making it easier for visitors to filter content based on their interests.
-- **Post Search Functionality**: Add a search bar for users to quickly find posts by keywords or phrases.
-- **Post Likes/Dislikes or Upvotes**: Implement a "like" or "upvote" system for blog posts to encourage user engagement and give feedback to the author.
-- **User Profiles**: Create personalized user profiles where authenticated users can view their comments, liked posts, and account information.
-- **Comment Replies & Threads**: Enable users to reply to comments, creating nested comment threads for better discussions.
-- **Post Sharing**: Add social media sharing buttons (e.g., Twitter, Facebook, LinkedIn) for users to share blog posts.
-- **Notifications**: Implement a notification system that alerts users when their comments are approved, when new comments are made on a post they've commented on, or when new posts are published.
-- **Email Subscriptions**: Allow users to subscribe to receive email notifications for new posts, updates, or newsletters.
-- **Post Analytics**: Provide post authors with analytics such as views, time spent reading, and engagement rates.
-- **Multilingual Support**: Add the ability to write and view blog posts in multiple languages, broadening the audience.
-- **Related Posts Recommendations**: Show related posts at the bottom of a blog post to encourage further reading and keep users engaged.
-- **Content Flagging/Reporting**: Allow users to flag or report inappropriate content (comments or posts) for moderation.
+- **Festival Child Gigs**: Ability to create a “parent” festival entry that contains multiple band performances as child gigs. Helps users track festival weekends in detail.
+- **Social Sharing**: Quick-share options for individual gig entries to platforms like Instagram, Facebook, and X (Twitter). Lets users show off their vault highlights.
+- **Dark Mode Toggle**:A built-in dark theme for night-time browsing, fitting the live music aesthetic and reducing eye strain.
+- **Advanced Stats**: A calendar-based view for upcoming gigs, making it easier to see what’s coming up at a glance.
+- **Calendar View**: Enable users to reply to comments, creating nested comment threads for better discussions.
+- **Notifications / Reminders**: Email or dashboard notifications reminding users about upcoming gigs or anniversaries of past ones.
+- **Export / Import**: IAbility to export a user’s gig history to CSV/JSON or import past gig data from external services.
+- **Email Subscriptions**: Allow users to subscribe to receive email notifications for new features, updates, and newsletter.
+- **Analytics**: For better understanding of how the user uses the site to better future improvements.
+- **Multilingual Support**: Add the ability to write and view in multiple languages, broadening the audience.
+- **Mobile PWA**: Progressive Web App mode for offline access and quick “Add to Home Screen” installs on iOS/Android.
 - **SEO Optimization**: Implement features for SEO, such as meta tags, custom URLs, and keywords for better search engine ranking.
-- **User Dashboard**: Provide users with a dashboard to track their activity, such as comments made, likes received, and blog posts they’ve interacted with.
-- **Admin Dashboard Analytics**: Provide site admins with an analytics dashboard showing user activity, popular posts, most commented articles, etc.
 - **Custom Themes for Users**: Allow users to customize the visual theme of the site (colors, fonts, etc.) to suit their preferences.
 
 ## Tools & Technologies
@@ -360,29 +348,18 @@ source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to
 
 Consider adding screenshots of your Projects Board(s), Issues (open and closed), and Milestone tasks.
 
-⚠️ --- END ---⚠️
-
 [GitHub Projects](https://www.github.com/runwiththerhythm/gig_vault/projects) served as an Agile tool for this project. Through it, EPICs, User Stories, issues/bugs, and Milestone tasks were planned, then subsequently tracked on a regular basis using the Kanban project board.
 
 ![screenshot](documentation/gh-projects.png)
 
 ### GitHub Issues
 
-[GitHub Issues](https://www.github.com/runwiththerhythm/gig_vault/issues) served as an another Agile tool. There, I managed my User Stories and Milestone tasks, and tracked any issues/bugs.
+[GitHub Issues](https://www.github.com/runwiththerhythm/gig_vault/issues) served as an another Agile tool. There, I managed my User Stories and Milestone tasks and tracked any issues/bugs.
 
 | Link | Screenshot |
 | --- | --- |
 | [![GitHub issues](https://img.shields.io/github/issues/runwiththerhythm/gig_vault)](https://www.github.com/runwiththerhythm/gig_vault/issues) | ![screenshot](documentation/gh-issues-open.png) |
 | [![GitHub closed issues](https://img.shields.io/github/issues-closed/runwiththerhythm/gig_vault)](https://www.github.com/runwiththerhythm/gig_vault/issues?q=is%3Aissue+is%3Aclosed) | ![screenshot](documentation/gh-issues-closed.png) |
-
-### MoSCoW Prioritization
-
-I've decomposed my Epics into User Stories for prioritizing and implementing them. Using this approach, I was able to apply "MoSCoW" prioritization and labels to my User Stories within the Issues tab.
-
-- **Must Have**: guaranteed to be delivered - required to Pass the project (*max ~60% of stories*)
-- **Should Have**: adds significant value, but not vital (*~20% of stories*)
-- **Could Have**: has small impact if left out (*the rest ~20% of stories*)
-- **Won't Have**: not a priority for this iteration - future features
 
 ## Testing
 
@@ -574,12 +551,6 @@ You can clone the repository by following these steps:
 	- `git clone https://www.github.com/runwiththerhythm/gig_vault.git`
 7. Press "Enter" to create your local clone.
 
-Alternatively, if using Gitpod, you can click below to create your own workspace using this repository.
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://www.github.com/runwiththerhythm/gig_vault)
-
-**Please Note**: in order to directly open the project in Gitpod, you should have the browser extension installed. A tutorial on how to do that can be found [here](https://www.gitpod.io/docs/configure/user-settings/browser-extension).
-
 #### Forking
 
 By forking the GitHub Repository, you make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original owner's repository. You can fork this repository by using the following steps:
@@ -594,17 +565,10 @@ By forking the GitHub Repository, you make a copy of the original repository on 
 
 Use this space to discuss any differences between the local version you've developed, and the live deployment site. Generally, there shouldn't be [m]any major differences, so if you honestly cannot find any differences, feel free to use the following example:
 
-⚠️ --- END --- ⚠️
 
 There are no remaining major differences between the local version when compared to the deployed version online.
 
 ## Credits
-
-⚠️ INSTRUCTIONS ⚠️
-
-In the following sections, you need to reference where you got your content, media, and any extra help. It is common practice to use code from other repositories and tutorials (which is totally acceptable), however, it is important to be very specific about these sources to avoid potential plagiarism.
-
-⚠️ --- END ---⚠️
 
 ### Content
 
@@ -612,14 +576,11 @@ In the following sections, you need to reference where you got your content, med
 
 Use this space to provide attribution links for any borrowed code snippets, elements, and resources. Ideally, you should provide an actual link to every resource used, not just a generic link to the main site. If you've used multiple components from the same source (such as Bootstrap), then you only need to list it once, but if it's multiple Codepen samples, then you should list each example individually. If you've used AI for some assistance (such as ChatGPT or Perplexity), be sure to mention that as well. A few examples have been provided below to give you some ideas.
 
-Eventually you'll want to learn how to use Git branches. Here's a helpful tutorial called [Learn Git Branching](https://learngitbranching.js.org) to bookmark for later.
 
-⚠️ --- END ---⚠️
 
 | Source | Notes |
 | --- | --- |
 | [Markdown Builder](https://markdown.2bn.dev) | Help generating Markdown files |
-| [Chris Beams](https://chris.beams.io/posts/git-commit) | "How to Write a Git Commit Message" |
 | [I Think Therefore I Blog](https://codeinstitute.net) | Code Institute walkthrough project inspiration |
 | [Bootstrap](https://getbootstrap.com) | Various components / responsive front-end framework |
 | [Cloudinary API](https://cloudinary.com) | Cloud storage for static/media files |
@@ -633,56 +594,23 @@ Eventually you'll want to learn how to use Git branches. Here's a helpful tutori
 
 Use this space to provide attribution links to any media files borrowed from elsewhere (images, videos, audio, etc.). If you're the owner (or a close acquaintance) of some/all media files, then make sure to specify this information. Let the assessors know that you have explicit rights to use the media files within your project. Ideally, you should provide an actual link to every media file used, not just a generic link to the main site, unless it's AI-generated artwork.
 
-Looking for some media files? Here are some popular sites to use. The list of examples below is by no means exhaustive.
 
 - Images
     - [Pexels](https://www.pexels.com)
     - [Unsplash](https://unsplash.com)
-    - [Pixabay](https://pixabay.com)
-    - [Lorem Picsum](https://picsum.photos) (placeholder images)
-    - [Wallhere](https://wallhere.com) (wallpaper / backgrounds)
-    - [This Person Does Not Exist](https://thispersondoesnotexist.com) (reload to get a new person)
-- Audio
-    - [Audio Micro](https://www.audiomicro.com/free-sound-effects)
-    - [Button Clicks](https://www.zapsplat.com/sound-effect-category/button-clicks)
-    - [Lasers & Weapons](https://www.zapsplat.com/sound-effect-category/lasers-and-weapons/page/5)
-    - [Puzzle Music](https://soundimage.org/puzzle-music)
-    - [Camtasia Audio](https://library.techsmith.com/camtasia/assets/Audio)
-- Video
-    - [Videvo](https://www.videvo.net)
-- Image Compression
-    - [TinyPNG](https://tinypng.com) (for images <5MB)
-    - [CompressPNG](https://compresspng.com) (for images >5MB)
 
-A few examples have been provided below to give you some ideas on how to do your own Media credits.
-
-⚠️ --- END ---⚠️
 
 | Source | Notes |
 | --- | --- |
 | [favicon.io](https://favicon.io) | Generating the favicon |
 | [I Think Therefore I Blog](https://codeinstitute.net) | Sample images provided from the walkthrough projects |
 | [Font Awesome](https://fontawesome.com) | Icons used throughout the site |
-| [Pexels](https://images.pexels.com/photos/416160/pexels-photo-416160.jpeg) | Hero image |
-| [Wallhere](https://c.wallhere.com/images/9c/c8/da4b4009f070c8e1dfee43d25f99-2318808.jpg!d) | Background wallpaper |
-| [Pixabay](https://cdn.pixabay.com/photo/2017/09/04/16/58/passport-2714675_1280.jpg) | Background wallpaper |
-| [DALL-E 3](https://openai.com/index/dall-e-3) | AI generated artwork |
-| [TinyPNG](https://tinypng.com) | Compressing images < 5MB |
-| [CompressPNG](https://compresspng.com) | Compressing images > 5MB |
-| [CloudConvert](https://cloudconvert.com/webp-converter) | Converting images to `.webp` |
+
 
 ### Acknowledgements
 
 ⚠️ INSTRUCTIONS ⚠️
 
 Use this space to provide attribution and acknowledgement to any supports that helped, encouraged, or supported you throughout the development stages of this project. It's always lovely to appreciate those that help us grow and improve our developer skills. A few examples have been provided below to give you some ideas.
-
-⚠️ --- END ---⚠️
-
-- I would like to thank my Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) for the support throughout the development of this project.
-- I would like to thank the [Code Institute](https://codeinstitute.net) Tutor Team for their assistance with troubleshooting and debugging some project issues.
-- I would like to thank the [Code Institute Slack community](https://code-institute-room.slack.com) for the moral support; it kept me going during periods of self doubt and impostor syndrome.
-- I would like to thank my partner, for believing in me, and allowing me to make this transition into software development.
-- I would like to thank my employer, for supporting me in my career development change towards becoming a software developer.
 
 
