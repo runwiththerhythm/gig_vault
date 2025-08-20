@@ -2,13 +2,16 @@
 {% load gig_extras %}
 
 
-{% block content %}
-<div class="container mt-4">
-  <h2>{{ gig.band_name }}</h2>
-  <p><strong>Venue:</strong> {{ gig.venue }}</p>
-  <p><strong>Date:</strong> {{ gig.date }}</p>
-  <p><strong>Status:</strong> {{ gig.status }}</p>
-  <p><strong>Notes:</strong> {{ gig.notes|linebreaks }}</p>
+{% block page_header %}
+  <h2 class="mb-0">{{ gig.band_name }}</h2>
+{% endblock %}
+
+{% block dashboard_content %}
+  <div class="container mt-2">
+    <p><strong>Venue:</strong> {{ gig.venue }}</p>
+    <p><strong>Date:</strong> {{ gig.date }}</p>
+    <p><strong>Status:</strong> {{ gig.status }}</p>
+    <p><strong>Notes:</strong> {{ gig.notes|linebreaks }}</p>
 
   {% countdown_badge gig %}
 
@@ -46,8 +49,10 @@
 </section>
 
 
-  <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-warning">Edit</a>
-  <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-danger">Delete</a>
-  <a href="{% url 'my_gigs' %}" class="btn btn-secondary">Back</a>
-</div>
+  <div class="mt-4 d-flex gap-2">
+      <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-warning">Edit</a>
+      <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-danger">Delete</a>
+      <a href="{% url 'my_gigs' %}" class="btn btn-secondary">Back</a>
+    </div>
+  </div>
 {% endblock %}
