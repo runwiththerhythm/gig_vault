@@ -1,5 +1,4 @@
-# gig_vault
-# [gig_vault](https://gig-vault-2fe6800a7bea.herokuapp.com)
+# [Gig_Vault](https://gig-vault-2fe6800a7bea.herokuapp.com)
 
 Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 
@@ -190,7 +189,6 @@ In this section, you should go over the different parts of your project, and des
 | Feature | Notes | Screenshot |
 | --- | --- | --- |
 | Register / Login / Logout | Handled by django-allauth, allowing users to create secure accounts, log in, and log out. | ![screenshot](documentation/features/register.png) |
-
 | Dashboard | The central hub showing upcoming gigs, attended gigs, quick stats, and “On This Day” reminders. | ![screenshot](documentation/features/blog-list.png) |
 | View Post | Users can view the full blog post details, including any comments. | ![screenshot](documentation/features/view-post.png) |
 | Pagination | Blog posts are displayed in pages, with six posts per page. This provides better navigation for users through the post list. | ![screenshot](documentation/features/pagination.png) |
@@ -265,80 +263,75 @@ Entity Relationship Diagrams (ERD) help to visualize database architecture befor
 
 ![screenshot](documentation/erd.png)
 
-⚠️ INSTRUCTIONS ⚠️
-
-Using your defined models, create an ERD with the relationships identified. A couple of recommendations for building your own free ERDs:
-- [Lucidchart](https://www.lucidchart.com/pages/ER-diagram-symbols-and-meaning)
-- [Draw.io](https://draw.io)
-
-Looking for an interactive version of your ERD? Consider using a [`Mermaid flowchart`](https://mermaid.live). 
+ [`Mermaid flowchart`](https://mermaid.live). 
 I have used `Mermaid` to generate an interactive ERD of my project.
 
 ```mermaid
 erDiagram
-    USER ||--o{ POST : "authors"
-    USER ||--o{ COMMENT : "commenters"
-    POST ||--o{ COMMENT : "has"
-    POST {
-        string title
-        string slug
-        cloudinary featured_image
-        text content
-        text excerpt
-        datetime created_on
-        datetime updated_on
-        int status
-    }
-    COMMENT {
-        text body
-        datetime created_on
-        bool approved
-    }
-    ABOUT {
-        string title
-        cloudinary profile_image
-        text content
-        datetime updated_on
-    }
-    COLLABORATEREQUEST {
-        string name
-        string email
-        text message
-        bool read
-    }
-```
+	direction TB
+	User {
+		int id PK ""  
+		string username  ""  
+		string email  ""  
+	}
 
-source: [Mermaid](https://mermaid.live/edit#pako:eNqNUstuwjAQ_BVrz6EiVIiSG21zg9LyuFSRkImXxGpsR45TkQb-vU4C5REq4Yut2dnZnfWWECqG4AHqV04jTUUgiT3LuT8ju12no0ryPp0viEcCoLmJlc4CaHNeppOJ_9bQQiUESoMnZq1wgxnTS0rZvKuTGc1lRAw3CbbQLMmjExgmKmdcUl2QDVKTa2QrLmh0lmdwa0iobFPSXKG4DVGnZyijBg0XSEJt1ayWkjeCecpaQS6N7dB2kDXYvrmOjsurymvFijvLrpVKCE1Trb6RXYiPnqfLOwZ3NiMrsuEJ3jeif_3-eRuPbQuz0cKf-R9L_-YnSiraf4iC8uSqvMAsu2iq9m3ncfQMDgjUNpPZla0LBWBitPJQ7ROj-qtaqIpnl1XNCxmCZ3SODjQGDksO3oYmmUVTKsErYQue-zR8cN2B2-t3h73BY2_Qd6AAr7t34Ecpm-HW7M_63UhqlUfxQWr_C_zI_7I)
+	Band {
+		int id PK ""  
+		string name  ""  
+	}
 
-⚠️ RECOMMENDED ⚠️
+	Venue {
+		int id PK ""  
+		string venue_name  ""  
+		string venue_city  ""  
+		string venue_country  ""  
+		string address_text  "optional"  
+	}
 
-Alternatively, or in addition to, a more comprehensive ERD can be auto-generated once you're at the end of your development stages, just before you submit. Follow the steps below to obtain a thorough ERD that you can include. Feel free to leave the steps below in the README for future use to yourself.
+	Genre {
+		int id PK ""  
+		string name  ""  
+	}
 
-⚠️ --- END --- ⚠️
+	GigImage {
+		int id PK ""  
+		string image  "Cloudinary"  
+		string caption  "optional"  
+		boolean is_cover  "max one per gig"  
+		int gig_id FK ""  
+	}
 
-I have used `pygraphviz` and `django-extensions` to auto-generate an ERD.
+	GigVideo {
+		int id PK ""  
+		string url  ""  
+		datetime created_at  ""  
+		int gig_id FK ""  
+		int added_by_id FK "nullable -> User"  
+	}
 
-The steps taken were as follows:
-- In the terminal: `sudo apt update`
-- then: `sudo apt-get install python3-dev graphviz libgraphviz-dev pkg-config`
-- then type `Y` to proceed
-- then: `pip3 install django-extensions pygraphviz`
-- in my `settings.py` file, I added the following to my `INSTALLED_APPS`:
-```python
-INSTALLED_APPS = [
-    ...
-    'django_extensions',
-    ...
-]
-```
-- back in the terminal: `python3 manage.py graph_models -a -o erd.png`
-- drag the new `erd.png` file into my `documentation/` folder
-- removed `'django_extensions',` from my `INSTALLED_APPS`
-- finally, in the terminal: `pip3 uninstall django-extensions pygraphviz -y`
+	Gig {
+		int id PK ""  
+		date date  ""  
+		boolean is_festival  ""  
+		string tour_title  ""  
+		string status  "upcoming/attended/"  
+		text notes  "rich text (Summernote)"  
+		int user_id FK ""  
+		int band_id FK "headliner"  
+		int venue_id FK ""  
+	}
 
-![screenshot](documentation/advanced-erd.png)
+	User||--o{Gig:"owns"
+	Band||--o{Gig:"headliner"
+	Venue||--o{Gig:"hosted at"
+	Gig}o--o{Band:"other_artists (supports)"
+	Gig}o--o{Genre:"genres"
+	Gig||--o{GigImage:"images"
+	Gig||--o{GigVideo:"videos"
+	User||--o{GigVideo:"added_by (optional)"
 
-source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+
+source: [Mermaid](https://www.mermaidchart.com/app/projects/9d020117-8aa3-4abc-879e-0ce435a4ec55/diagrams/74682d3b-637b-42e9-ae1d-65b4f302a37f/version/v0.1/edit)
 
 ## Agile Development Process
 
@@ -348,7 +341,7 @@ source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to
 
 Consider adding screenshots of your Projects Board(s), Issues (open and closed), and Milestone tasks.
 
-[GitHub Projects](https://www.github.com/runwiththerhythm/gig_vault/projects) served as an Agile tool for this project. Through it, EPICs, User Stories, issues/bugs, and Milestone tasks were planned, then subsequently tracked on a regular basis using the Kanban project board.
+[GitHub Projects](https://www.github.com/runwiththerhythm/gig_vault/projects) served as an Agile management tool for this project. Through it, User Stories, issues/bugs and tasks were planned, then subsequently tracked on a regular basis using the Kanban project board.
 
 ![screenshot](documentation/gh-projects.png)
 
@@ -382,13 +375,6 @@ Deployment steps are as follows, after account setup:
 
 > [!IMPORTANT]  
 > This is a sample only; you would replace the values with your own if cloning/forking my repository.
-
-🛑 !!! ATTENTION runwiththerhythm !!! 🛑
-
-⚠️ DO NOT update the environment variables to your own! These should never be public; only use the demo values below! ⚠️
-⚠️ Replace the keys below with your own actual keys used; example: if not using Cloudinary, then remove those keys, or replace with whatever ones you're using. ⚠️
-
-🛑 --- END --- 🛑
 
 | Key | Value |
 | --- | --- |
@@ -502,13 +488,6 @@ You will need to create a new file called `env.py` at the root-level, and includ
 > [!IMPORTANT]  
 > This is a sample only; you would replace the values with your own if cloning/forking my repository.
 
-🛑 !!! ATTENTION runwiththerhythm !!! 🛑
-
-⚠️ DO NOT update the environment variables to your own! These should never be public; only use the demo values below! ⚠️
-⚠️ Replace the keys below with your own actual keys used; example: if not using Cloudinary | AWS, then replace those keys with whatever keys you're using. ⚠️
-
-🛑 --- END --- 🛑
-
 Sample `env.py` file:
 
 ```python
@@ -561,11 +540,6 @@ By forking the GitHub Repository, you make a copy of the original repository on 
 
 ### Local VS Deployment
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to discuss any differences between the local version you've developed, and the live deployment site. Generally, there shouldn't be [m]any major differences, so if you honestly cannot find any differences, feel free to use the following example:
-
-
 There are no remaining major differences between the local version when compared to the deployed version online.
 
 ## Credits
@@ -609,8 +583,8 @@ Use this space to provide attribution links to any media files borrowed from els
 
 ### Acknowledgements
 
-⚠️ INSTRUCTIONS ⚠️
 
-Use this space to provide attribution and acknowledgement to any supports that helped, encouraged, or supported you throughout the development stages of this project. It's always lovely to appreciate those that help us grow and improve our developer skills. A few examples have been provided below to give you some ideas.
-
+- I would like to thank;
+The [Code Institute](https://codeinstitute.net) for their learning materials and project assignment.
+My Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) and my Nescot college facilitators Johnathan Jacobson and [komal Karir](https://github.com/Komals-Code4All) for their support throughout development of this project.
 

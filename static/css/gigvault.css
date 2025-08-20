@@ -100,8 +100,8 @@
    -------------------------------------- */
 
 @font-face {
-  font-family: "Lunatic";
-  src: url("../fonts/lunatic-regular.ttf") format("truetype");
+  font-family: "Modern-Thrash";
+  src: url("static/fonts/modern-thrash.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -111,7 +111,7 @@
 /* Main Heading Style - Modern Thrash with gradient + glow */
 h1,
 .display-1 {
-  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -150,7 +150,7 @@ h2, h3, .display-1, .display-2 {
 
 /* Thrash/Metallica-inspired logo text (no trademarked shapes, but sharp, energetic vibe) */
 .logo-thrash {
-  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .5px;
@@ -187,7 +187,7 @@ h2, h3, .display-1, .display-2 {
 
 /* Compact badge mark for “GV” circles/icons */
 .logo-badge {
-  font-family: "Lunatic", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 900;
   letter-spacing: .5px;
   background: var(--gradient-electric);
@@ -433,7 +433,7 @@ a:hover, .link:hover {
 
 @media (max-width: 767.98px) {
   .dashboard-content {
-    padding-top: 3.25rem;
+    padding-top: 4.25rem;
   }
 }
 
@@ -441,3 +441,45 @@ a:hover, .link:hover {
 .hamburger-btn {
   z-index: 1046; /* offcanvas/backdrop is ~1045 in Bootstrap */
 }
+
+/* Keep the header above content/backdrop */
+.dashboard-mobile-bar { z-index: 1047; }
+
+/* Make room for the sticky header on phones */
+@media (max-width: 767.98px) {
+  .dashboard-content {
+    padding-top: 4.25rem; /* ~56px header + breathing room */
+  }
+}
+
+.dashboard-content h2:first-child {
+  margin-top: .5rem; /* prevent big gap under bar */
+}
+
+/* High-contrast, theme-aware hamburger using Bootstrap button vars */
+.btn-hamburger {
+  --bs-btn-padding-y: .375rem;
+  --bs-btn-padding-x: .5rem;
+  --bs-btn-border-radius: .75rem;
+
+  --bs-btn-color: var(--bs-light);
+  /* use Bootstrap light rgb if present; fall back to white */
+  --bs-btn-bg: rgba(248, 249, 250, .14);
+  --bs-btn-border-color: rgba(248, 249, 250, .35);
+
+  --bs-btn-hover-color: var(--bs-light);
+  --bs-btn-hover-bg: rgba(248, 249, 250, .22);
+  --bs-btn-hover-border-color: rgba(248, 249, 250, .55);
+
+  --bs-btn-active-color: var(--bs-light);
+  --bs-btn-active-bg: rgba(248, 249, 250, .28);
+  --bs-btn-active-border-color: rgba(248, 249, 250, .6);
+
+  backdrop-filter: saturate(1.1) blur(2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-hamburger i { font-size: 1.25rem; line-height: 1; }
+
+/* Optional: darker offcanvas surface to contrast with bright gradients */
+.offcanvas.bg-dark { background-color: var(--bs-dark) !important; }
