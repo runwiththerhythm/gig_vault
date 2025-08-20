@@ -38,16 +38,16 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
-        
+
 # Gig Images model
 class GigImage(models.Model):
     gig = models.ForeignKey("Gig", on_delete=models.CASCADE,
-     related_name="images")
+        related_name="images")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = CloudinaryField("Gig Image", default="placeholder",
-     null=False, blank=False)
+        null=False, blank=False)
     is_cover = models.BooleanField(default=False,
-     help_text="Set as cover image for the gig")
+        help_text="Set as cover image for the gig")
 
     class Meta:
         ordering = ["-is_cover", "id"]
@@ -188,9 +188,9 @@ def extract_youtube_id(url: str) -> str | None:
 
 class GigVideo(models.Model):
     gig = models.ForeignKey("Gig", on_delete=models.CASCADE,
-        related_name="videos")
+            related_name="videos")
     url = models.URLField(help_text=
-        "Paste a YouTube link (watch, youtu.be, shorts ok)")
+            "Paste a YouTube link (watch, youtu.be, shorts ok)")
     title = models.CharField(max_length=200, blank=True)
     is_featured = models.BooleanField(default=False)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -202,8 +202,7 @@ class GigVideo(models.Model):
     def clean(self):
         vid = extract_youtube_id(self.url or "")
         if not vid:
-            raise ValidationError({"url":
-                 "Please provide a valid YouTube link."})
+            raise ValidationError({"url": "Please provide a valid YouTube link."})
 
     @property
     def video_id(self) -> str | None:
@@ -217,8 +216,7 @@ class GigVideo(models.Model):
     @property
     def thumbnail_url(self) -> str | None:
         vid = self.video_id
-        return f"https://img.youtube.com/vi/{vid}/hqdefault.jpg"
-        if vid else None
+        return f"https://img.youtube.com/vi/{vid}/hqdefault.jpg" if vid else None
 
     def save(self, *args, **kwargs):
         # Ensure only one featured video per gig

@@ -8,6 +8,7 @@ from django.forms import inlineformset_factory
 
 from .models import Gig, GigImage, GigVideo
 
+
 class MultiFileClearableInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
