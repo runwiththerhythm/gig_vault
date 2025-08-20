@@ -10,11 +10,9 @@ Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 
 ## Introduction
 
-In this section, include a few paragraphs providing an overview of your project. Essentially, this part is your "sales pitch". Describe what the project hopes to accomplish, who it is intended to target, and how it will be useful to the target audience. Rationale.
+Gig Vault is a personal live music diary that helps fans track, organize, and relive their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their live music journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
 
 ---
-
-Don't add screenshots for the README/TESTING into your `assets` or `static` folders. Create a new folder at the root-level called `documentation`. Consider creating sub-directories within `documentation` to handle things like `wireframes`, `features`, `validation`, `responsiveness`, etc.
 
 Learn about Markdown Alerts (aka Callouts), a fairly new feature for GitHub Markdown files.
 https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
@@ -24,12 +22,6 @@ Note: these are not visible within your README Previewer, and are only visible o
 *([amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com), [techsini](https://techsini.com/multi-mockup), etc.)*
 Having issues generating site mockups? This is likely due to security policies with your deployed site.
 If you open up your DevTools, there may be an error referencing `X-Frame-Options`.
-
-For Chrome users, head over to http://bit.ly/3iRPn4u and install the extension within your browser. Once installed, navigate back to the mockup site of your choice. You should find your site rendering in the various devices now.
-
-Alternatively, open your project in Gitpod and run the server. Once the site is running, click the `Ports` tab from your Gitpod Terminal. Click the padlock on the appropriate port for your project (`Flask: 5000`, `Django: 8000`). This will make your local page public temporarily. Now, copy the URL of your live-preview page into the responsive tool above. You should find your site rendering in the various devices.
-
-🛑 --- END ---- 🛑
 
 ![screenshot](documentation/mockup.png)
 
@@ -42,50 +34,55 @@ source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-v
 
 ### The 5 Planes of UX
 
-⚠️ NOTE: make sure to update the text below to match your own project! ⚠️
-
 #### 1. Strategy
 
 **Purpose**
-- Provide blog owners with tools to create, manage, and moderate engaging blog content and user interactions.
-- Offer users and guests an intuitive platform to explore, engage, and contribute to blog discussions.
+- Provide music fans with a dedicated tool to log, organize, and relive their live music experiences.
+- Offer users an intuitive platform to browse their personal gig history, including bands, venues, images, and media links.
+- Support users with features like statistics, reminders (“On This Day”), and media integration to make their gig history engaging and meaningful.
 
 **Primary User Needs**
-- Blog owners need seamless tools for publishing and managing posts and comments.
-- Registered users need the ability to engage with blog content through comments and account features.
-- Guests need the ability to browse and enjoy blog content without registration.
+- Users need a simple way to record new gigs (band, venue, date, notes, images, videos).
+- Users need the ability to browse past gigs quickly, either by date, band, or venue.
+- Users need a secure, private space where their data and memories are preserved.
+- Users want to see patterns and highlights (e.g, most seen bands, attended festivals, anniversary reminders).
 
 **Business Goals**
-- Foster a dynamic blogging platform with active user participation.
-- Build a sense of community through discussions and user engagement.
-- Ensure easy blog content management for owners.
+- Deliver a unique niche platform focusing specifically on live music memories
+- Encourage long-term engagement by giving users reasons to revisit (e.g., stats, reminders, multimedia playback).
+- Demonstrate a well-structured, user-centered Django web application for academic and portfolio purposes.
 
 #### 2. Scope
 
 **[Features](#features)** (see below)
 
 **Content Requirements**
-- Blog post management (create, update, delete, and preview).
-- Comment moderation and management tools.
-- User account features (register, log in, edit/delete comments).
-- Notification system for comment approval status.
-- 404 error page for lost users.
+- Gig management (create, update, delete).
+- Band management (headliners and support artists).
+- Venue management (integrated with Mapbox Search JS).
+- Image upload and cover image selection (via Cloudinary).
+- YouTube video linking and auto-search.
+- Stats and insights (total gigs, most-seen band, “On This Day”).
+- User authentication (signup, login, logout).
+- Dashboard view with upcoming and attended gigs.
+- Error handling pages (e.g., 404, 500).
 
 #### 3. Structure
 
 **Information Architecture**
 - **Navigation Menu**:
-  - Links to Home, Blog Posts, Login/Register, and Dashboard (for blog owners).
+  - Links to Home, Dashboard, My Gigs, Add Gig, Logout..
 - **Hierarchy**:
-  - Blog content displayed prominently for easy browsing.
-  - Clear call-to-action buttons for account creation and engagement (e.g., commenting).
+  - Dashboard and “My Gigs” provide a clear overview of past and upcoming gigs.
+  - Gig detail pages highlight band, venue, and media.
+  - Create/Edit forms use autocomplete for bands/venues, with clear CTAs for “add new”.
 
 **User Flow**
-1. Guest users browse blog content → read posts and see commenter names.
-2. Guest users register for an account → log in to leave comments.
-3. Registered users leave comments → receive a pending approval notification.
-4. Blog owners create, update, and manage posts → moderate comments.
-5. Blog owners approve or reject comments → manage user interactions.
+1. Guest user visits Landing Page → learns about Gig Vault, sees a call-to-action to sign up or log in.
+2. User signs up or logs in → gains access to Dashboard and gig tools.
+3. User creates a gig entry → fills band, venue, date, adds images/videos.
+4. User browses past gigs or adds new ones over time → personal archive grows into a complete music history.
+5. User explores stats → checks most-seen bands etc.
 
 #### 4. Skeleton
 
