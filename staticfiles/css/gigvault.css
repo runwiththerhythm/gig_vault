@@ -433,7 +433,7 @@ a:hover, .link:hover {
 
 @media (max-width: 767.98px) {
   .dashboard-content {
-    padding-top: 3.25rem;
+    padding-top: 4.25rem;
   }
 }
 
@@ -450,6 +450,10 @@ a:hover, .link:hover {
   .dashboard-content {
     padding-top: 4.25rem; /* ~56px header + breathing room */
   }
+}
+
+.dashboard-content h2:first-child {
+  margin-top: .5rem; /* prevent big gap under bar */
 }
 
 /* High-contrast, theme-aware hamburger using Bootstrap button vars */
