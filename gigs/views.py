@@ -3,7 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    CreateView,
+    DetailView,
+    UpdateView,
+    DeleteView
+)
+
 from django.urls import reverse_lazy, reverse
 from dal import autocomplete
 from django.http import JsonResponse
@@ -22,10 +29,18 @@ from .forms import GigForm, GigImageFormSet, GigVideoFormSet
 # Main dashboard My Gig Vault view - Function based view for dashboard
 @login_required
 def gigs_dashboard(request):
-    attended_gigs = Gig.objects.filter(user=request.user,
-            status='attended').order_by('-date')[:50]
-    upcoming_gigs = Gig.objects.filter(user=request.user,
-            status='upcoming').order_by('date')[:50]
+    attended_gigs = (
+        Gig.objects.filter(
+            user=request.user,
+            status='attended'
+        ).order_by('-date')[:50]
+    )
+    upcoming_gigs = (
+        Gig.objects.filter(
+            user=request.user,
+            status='upcoming'
+        ).order_by('date')[:50]
+    )
 
     return render(request, "gigs/dashboard.html", {
         "attended_gigs": attended_gigs,
@@ -69,9 +84,12 @@ class GigCreateView(LoginRequiredMixin, CreateView):
         # Update:
         else:
             if self.request.method == "POST":
-                context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+                context['formset'] = GigImageFormSet(
+                    self.request.POST, self.request.FILES,
+                    instance=self.object)
             else:
-                context['formset'] = GigImageFormSet(instance=self.object)
+                context['formset'] = GigImageFormSet(
+                    instance=self.object)
         return context
 
     def form_valid(self, form):
@@ -80,7 +98,7 @@ class GigCreateView(LoginRequiredMixin, CreateView):
         venue_name = self.request.POST.get("venue_name", "").strip()
         venue_city = self.request.POST.get("venue_city", "").strip()
         venue_country = self.request.POST.get("venue_country", "").strip()
-        
+
         print("Venue fields from POST:", venue_name, venue_city, venue_country)
 
         if venue_name:
@@ -103,9 +121,9 @@ class GigCreateView(LoginRequiredMixin, CreateView):
 
 # Add all files from the multi-upload field
         for f in self.request.FILES.getlist("images"):
-            GigImage.objects.create(gig=self.object, user=self.request.user, image=f)
+            GigImage.objects.create(
+                gig=self.object, user=self.request.user, image=f)
 
-        # Ensure one cover image exists
         if not self.object.images.filter(is_cover=True).exists():
             first = self.object.images.first()
             if first:
@@ -141,7 +159,8 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 
         # Provide the inline formset for existing images
         if self.request.method == "POST":
-            context['formset'] = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+            context['formset'] = GigImageFormSet(
+                self.request.POST, self.request.FILES, instance=self.object)
         else:
             context['formset'] = GigImageFormSet(instance=self.object)
 
@@ -168,10 +187,13 @@ class GigUpdateView(LoginRequiredMixin, UpdateView):
 
         # Add new files from multi-upload
         for f in self.request.FILES.getlist("images"):
-            GigImage.objects.create(gig=self.object, user=self.request.user, image=f)
+            GigImage.objects.create(
+                gig=self.object, user=self.request.user, image=f)
 
         # Process inline formset: edit/delete + cover
-        formset = GigImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        formset = GigImageFormSet(
+            self.request.POST, self.request.FILES, instance=self.object)
+
         if formset.is_valid():
             instances = formset.save(commit=False)
 
@@ -233,7 +255,8 @@ class BandCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         """
         For AJAX: return JSON {id, name}.
-        De-duplicate: If a Band with case-insensitive same name exists, return that instead of creating a new one.
+        De-duplicate: If a Band with case-insensitive same name exists,
+        return that instead of creating a new one.
         """
         name = form.cleaned_data.get("name", "").strip()
         if self.request.headers.get("x-requested-with") == "XMLHttpRequest":
@@ -242,7 +265,8 @@ class BandCreateView(LoginRequiredMixin, CreateView):
                 self.object = existing
             else:
                 self.object = form.save()
-            return JsonResponse({"id": self.object.id, "name": self.object.name})
+            return JsonResponse(
+                {"id": self.object.id, "name": self.object.name})
         # Non-AJAX fallback
         existing = Band.objects.filter(name__iexact=name).first()
         if existing:
@@ -319,7 +343,8 @@ def manage_gig_videos(request, pk):
 def band_lookup_ajax(request):
     """
     GET /bands/lookup/?q=term
-    Returns JSON with an exact match (case-insensitive) if present, and up to 5 similar names.
+    Returns JSON with an exact match (case-insensitive) if present,
+    and up to 5 similar names.
     """
     q = (request.GET.get("q") or "").strip()
     if not q:
@@ -340,7 +365,8 @@ def band_lookup_ajax(request):
 @require_POST
 def band_delete_ajax(request, pk: int):
     """
-    Deletes a Band only if it is not referenced by any gigs (as headliner or support).
+    Deletes a Band only if it is not referenced by any gigs
+    (as headliner or support).
     200: {"ok": True} on success
     409: {"ok": False, "reason": "in_use"} if it is referenced
     """
