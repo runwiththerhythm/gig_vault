@@ -49,8 +49,10 @@ class GigForm(forms.ModelForm):
         if "band" in self.initial:
             self.fields["band"].initial = self.initial["band"]
 
-        band_add_url = reverse("band_create") + "?next=" + reverse("gig_create")
-        venue_add_url = reverse("venue_create") + "?next=" + reverse("gig_create")
+        band_add_url = reverse(
+            "band_create") + "?next=" + reverse("gig_create")
+        venue_add_url = reverse(
+            "venue_create") + "?next=" + reverse("gig_create")
 
         self.helper = FormHelper()
         self.helper.form_method = "post"
