@@ -18,8 +18,6 @@ from django.conf import settings
 from django.views.decorators.http import require_GET, require_POST
 from django.db.models import Q
 
-
-
 from .models import Band, Venue, Gig, GigImage, GigVideo
 from .forms import GigForm, GigImageFormSet, GigVideoFormSet
 
