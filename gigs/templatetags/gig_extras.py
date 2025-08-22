@@ -4,6 +4,7 @@ from django.utils import timezone
 
 register = template.Library()
 
+
 @register.inclusion_tag("gigs/_countdown_badge.html")
 def countdown_badge(gig):
     """
@@ -30,7 +31,13 @@ def countdown_badge(gig):
     if days < 0:
         return {"show": False}
     if days == 0:
-        return {"show": True, "label": "🎵 Tonight!", "css_class": "badge bg-danger"}
+        return {
+            "show": True, "label": "🎵 Tonight!",
+            "css_class": "badge bg-danger"}
     if days < 7:
-        return {"show": True, "label": f"⏳ {days}d", "css_class": "badge bg-warning text-dark"}
-    return {"show": True, "label": f"🔥 {days}d", "css_class": "badge bg-success"}
+        return {
+            "show": True, "label": f"⏳ {days}d",
+            "css_class": "badge bg-warning text-dark"}
+    return {
+        "show": True, "label": f"🔥 {days}d",
+        "css_class": "badge bg-success"}
