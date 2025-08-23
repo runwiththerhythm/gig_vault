@@ -12,7 +12,12 @@ from .models import Band, Venue, Gig, GigVideo, GigImage
 
 def venue_field_map():
     """Return a dict mapping logical keys -> actual Venue field names."""
-    fields = {f.name for f in Venue._meta.get_fields() if getattr(f, "concrete", False)}
+    fields = {
+        f.name
+        for f in Venue._meta.get_fields()
+        if getattr(f, "concrete", False)
+    }
+
     def pick(*candidates):
         for c in candidates:
             if c in fields:
@@ -27,7 +32,12 @@ def venue_field_map():
     }
 
 
-def make_venue(name="O2 Arena", city="London", country="UK", address_text=None):
+def make_venue(
+    name="O2 Arena",
+    city="London",
+    country="UK",
+    address_text=None
+):
     fm = venue_field_map()
     data = {}
     if fm["name"]:
@@ -65,7 +75,8 @@ class GigModelTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user("tester", password="pw")
         self.band = Band.objects.create(name="Metallica")
-        self.venue = make_venue(name="Download Festival", city="Donington", country="UK")
+        self.venue = make_venue(
+            name="Download Festival", city="Donington", country="UK")
 
     def test_create_gig_minimal(self):
         g = Gig.objects.create(
@@ -100,7 +111,8 @@ class GigViewsTests(TestCase):
         self.band_up = Band.objects.create(name="Muse")
         self.band_att = Band.objects.create(name="Radiohead")
 
-        self.venue = make_venue(name="Wembley Stadium", city="London", country="UK")
+        self.venue = make_venue(
+            name="Wembley Stadium", city="London", country="UK")
 
         # Upcoming gig (future date)
         self.gig_upcoming = Gig.objects.create(
@@ -129,7 +141,8 @@ class GigViewsTests(TestCase):
         self.assertContains(resp, "Radiohead")
 
     def test_gig_detail_renders(self):
-        resp = self.client.get(reverse("gig_detail", args=[self.gig_upcoming.pk]))
+        resp = self.client.get(
+            reverse("gig_detail", args=[self.gig_upcoming.pk]))
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, "Wembley")
 
@@ -138,7 +151,8 @@ class GigVideoModelTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user("tester", password="pw")
         self.band = Band.objects.create(name="Slipknot")
-        self.venue = make_venue(name="AO Arena", city="Manchester", country="UK")
+        self.venue = make_venue(
+            name="AO Arena", city="Manchester", country="UK")
         self.gig = Gig.objects.create(
             user=self.user,
             band=self.band,
@@ -196,7 +210,8 @@ class GigImageConstraintTests(TestCase):
 
     def test_only_one_cover_image_allowed(self):
         if not self._has_unique_cover_constraint():
-            self.skipTest("Skipping: 'unique_cover_per_gig' constraint not found.")
+            self.skipTest(
+                "Skipping: 'unique_cover_per_gig' constraint not found.")
 
         GigImage.objects.create(
             gig=self.gig,
