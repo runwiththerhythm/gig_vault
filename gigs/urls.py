@@ -27,4 +27,5 @@ urlpatterns = [
     path("gigs/<int:pk>/videos/", manage_gig_videos, name="gig_videos"),
 
     path("bands/lookup/", band_lookup_ajax, name="band_lookup_ajax"),
-    path("bands/<int:pk>/delete/", band_delete_ajax, name="band_delete_ajax"),]
+    path("bands/<int:pk>/delete/", band_delete_ajax, name="band_delete_ajax"),
+    ]
