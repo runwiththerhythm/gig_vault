@@ -9,13 +9,8 @@ Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 
 ## Introduction
 
-Gig Vault is a personal live music diary application that helps fans track, organize, and relive their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their concert journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
+Gig Vault is a personal live music diary application that helps fans track, organise, and remember their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their concert journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
 
----
-
-Learn about Markdown Alerts (aka Callouts), a fairly new feature for GitHub Markdown files.
-https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts
-Note: these are not visible within your README Previewer, and are only visible once you push the code to GitHub.
 
 **Site Mockups**
 *([amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com), [techsini](https://techsini.com/multi-mockup), etc.)*
@@ -26,9 +21,6 @@ If you open up your DevTools, there may be an error referencing `X-Frame-Options
 
 source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com)
 
-> [!IMPORTANT]  
-> The examples in these templates are strongly influenced by the Code Institute walkthrough project called "I Think Therefore I Blog".
-
 ## UX
 
 ### The 5 Planes of UX
@@ -38,7 +30,7 @@ source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-v
 **Purpose**
 - Provide music fans with a dedicated tool to log, organize, and relive their live music experiences.
 - Offer users an intuitive platform to browse their personal gig history, including bands, venues, images, and media links.
-- Support users with features like statistics, reminders (“On This Day”), and media integration to make their gig history engaging and meaningful.
+- Support users with features like statistics, reminders, and media integration to make their gig history engaging and meaningful.
 
 **Primary User Needs**
 - Users need a simple way to record new gigs (band, venue, date, notes, images, videos).
@@ -147,12 +139,6 @@ I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wirefram
 
 ## User Stories
 
-⚠️ INSTRUCTIONS ⚠️
-
-In this section, list all of your possible user stories for the project. Samples have been provided below using the example walkthrough project for your inspiration. Make sure to adjust to match your own project features!
-
-⚠️ --- END --- ⚠️
-
 | Target | Expectation | Outcome |
 | --- | --- | --- |
 | As a first time visitor,|  I can view detailed information about the app without having to register, | so that I can decide if I want to use it. |
@@ -168,30 +154,20 @@ In this section, list all of your possible user stories for the project. Samples
 | As a logged in user, | I want to edit an existing gig,  | so I can fix mistakes or update information like venue, date, or notes.|
 | As a logged in user, |  I want to delete a gig, | so I can remove any accidental or unwanted entries.|
 | As a logged in user, | I want to view a list of all gigs I’ve entered,| so I can browse my gig history easily.|
-| As a registered user | I want to upload and manage images for a gig,| so I can visually document the concert experience.|
-| As a registered user |I want to record a festival as a gig that contains multiple band performances, | so I can document the full experience in one place.|
-| As a guest user | I want to add other artists who performed at the same gig,  | sso I can log the full lineup. |
-| As a guest user | I want to see relevant YouTube videos from a gig,| so I can relive the performance without having to manually search. |
-| As a guest user | I want to quickly see the setlist from the gig,| so I can remember what songs were played. |
+| As a logged in user, | I want to upload and manage images for a gig,| so I can visually document the concert experience.|
+| As a logged in user, |I want to record a festival as a gig that contains multiple band performances, | so I can document the full experience in one place.|
+| As a logged in user, | I want to add other artists who performed at the same gig,  | sso I can log the full lineup. |
+| As a logged in user,| I want to see relevant YouTube videos from a gig,| so I can relive the performance without having to manually search. |
+| As a logged in user, | I want to quickly see the setlist from the gig,| so I can remember what songs were played. |
 
 ## Features
-
-⚠️ INSTRUCTIONS ⚠️
-
-In this section, you should go over the different parts of your project, and describe each feature. You should explain what value each of the features provides for the user, focusing on your target audience, what they want to achieve, and how your project can help them achieve these things.
-
-**IMPORTANT**: Remember to always include a screenshot of each individual feature!
-
-⚠️ --- END --- ⚠️
 
 ### Existing Features
 
 | Feature | Notes | Screenshot |
 | --- | --- | --- |
 | Register / Login / Logout | Handled by django-allauth, allowing users to create secure accounts, log in, and log out. | ![screenshot](documentation/features/register.png) |
-| Dashboard | The central hub showing upcoming gigs, attended gigs, quick stats, and “On This Day” reminders. | ![screenshot](documentation/features/blog-list.png) |
-| View Post | Users can view the full blog post details, including any comments. | ![screenshot](documentation/features/view-post.png) |
-| Pagination | Blog posts are displayed in pages, with six posts per page. This provides better navigation for users through the post list. | ![screenshot](documentation/features/pagination.png) |
+| Dashboard | The central hub showing upcoming gigs, attended gigs, and quick stats. | ![screenshot](documentation/features/blog-list.png) |
 | My Gigs | Full list view of all a user’s gigs with filtering for upcoming vs past gigs. Entries are displayed as cards with cover images and details. | ![screenshot](documentation/features/add-comment.png) |
 |Add Gig | Users can log a gig they attended or are planning to attend. The form supports band autocomplete, venue search (Mapbox), gig date, status, and genre.| ![screenshot](documentation/features/edit-comment.png) |
 | Edit / Delete Gig | Existing gig entries can be updated or removed, giving users full control over their vault. | ![screenshot](documentation/features/delete-comment.png) |
@@ -199,9 +175,6 @@ In this section, you should go over the different parts of your project, and des
 | Venue Search | Uses Mapbox Search JS to autocomplete venue details. Venue name, city, and country are stored without needing coordinates. | ![screenshot](documentation/features/create-post.png) |
 | Image Uploads | Users can upload multiple gig images (via Cloudinary). One image can be marked as the cover, and previews are shown before saving. | ![screenshot](documentation/features/update-post.png) |
 | YouTube Integration | Users can auto-search YouTube for videos of their gig and link them directly into the entry. | ![screenshot](documentation/features/delete-post.png) |
-| Setlist.fm Integration | Users can quickly link to or search for setlists without manually copying/pasting URLs. | ![screenshot](documentation/features/about.png) |
-| Gig Stats | Dashboard highlights stats such as total gigs attended, most-seen band, and more. | ![screenshot](documentation/features/collaboration.png) |
-| On This Day | If a gig was attended on the same calendar date in the past, it appears as a memory prompt. | ![screenshot](documentation/features/messages.png) |
 | About Page | Introduces the GigVault project and its purpose.| ![screenshot](documentation/features/heroku.png) |
 | 404 | The 404 error page will indicate when a user has navigated to a page that doesn't exist, replacing the default Heroku 404 page with one that ties into the site's look and feel. | ![screenshot](documentation/features/404.png) |
 | Messages / Feedback | Django messages framework provides clear feedback for actions (e.g., gig created, updated, deleted). | ![screenshot](documentation/features/404.png) |
@@ -243,17 +216,7 @@ In this section, you should go over the different parts of your project, and des
 | [![badge](https://img.shields.io/badge/WhiteNoise-grey?logo=python&logoColor=FFFFFF)](https://whitenoise.readthedocs.io) | Serving static files with Heroku. |
 | [![badge](https://img.shields.io/badge/Canva-grey?logo=canva&logoColor=00C4CC)](https://www.canva.com/p/canvawireframes) | Creating wireframes. |
 | [![badge](https://img.shields.io/badge/Font_Awesome-grey?logo=fontawesome&logoColor=528DD7)](https://fontawesome.com) | Icons. |
-| [![badge](https://img.shields.io/badge/ChatGPT-grey?logo=openai&logoColor=75A99C)](https://chat.openai.com) | Help debug, troubleshoot, and explain things. |
-
-⚠️ NOTE ⚠️
-
-Want to add more?
-
-- Tutorial: https://shields.io/badges/static-badge
-- Icons/Logos: https://simpleicons.org
-  - FYI: not all logos are available to use
-
-🛑 --- END --- 🛑
+| [![badge](https://img.shields.io/badge/ChatGPT-grey?logo=openai&logoColor=75A99C)](https://chat.openai.com) | Help debug, troubleshoot, research, code logic and pair program. |
 
 ## Database Design
 
@@ -264,9 +227,8 @@ Gig Vault uses a relational schema built in PostgreSQL with models representing 
 ![screenshot](documentation/erd.png)
 
  [`Mermaid flowchart`](https://mermaid.live). 
-I have used `Mermaid` to generate an interactive ERD of my project.
+I have used `Mermaid` to generate an ERD of my project.
 
-```mermaid
 erDiagram
     direction TB
     User {
@@ -330,17 +292,11 @@ erDiagram
     Gig ||--o{ GigVideo : "videos"
     User ||--o{ GigVideo : "added_by (optional)"
 
-
-
 source: [Mermaid](https://www.mermaidchart.com/app/projects/9d020117-8aa3-4abc-879e-0ce435a4ec55/diagrams/74682d3b-637b-42e9-ae1d-65b4f302a37f/version/v0.1/edit)
 
 ## Agile Development Process
 
 ### GitHub Projects
-
-⚠️ TIP ⚠️
-
-Consider adding screenshots of your Projects Board(s), Issues (open and closed), and Milestone tasks.
 
 [GitHub Projects](https://www.github.com/runwiththerhythm/gig_vault/projects) served as an Agile management tool for this project. Through it, User Stories, issues/bugs and tasks were planned, then subsequently tracked on a regular basis using the Kanban project board.
 
@@ -547,12 +503,6 @@ There are no remaining major differences between the local version when compared
 
 ### Content
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to provide attribution links for any borrowed code snippets, elements, and resources. Ideally, you should provide an actual link to every resource used, not just a generic link to the main site. If you've used multiple components from the same source (such as Bootstrap), then you only need to list it once, but if it's multiple Codepen samples, then you should list each example individually. If you've used AI for some assistance (such as ChatGPT or Perplexity), be sure to mention that as well. A few examples have been provided below to give you some ideas.
-
-
-
 | Source | Notes |
 | --- | --- |
 | [Markdown Builder](https://markdown.2bn.dev) | Help generating Markdown files |
@@ -565,25 +515,16 @@ Use this space to provide attribution links for any borrowed code snippets, elem
 
 ### Media
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to provide attribution links to any media files borrowed from elsewhere (images, videos, audio, etc.). If you're the owner (or a close acquaintance) of some/all media files, then make sure to specify this information. Let the assessors know that you have explicit rights to use the media files within your project. Ideally, you should provide an actual link to every media file used, not just a generic link to the main site, unless it's AI-generated artwork.
-
-
 - Images
     - [Pexels](https://www.pexels.com)
     - [Unsplash](https://unsplash.com)
 
-
 | Source | Notes |
 | --- | --- |
 | [favicon.io](https://favicon.io) | Generating the favicon |
-| [I Think Therefore I Blog](https://codeinstitute.net) | Sample images provided from the walkthrough projects |
 | [Font Awesome](https://fontawesome.com) | Icons used throughout the site |
 
-
 ### Acknowledgements
-
 
 - I would like to thank;
 The [Code Institute](https://codeinstitute.net) for their learning materials and project assignment.
