@@ -259,7 +259,7 @@ Want to add more?
 
 ### Data Model
 
-Entity Relationship Diagrams (ERD) help to visualize database architecture before creating models. Understanding the relationships between different tables can save time later in the project.
+Gig Vault uses a relational schema built in PostgreSQL with models representing users, gigs, bands, venues, images, videos and genres.
 
 ![screenshot](documentation/erd.png)
 
@@ -268,67 +268,68 @@ I have used `Mermaid` to generate an interactive ERD of my project.
 
 ```mermaid
 erDiagram
-	direction TB
-	User {
-		int id PK ""  
-		string username  ""  
-		string email  ""  
-	}
+    direction TB
+    User {
+        int id PK
+        string username
+        string email
+    }
 
-	Band {
-		int id PK ""  
-		string name  ""  
-	}
+    Band {
+        int id PK
+        string name
+    }
 
-	Venue {
-		int id PK ""  
-		string venue_name  ""  
-		string venue_city  ""  
-		string venue_country  ""  
-		string address_text  "optional"  
-	}
+    Venue {
+        int id PK
+        string venue_name
+        string venue_city
+        string venue_country
+        string address_text "optional"
+    }
 
-	Genre {
-		int id PK ""  
-		string name  ""  
-	}
+    Genre {
+        int id PK
+        string name
+    }
 
-	GigImage {
-		int id PK ""  
-		string image  "Cloudinary"  
-		string caption  "optional"  
-		boolean is_cover  "max one per gig"  
-		int gig_id FK ""  
-	}
+    GigImage {
+        int id PK
+        string image "Cloudinary"
+        string caption "optional"
+        boolean is_cover "max one per gig"
+        int gig_id FK
+    }
 
-	GigVideo {
-		int id PK ""  
-		string url  ""  
-		datetime created_at  ""  
-		int gig_id FK ""  
-		int added_by_id FK "nullable -> User"  
-	}
+    GigVideo {
+        int id PK
+        string url
+        datetime added_at
+        int gig_id FK
+        int added_by_id FK "nullable → User"
+    }
 
-	Gig {
-		int id PK ""  
-		date date  ""  
-		boolean is_festival  ""  
-		string tour_title  ""  
-		string status  "upcoming/attended/"  
-		text notes  "rich text (Summernote)"  
-		int user_id FK ""  
-		int band_id FK "headliner"  
-		int venue_id FK ""  
-	}
+    Gig {
+        int id PK
+        date date
+        boolean is_festival
+        string tour_title
+        string status "upcoming / attended"
+        text notes "rich text (Summernote)"
+        int user_id FK
+        int band_id FK "headliner"
+        int venue_id FK
+    }
 
-	User||--o{Gig:"owns"
-	Band||--o{Gig:"headliner"
-	Venue||--o{Gig:"hosted at"
-	Gig}o--o{Band:"other_artists (supports)"
-	Gig}o--o{Genre:"genres"
-	Gig||--o{GigImage:"images"
-	Gig||--o{GigVideo:"videos"
-	User||--o{GigVideo:"added_by (optional)"
+    User ||--o{ Gig : "owns"
+    Band ||--o{ Gig : "headliner"
+    Venue ||--o{ Gig : "hosted at"
+    Gig }o--o{ Band : "other_artists (supports)"
+    Genre ||--o{ Gig : "genres"
+    Gig ||--o{ GigImage : "images"
+    Gig ||--o{ GigVideo : "videos"
+    User ||--o{ GigVideo : "added_by (optional)"
+
 
 
 source: [Mermaid](https://www.mermaidchart.com/app/projects/9d020117-8aa3-4abc-879e-0ce435a4ec55/diagrams/74682d3b-637b-42e9-ae1d-65b4f302a37f/version/v0.1/edit)
@@ -586,5 +587,5 @@ Use this space to provide attribution links to any media files borrowed from els
 
 - I would like to thank;
 The [Code Institute](https://codeinstitute.net) for their learning materials and project assignment.
-My Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) and my Nescot college facilitators Johnathan Jacobson and [komal Karir](https://github.com/Komals-Code4All) for their support throughout development of this project.
+My Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) and my Nescot college facilitators Johnathan Jacobson and [Komal Karir](https://github.com/Komals-Code4All) for their support throughout development of this project.
 
