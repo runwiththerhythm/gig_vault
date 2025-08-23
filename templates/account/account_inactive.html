@@ -1,11 +1,25 @@
-{% extends "account/base.html" %}
-
+{% extends "base.html" %}
 {% load i18n %}
 
-{% block head_title %}{% trans "Account Inactive" %}{% endblock head_title %}
+{% block head_title %}{% trans "Account Inactive" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Account Inactive" %}</h1>
-
-<p>{% trans "This account is inactive." %}</p>
-{% endblock content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card card-metal round-2xl p-4 shadow-sm text-center">
+        <h1 class="h3 mb-3 text-gradient-metal stroke-ink">
+          {% trans "Account Inactive" %}
+        </h1>
+        <p class="small mb-4">
+          {% trans "This account is currently inactive. If you believe this is a mistake, please contact support." %}
+        </p>
+        <div class="d-grid gap-2">
+          <a href="/" class="btn btn-metal">{% trans "Go Home" %}</a>
+          <a href="/contact/" class="btn btn-electric">{% trans "Contact Support" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

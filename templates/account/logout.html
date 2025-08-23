@@ -1,28 +1,37 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mt-3 offset-md-2">
-            <h3>{% trans "Ready to Sign Out?" %}</h3>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card card-metal round-2xl p-4 shadow-sm text-center">
+        <h1 class="h3 mb-3 text-gradient-metal stroke-ink">
+          {% trans "Ready to Sign Out?" %}
+        </h1>
 
-            <p>{% trans "Are you sure you want to leave the vault? You can always come back later to revisit your gigs." %}</p>
-        </div>
+        <p class="small mb-4">
+          {% trans "Are you sure you want to leave the vault? You can always come back later to revisit your gigs." %}
+        </p>
+
+        <form method="post" action="{% url 'account_logout' %}">
+          {% csrf_token %}
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+          {% endif %}
+          <div class="d-grid gap-2">
+            <button class="btn btn-danger btn-lg" type="submit">
+              {% trans "Sign Out" %}
+            </button>
+            <a href="/" class="btn btn-metal">
+              {% trans "Cancel" %}
+            </a>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-md-8 mt-3 offset-md-2">
-            <form method="post" action="{% url 'account_logout' %}">
-                {% csrf_token %}
-                {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-                <button class="btn btn-danger" type="submit">{% trans "Sign Out" %}</button>
-            </form>
-        </div>
-    </div>
+  </div>
 </div>
 {% endblock %}
