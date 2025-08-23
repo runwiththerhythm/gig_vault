@@ -395,6 +395,17 @@ a:hover, .link:hover {
 .alert-warning  { background: hsl(40 100% 50% / .12); border-color: hsl(40 95% 45% / .35); color: hsl(32 80% 30%); }
 .alert-danger   { background: hsl(0 75% 50% / .12); border-color: hsl(0 70% 45% / .35); color: hsl(0 65% 32%); }
 
+/* Alert polish */
+.alert {
+  border-radius: var(--bs-border-radius-lg);
+  box-shadow: var(--shadow-soft);
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+}
+.alert-dismissible .btn-close {
+  padding: 0.9rem 1rem;
+}
+
 /* ---------------------
    10) Header / Hero
    --------------------- */
@@ -526,4 +537,18 @@ a:hover, .link:hover {
 .dashboard-page {
   background: var(--content-bg, #f6f7f9);
   min-height: 100dvh;
+}
+
+/* Dashboard-only pill polish */
+.dashboard-page .nav-pills .nav-link {
+  border-radius: 999px;
+  padding: .25rem .75rem;
+}
+
+/* Make the Add Gig button stand out */
+.btn-electric.btn-lg {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: .6rem 1.4rem;
+  border-radius: 0.8rem;
 }

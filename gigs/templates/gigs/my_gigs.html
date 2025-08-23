@@ -1,20 +1,56 @@
 {% extends "gigs/dashboard_base.html" %}
-{% load static %}
 
 {% block page_header %}
-  <h2 class="mb-4">My Gig Vault</h2>
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <h1 class="thrash-heading m-0 text-gradient-metal glow-electric">My Gigs</h1>
+    <a href="{% url 'gig_create' %}" class="btn btn-lg btn-electric">
+      <i class="fas fa-plus"></i> Add Gig
+    </a>
+  </div>
 {% endblock %}
 
 {% block dashboard_content %}
-  <a href="{% url 'gig_create' %}" class="btn btn-success mb-3">+ Add New Gig</a>
 
-  {% if gigs %}
-    <div class="gig-cards">
-      {% for gig in gigs %}
-        {% include "gigs/components/gig_card.html" with gig=gig %}
-      {% endfor %}
+
+  {% with u=upcoming_gigs|default:gigs a=attended_gigs %}
+
+  <!-- Upcoming -->
+  <div class="gv-card mb-3">
+    <div class="gv-card-header d-flex justify-content-between align-items-center">
+      <h2 class="h5 m-0">Upcoming</h2>
+      {% if u %}
+        <a href="{% url 'my_gigs' %}?tab=upcoming" class="btn btn-sm btn-outline-secondary">View all</a>
+      {% endif %}
     </div>
-  {% else %}
-    <p>You haven't added any gigs yet.</p>
-  {% endif %}
+    <div class="gv-card-body">
+      {% if u %}
+        {% for gig in u %}
+          {% include "gigs/components/gig_card.html" with gig=gig %}
+        {% endfor %}
+      {% else %}
+        <div class="text-body-secondary">No upcoming gigs.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Attended -->
+  <div class="gv-card">
+    <div class="gv-card-header d-flex justify-content-between align-items-center">
+      <h2 class="h5 m-0">Attended</h2>
+      {% if a %}
+        <a href="{% url 'my_gigs' %}?tab=attended" class="btn btn-sm btn-outline-secondary">View all</a>
+      {% endif %}
+    </div>
+    <div class="gv-card-body">
+      {% if a %}
+        {% for gig in a %}
+          {% include "gigs/components/gig_card.html" with gig=gig %}
+        {% endfor %}
+      {% else %}
+        <div class="text-body-secondary">No attended gigs yet.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% endwith %}
 {% endblock %}
