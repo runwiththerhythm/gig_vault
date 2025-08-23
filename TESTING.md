@@ -64,51 +64,19 @@ I have used the recommended [HTML W3C Validator](https://validator.w3.org) to va
 
 ### CSS
 
-⚠️ INSTRUCTIONS ⚠️
-
-1. [*recommended*] If you are using the live deployed site, use this link: https://jigsaw.w3.org/css-validator/#validate_by_uri
-2. If you are copying/pasting your CSS code, use this link: https://jigsaw.w3.org/css-validator/#validate_by_input
-
-It's recommended to validate the live site for your primary CSS file on the deployed URL. This will give you a custom URL as well, which you can use below on your testing documentation. It makes it easier to return back to a page for validating it again in the future. The URL will look something like this:
-
-- https://jigsaw.w3.org/css-validator/validator?uri=https://gig-vault-2fe6800a7bea.herokuapp.com
-
-If you have additional/multiple CSS files, then individual "[validation by input](https://jigsaw.w3.org/css-validator/#validate_by_input)" is recommended for the extra CSS files.
-
-**IMPORTANT**: Third-Party tools
-
-If you're using external libraries/frameworks (e.g: Bootstrap, Materialize, Font Awesome, etc.), then sometimes the tool will attempt to also validate these, even though it's not part of your own actual code that you wrote. You are not required to validate the external libraries or frameworks!
-
-⚠️ --- END --- ⚠️
-
 I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator) to validate all of my CSS files.
-
+| Directory | File | URL | Screenshot |
+| --- | --- | --- | --- |
+| gigvault | [gigvault.css](https://github.com/runwiththerhythm/gig_vault/blob/main/static/css/gigvault.css) | [CSS W3C Validator](https://jigsaw.w3.org/css-validator/validator?uri=https://gig-vault-2fe6800a7bea.herokuapp.com) | ![screenshot](documentation/validation/css.png) | 
 
 
 ### JavaScript
 
-⚠️ INSTRUCTIONS ⚠️
-
-If using modern JavaScript (ES6) methods, then make sure to include the following line at the very top of every single JavaScript file in your project (this should remain in your files for submission as well):
-
-`/* jshint esversion: 11 */`
-
-If you are also including jQuery (`$`), then the updated format will be:
-
-`/* jshint esversion: 11, jquery: true */`
-
-This allows the JShint validator to recognize modern ES6 methods, such as: `let`, `const`, `template literals`, `arrow functions (=>)`, etc.
-
-**IMPORTANT**: External resources
-
-Sometimes we'll write JavaScript that imports variables from other files, such as "an array of questions" from `questions.js`, which are used within the main `script.js` file elsewhere. If that's the case, the JShint validation tool doesn't know how to recognize "unused variables" that would normally be imported locally when running your own project. These warnings are acceptable, so showcase on your screenshot(s).
-
-The same thing applies when using external libraries such as Stripe, Leaflet, Bootstrap, Materialize, etc. To instantiate these components, we need to use their respective declarator. Again, the JShint validation tool would flag these as "undefined/unused variables". These warnings are acceptable, so showcase on your screenshot(s).
-
-⚠️ --- END --- ⚠️
-
 I have used the recommended [JShint Validator](https://jshint.com) to validate all of my JS files.
 
+| Directory | File | URL | Screenshot |
+| --- | --- | --- | --- |
+| gigvault | [image-previews.js](https://github.com/runwiththerhythm/gig_vault/blob/main/static/js/image-previews.js) | [JSHint.com](https://https://jshint.com/) | ![screenshot](documentation/validation/image-previews-validation.png) | 
 
 
 ### Python
@@ -321,55 +289,48 @@ I have conducted a series of automated tests on my application.
 
 ### Python (Unit Testing)
 
-⚠️ INSTRUCTIONS ⚠️
+I used Django’s built-in unittest framework to test GigVault’s core functionality (models, views, and helpers). Tests live in gigs/tests.py.
 
-Adjust the code below (file names, function names, etc.) to match your own project files/folders. Use these notes loosely when documenting your own Python Unit tests, and remove/adjust where applicable.
+Key tests currently included:
 
-⚠️ SAMPLE ⚠️
+#### Models
 
-I have used Django's built-in unit testing framework to test the application functionality. In order to run the tests, I ran the following command in the terminal each time:
+Band: string representation.
 
-- `python3 manage.py test name-of-app`
+Venue: string representation (field-agnostic to support either name/city/country or venue_name/venue_city/venue_country).
 
-To create the coverage report, I would then run the following commands:
+Gig: creation and other_artists (M2M) behavior.
 
-- `pip3 install coverage`
-- `pip3 freeze --local > requirements.txt`
-- `coverage run --omit="*/site-packages/*,*/migrations/*,*/__init__.py,env.py,.env" manage.py test`
-- `coverage report`
+GigVideo: URL validation via clean() and embed_url property.
 
-To see the HTML version of the reports, and find out whether some pieces of code were missing, I ran the following commands:
+GigImage: optional DB constraint test for single is_cover=True per gig (skips if constraint not present).
 
-- `coverage html`
-- `python3 -m http.server`
+#### Views
 
-Below are the results from the full coverage report on my application that I've tested:
+my_gigs: authentication redirect + lists the user’s gigs.
 
-![screenshot](documentation/automation/html-coverage.png)
+gig_detail: renders and includes venue info.
+
+#### Run the tests
+
+From the project root (same folder as manage.py):
+- `python manage.py test`
 
 #### Unit Test Issues
 
-⚠️ INSTRUCTIONS ⚠️
+Single cover image constraint
 
-Use this section to list any known issues you ran into while writing your Python unit tests. Remember to include screenshots (where possible), and a solution to the issue (if known). This can be used for both "fixed" and "unresolved" issues. Remove this sub-section entirely if you somehow didn't run into any issues while working with your tests.
+Issue: Wanted to enforce one is_cover=True per gig, but DB constraint wasn’t defined.
 
-⚠️ --- END --- ⚠️
+Fix: Test auto-skips if the named constraint (unique_cover_per_gig) isn’t found.
+
+Summernote warning
+
+Message: but css_sanitizer not set.
+
+Status: Harmless; does not affect results. 
 
 ## Bugs
-
-⚠️ INSTRUCTIONS ⚠️
-
-Nobody likes bugs,... except the assessors! Projects seem more suspicious if a student doesn't properly track their bugs. If you're about to submit your project without any bugs listed below, you should ask yourself why you're doing this course in the first place, if you're able to build this entire application without running into any bugs. The best thing you can do for any project is to document your bugs! Not only does it show the true stages of development, but think of it as breadcrumbs for yourself in the future, should you encounter the same/similar bug again, it acts as a gentle reminder on what you did to fix the bug.
-
-If/when you encounter bugs during the development stages of your project, you should document them here, ideally with a screenshot explaining what the issue was, and what you did to fix the bug.
-
-Alternatively, an improved way to manage bugs is to use the built-in **[Issues](https://www.github.com/runwiththerhythm/gig_vault/issues)** tracker on your GitHub repository. This can be found at the top of your repository, the tab called "Issues".
-
-If using the Issues tracker for bug management, you can simplify the documentation process for testing. Issues allow you to directly paste screenshots into the issue page without having to first save the screenshot locally. You can add labels to your issues (e.g. `bug`), assign yourself as the owner, and add comments/updates as you progress with fixing the issue(s). Once you've solved the issue/bug, you should then "Close" it.
-
-When showcasing your bug tracking for assessment, you can use the following examples below.
-
-⚠️ --- END --- ⚠️
 
 ### Fixed Bugs
 
@@ -387,9 +348,6 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/ru
 
 You will need to mention any unfixed bugs and why they are not fixed upon submission of your project. This section should include shortcomings of the frameworks or technologies used. Although time can be a big variable to consider, paucity of time and difficulty understanding implementation is not a valid reason to leave bugs unfixed. Where possible, you must fix all outstanding bugs, unless outside of your control.
 
-If you've identified any unfixed bugs, no matter how small, be sure to list them here! It's better to be honest and list them, because if it's not documented and an assessor finds the issue, they need to know whether or not you're aware of them as well, and why you've not corrected/fixed them.
-
-⚠️ --- END --- ⚠️
 
 [![GitHub issues](https://img.shields.io/github/issues/runwiththerhythm/gig_vault)](https://www.github.com/runwiththerhythm/gig_vault/issues)
 
@@ -406,5 +364,5 @@ Any remaining open issues can be tracked [here](https://www.github.com/runwithth
 | Validation errors on "signup.html" coming from the Django Allauth package. | ![screenshot](documentation/issues/allauth.png) |
 
 > [!IMPORTANT]  
-> There are no remaining bugs that I am aware of, though, even after thorough testing, I cannot rule out the possibility.
+> Gig Vault has no remaining bugs that I am aware of, however even after thorough testing I cannot rule out the possibility.
 
