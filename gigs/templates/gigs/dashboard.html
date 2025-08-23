@@ -2,12 +2,33 @@
 
 {% block page_header %}
   <div class="d-flex align-items-center justify-content-between">
-    <h1 class="thrash-heading m-0 text-gradient-metal glow-electric">My Gig Vault</h1>
+    <h1 class="gv-logo m-0 text-gradient-metal glow-electric">My Gig Vault</h1>
     {% block header_actions %}{% endblock %}
   </div>
 {% endblock %}
 
 {% block dashboard_content %}
+
+  <!-- Stats section -->
+<div class="gv-card-grid mb-3">
+  <div class="gv-stat col-12 col-lg-3">
+    <div class="label">Total gigs</div>
+    <div class="value">{{ stats.total_gigs|default:"0" }}</div>
+  </div>
+  <div class="gv-stat col-12 col-lg-3">
+    <div class="label">Upcoming</div>
+    <div class="value">{{ stats.upcoming|default:"0" }}</div>
+  </div>
+  <div class="gv-stat col-12 col-lg-3">
+    <div class="label">Cities</div>
+    <div class="value">{{ stats.cities|default:"—" }}</div>
+  </div>
+  <div class="gv-stat col-12 col-lg-3">
+    <div class="label">Top band</div>
+    <div class="value">{{ stats.top_band_name|default:"—" }}</div>
+  </div>
+</div>
+
 
   <!-- Upcoming section -->
   <div class="gv-card mb-3">
