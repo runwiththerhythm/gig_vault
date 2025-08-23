@@ -2,23 +2,25 @@
 {% load static %}
 
 {% block title %}Dashboard • GigVault{% endblock %}
-
 {% block global_nav %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid p-0">
   <div class="row g-0 min-vh-100">
-    {# Precompute URLs once so we can reuse in both navs #}
+
     {% url 'home' as home_url %}
     {% url 'dashboard' as dashboard_url %}
     {% url 'my_gigs' as my_gigs_url %}
     {% url 'gig_create' as gig_create_url %}
     {% url 'account_logout' as logout_url %}
-
     {% with active=request.resolver_match.url_name %}
 
-    <!-- Desktop sidebar (md+) -->
-    <nav class="col-md-2 d-none d-md-flex bg-dark text-white p-3 flex-column position-sticky top-0" style="min-height: 100%;">
+<div class="dashboard-page">
+  <div class="container-fluid">
+    <div class="row g-0 min-vh-100">
+
+    <!-- Desktop sidebar (md+) — keep your Bootstrap column, add our styling -->
+    <nav class="col-md-2 d-none d-md-flex flex-column position-sticky top-0 p-3 gv-sidebar">
       <p class="small text-white-50 mb-3">
         {% if user.is_authenticated %}
           Logged in as <strong>{{ user }}</strong>
@@ -26,24 +28,30 @@
           You are not logged in
         {% endif %}
       </p>
-
-    {% include "gigs/_dashboard_nav_links.html" %}
-
-
+      {% include "gigs/_dashboard_nav_links.html" %}
     </nav>
 
-    <!-- Mobile: hamburger + offcanvas (shown only < md) -->
-    <button
-      class="btn btn-outline-light d-md-none position-fixed top-0 start-0 m-2 hamburger-btn"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#dashOffcanvas"
-      aria-controls="dashOffcanvas"
-      aria-label="Open menu"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
+    <!-- Mobile header (kept) -->
+    <div class="d-md-none sticky-top dashboard-mobile-bar gradient-metal text-white">
+      <div class="container-fluid d-flex align-items-center justify-content-between">
+        <a href="{{ dashboard_url }}" class="navbar-brand m-0 d-flex align-items-center gap-2 text-white text-decoration-none">
+          <span class="logo-badge">GV</span>
+          <span class="fw-semibold">GigVault</span>
+        </a>
+        <button
+          class="btn btn-hamburger"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#dashOffcanvas"
+          aria-controls="dashOffcanvas"
+          aria-label="Open menu">
+          <i class="fas fa-bars" aria-hidden="true"></i>
+          <span class="visually-hidden">Open menu</span>
+        </button>
+      </div>
+    </div>
 
+    <!-- Mobile offcanvas menu (kept) -->
     <div class="offcanvas offcanvas-start bg-dark text-white d-md-none"
          tabindex="-1" id="dashOffcanvas" aria-labelledby="dashOffcanvasLabel">
       <div class="offcanvas-header">
@@ -58,42 +66,27 @@
             You are not logged in
           {% endif %}
         </p>
-
         {% include "gigs/_dashboard_nav_links.html" %}
       </div>
     </div>
 
-    {# Mobile header bar (brand + hamburger). Uses your gradient utility. #}
-<div class="d-md-none sticky-top dashboard-mobile-bar gradient-metal text-white">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
-    <a href="{{ dashboard_url }}" class="navbar-brand m-0 d-flex align-items-center gap-2 text-white text-decoration-none">
-      <span class="logo-badge">GV</span>
-      <span class="fw-semibold">GigVault</span>
-    </a>
-
-    <button
-      class="btn btn-hamburger"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#dashOffcanvas"
-      aria-controls="dashOffcanvas"
-      aria-label="Open menu"
-    >
-      <i class="fas fa-bars" aria-hidden="true"></i>
-      <span class="visually-hidden">Open menu</span>
-    </button>
-  </div>
-</div>
-
-    <!-- Main content area -->
-    <section class="col-12 col-md-10 ms-auto p-4 dashboard-content">
-      {% block page_header %}
-        <h2 class="mb-4">{{ page_title|default:"Dashboard" }}</h2>
-      {% endblock %}
-      {% block dashboard_content %}{% endblock %}
+    <!-- Main content -->
+    <section class="col-12 col-md-10 dashboard-content">
+      <div class="gv-content-inner">
+        {% block page_header %}
+          <div class="d-flex align-items-center justify-content-between py-3">
+            <h1 class="h3 m-0">{{ page_title|default:"Dashboard" }}</h1>
+            {% block header_actions %}{% endblock %}
+          </div>
+        {% endblock %}
+        {% block dashboard_content %}{% endblock %}
+      </div>
     </section>
 
     {% endwith %}
+  </div>
+</div>
+    </div>
   </div>
 </div>
 {% endblock %}

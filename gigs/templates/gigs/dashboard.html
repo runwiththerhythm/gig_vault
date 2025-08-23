@@ -1,37 +1,50 @@
 {% extends "gigs/dashboard_base.html" %}
 
 {% block page_header %}
-<h2>My Gig Vault</h2>
+  <div class="d-flex align-items-center justify-content-between">
+    <h1 class="thrash-heading m-0 text-gradient-metal glow-electric">My Gig Vault</h1>
+    {% block header_actions %}{% endblock %}
+  </div>
 {% endblock %}
 
 {% block dashboard_content %}
 
-  <h4>Upcoming Gigs</h4>
-  {% if upcoming_gigs %}
-    <ul class="list-group mb-4">
-      {% for gig in upcoming_gigs %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          {{ gig.band }} @ {{ gig.venue }} — {{ gig.date }}
-          <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-primary">View</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No upcoming gigs.</p>
-  {% endif %}
+  <!-- Upcoming section -->
+  <div class="gv-card mb-3">
+    <div class="gv-card-header d-flex justify-content-between align-items-center">
+      <h2 class="h5 m-0">Upcoming Gigs</h2>
+      {% if upcoming_gigs %}
+        <a href="{% url 'my_gigs' %}?tab=upcoming" class="btn btn-sm btn-outline-secondary">View all</a>
+      {% endif %}
+    </div>
+    <div class="gv-card-body">
+      {% if upcoming_gigs %}
+        {% for gig in upcoming_gigs %}
+          {% include "gigs/components/gig_card.html" with gig=gig %}
+        {% endfor %}
+      {% else %}
+        <div class="text-body-secondary">No upcoming gigs.</div>
+      {% endif %}
+    </div>
+  </div>
 
-  <h4>Recent Attended Gigs</h4>
-  {% if attended_gigs %}
-    <ul class="list-group">
-      {% for gig in attended_gigs %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          {{ gig.band }} @ {{ gig.venue }} — {{ gig.date }}
-          <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-secondary">View</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No attended gigs yet.</p>
-  {% endif %}
-</div>
+  <!-- Recently attended section -->
+  <div class="gv-card">
+    <div class="gv-card-header d-flex justify-content-between align-items-center">
+      <h2 class="h5 m-0">Recently Attended</h2>
+      {% if attended_gigs %}
+        <a href="{% url 'my_gigs' %}?tab=attended" class="btn btn-sm btn-outline-secondary">View all</a>
+      {% endif %}
+    </div>
+    <div class="gv-card-body">
+      {% if attended_gigs %}
+        {% for gig in attended_gigs %}
+          {% include "gigs/components/gig_card.html" with gig=gig %}
+        {% endfor %}
+      {% else %}
+        <div class="text-body-secondary">No attended gigs yet.</div>
+      {% endif %}
+    </div>
+  </div>
+
 {% endblock %}

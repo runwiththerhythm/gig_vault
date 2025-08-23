@@ -108,7 +108,6 @@
   font-display: swap;
 }
 
-
 /* Main Heading Style - Modern Thrash with gradient + glow */
 h1,
 .display-1 {
@@ -487,11 +486,6 @@ a:hover, .link:hover {
 
 
 /* ===== GigVault App Shell (layout primitives) ===== */
-.gv-app { min-height: 100dvh; background: var(--color-bg); color: var(--color-fg); }
-
-.gv-topbar { background: #fff; position: sticky; top: 0; z-index: 1030; border-bottom: 1px solid rgba(0,0,0,.06); }
-
-.gv-shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100dvh - 56px); }
 
 .gv-sidebar {
   background: var(--color-panel-dark);
@@ -528,3 +522,8 @@ a:hover, .link:hover {
 /* Form polish for consistency */
 .form-label { font-weight: 600; }
 .form-control, .form-select, .select2-container--default .select2-selection--single { border-radius: 10px; }
+
+.dashboard-page {
+  background: var(--content-bg, #f6f7f9);
+  min-height: 100dvh;
+}
