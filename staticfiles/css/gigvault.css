@@ -101,8 +101,8 @@
 
 @font-face {
   font-family: "Modern-Thrash";
-  src: url("/static/fonts/Modern Thrash.woff") format("woff2"),
-       url("/static/fonts/Modern Thrash.woff") format("woff");
+  src: url("../fonts/modern-thrash.woff2") format("woff2"),
+       url("../fonts/modern-thrash.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -484,3 +484,47 @@ a:hover, .link:hover {
 
 /* Optional: darker offcanvas surface to contrast with bright gradients */
 .offcanvas.bg-dark { background-color: var(--bs-dark) !important; }
+
+
+/* ===== GigVault App Shell (layout primitives) ===== */
+.gv-app { min-height: 100dvh; background: var(--color-bg); color: var(--color-fg); }
+
+.gv-topbar { background: #fff; position: sticky; top: 0; z-index: 1030; border-bottom: 1px solid rgba(0,0,0,.06); }
+
+.gv-shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100dvh - 56px); }
+
+.gv-sidebar {
+  background: var(--color-panel-dark);
+  color: hsl(35 20% 96%);
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.gv-sidebar .nav-link {
+  color: inherit; border-radius: 10px; padding: .5rem .75rem; transition: background .15s ease;
+}
+.gv-sidebar .nav-link.active,
+.gv-sidebar .nav-link:hover { background: rgba(255,255,255,0.08); }
+
+.gv-content { background: var(--bs-body-bg); }
+.gv-content-inner { padding: 1rem; }
+@media (min-width: 992px) { .gv-content-inner { padding: 1.5rem 2rem 2rem; } }
+
+/* Cards & stats (re-usable, neutral) */
+.gv-card { background:#fff; border: 1px solid rgba(0,0,0,.06); border-radius: var(--bs-border-radius-lg); box-shadow: var(--shadow-soft); }
+.gv-card-header { padding:.875rem 1rem; border-bottom: 1px solid rgba(0,0,0,.06); }
+.gv-card-body { padding: 1rem; }
+.gv-card-grid { display: grid; gap: 1rem; }
+@media (min-width: 992px){ .gv-card-grid { grid-template-columns: repeat(12, 1fr); } }
+
+.gv-stat { padding: 1rem; border-radius: 14px; background:#fff; border:1px solid rgba(0,0,0,.06); box-shadow: var(--shadow-soft); }
+.gv-stat .label { font-size:.8rem; opacity:.75; }
+.gv-stat .value { font-weight:700; font-size:1.6rem; }
+
+/* Media grid */
+.gv-media-grid { display:grid; gap:.75rem; grid-template-columns: repeat(2,1fr); }
+@media (min-width: 768px){ .gv-media-grid { grid-template-columns: repeat(4,1fr); } }
+.gv-media-tile { position:relative; border-radius:12px; overflow:hidden; aspect-ratio: 4/3; background:#eee; }
+.gv-media-tile img { width:100%; height:100%; object-fit:cover; }
+
+/* Form polish for consistency */
+.form-label { font-weight: 600; }
+.form-control, .form-select, .select2-container--default .select2-selection--single { border-radius: 10px; }
