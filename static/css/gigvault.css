@@ -440,6 +440,11 @@ a:hover, .link:hover {
   word-break: break-word;
 }
 
+#image-dropzone {
+  border-color: hsl(25 15% 45% / .25) !important;
+  background: #fafafa;
+}
+
 /* Responsive Layout */
 
 @media (max-width: 767.98px) {
@@ -533,6 +538,12 @@ a:hover, .link:hover {
 /* Form polish for consistency */
 .form-label { font-weight: 600; }
 .form-control, .form-select, .select2-container--default .select2-selection--single { border-radius: 10px; }
+
+.gv-venue-box {
+  background: #fff;
+  border: 1px solid hsl(25 15% 45% / .2);
+  box-shadow: var(--shadow-soft);
+}
 
 .dashboard-page {
   background: var(--content-bg, #f6f7f9);

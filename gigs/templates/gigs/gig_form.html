@@ -11,128 +11,196 @@
 {% endblock %}
 
 {% block dashboard_content %}
+<div class="container mt-3">
 
-<div class="container mt-4">
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% crispy form %}
-
-<button type="button"
-        id="btn-add-headliner"
-        class="btn btn-outline-secondary btn-sm btn-add-band d-none"
-        data-bs-toggle="modal"
-        data-bs-target="#addBandModal"
-        data-add-band-target="#band-field"
-        aria-label="Add headliner band">
-        <i class="fas fa-plus me-1" aria-hidden="true"></i> Not listed? Add new band
-</button>
-
-<button type="button"
-        id="btn-add-support"
-        class="btn btn-outline-secondary btn-sm btn-add-band d-none"
-        data-bs-toggle="modal"
-        data-bs-target="#addBandModal"
-        data-add-band-target="#supports-field"
-        aria-label="Add support artist">
-        <i class="fas fa-plus me-1" aria-hidden="true"></i> Not listed? Add new support band
-</button>
-
-  <!-- Mapbox Search element (needs mapbox_token from context) -->
-  <mapbox-search-box
-    id="venue-search-box"
-    access-token="{{ mapbox_token }}"
-    placeholder="Search for a venue…"
-    style="width:100%; max-width:400px;"
-    countries="gb"
-    types="poi">
-  </mapbox-search-box>
-
-  {% if form.instance.venue %}
-    <p class="mt-2">
-      <strong>Selected venue:</strong>
-      {{ form.instance.venue.name }}, {{ form.instance.venue.city }}{% if form.instance.venue.country %}, {{ form.instance.venue.country }}{% endif %}
-    </p>
-  {% endif %}
-
-  <!-- Hidden venue fields the view expects -->
-  <input type="hidden" id="id_venue_name" name="venue_name" value="{{ form.instance.venue.name|default:'' }}">
-  <input type="hidden" id="venue_city" name="venue_city" value="{{ form.instance.venue.city|default:'' }}">
-  <input type="hidden" id="venue_country" name="venue_country" value="{{ form.instance.venue.country|default:'' }}">
-
-
-{# --- Images - New uploads (multi) --- #}
-  <div class="mt-4">
-  <h4 class="mb-2">Add Photos</h4>
-
-<!-- Plain file input: not a Django form field -->
-  <input id="id_images" name="images" type="file" multiple class="d-none" accept="image/*">
-
-  <!-- Dropzone + button -->
-  <div id="image-dropzone" class="border rounded p-4 text-center bg-light">
-    <p class="mb-2">Drag & drop images here, or</p>
-    <button type="button" id="btn-pick-images" class="btn btn-outline-primary">
-      Select images…
-    </button>
-    <div class="form-text mt-2" id="selected-images" aria-live="polite"></div>
-  </div>
-
-  <!-- Live preview grid -->
-  <div id="image-previews" class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-3 mt-2"></div>
-
-  <small class="text-muted d-block mt-2">
-    JPG/PNG/WebP, up to ~10MB each. You can add more files in multiple picks/drops before saving.
-  </small>
-  </div>
-
-    {# Image Formset Section #}
-  <h4 class="mt-4">Images</h4>
-
-
-  {{ formset.non_form_errors }}                {# show formset-level errors #}
-  {{ formset.management_form }}
-
-  {% for f in formset %}
-    <div class="mb-3 border p-2 rounded">
-
-    {# hidden fields like id #}
-    {% for hidden in f.hidden_fields %}
-      {{ hidden }}
-    {% endfor %}
-
-    {# per-form non-field errors #}
-    {{ f.non_field_errors }}
-
-    <div class="mb-2">
-      {{ f.image.label_tag }} {{ f.image }}
-      {% if f.image.errors %}
-        <div class="text-danger small">{{ f.image.errors }}</div>
-      {% endif %}
-    </div>
-
-    <div class="form-check mb-2">
-      {{ f.is_cover }} {{ f.is_cover.label_tag }}
-      {% if f.is_cover.errors %}
-        <div class="text-danger small">{{ f.is_cover.errors }}</div>
-      {% endif %}
-    </div>
-
-    {% if f.instance.pk %}
-      <div class="mt-2 d-flex align-items-center gap-3">
-        <img src="{{ f.instance.image.url }}" alt="" style="max-height:100px;">
-        <label class="form-check-label">
-          {{ f.DELETE }} Delete this image
-        </label>
+  <!-- Slim hero strip for context + back link -->
+  <section class="hero-gigvault round-2xl mb-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <span class="logo-badge">GV</span>
+        <span class="fw-semibold">
+          {% if form.instance.pk %}Update your gig details{% else %}Log a new gig or festival{% endif %}
+        </span>
       </div>
-    {% endif %}
+      <div>
+        <a href="{% url 'my_gigs' %}" class="btn btn-metal btn-sm">Back to My Gigs</a>
+      </div>
     </div>
-  {% empty %}
-    <p>No image forms found.</p>
-  {% endfor %}
+  </section>
 
-    <button type="submit" class="btn btn-primary mt-3">Save</button>
-    <a href="{% url 'my_gigs' %}" class="btn btn-secondary mt-3">Cancel</a>
-</form>
+  <div class="card card-metal round-2xl shadow-sm">
+    <div class="card-body">
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- ===== Band & Artists ===== -->
+        <h3 class="h6 section-title mb-3">Artists</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.band|as_crispy_field }}
+            <!-- “Add band” button attaches under DAL field via your existing JS -->
+            <button type="button"
+                    id="btn-add-headliner"
+                    class="btn btn-outline-secondary btn-sm btn-add-band d-none mt-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addBandModal"
+                    data-add-band-target="#band-field"
+                    aria-label="Add headliner band">
+              <i class="fas fa-plus me-1" aria-hidden="true"></i> Not listed? Add new band
+            </button>
+          </div>
+          <div class="col-md-6">
+            {{ form.other_artists|as_crispy_field }}
+            <button type="button"
+                    id="btn-add-support"
+                    class="btn btn-outline-secondary btn-sm btn-add-band d-none mt-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addBandModal"
+                    data-add-band-target="#supports-field"
+                    aria-label="Add support artist">
+              <i class="fas fa-plus me-1" aria-hidden="true"></i> Not listed? Add new support band
+            </button>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- ===== Meta (date / festival / status / tour) ===== -->
+        <h3 class="h6 section-title mb-3">Details</h3>
+        <div class="row g-3">
+          <div class="col-sm-4">
+            {{ form.date|as_crispy_field }}
+          </div>
+          <div class="col-sm-4 d-flex align-items-center">
+            <div class="form-check mt-3">
+              {{ form.is_festival }}
+              <label class="form-check-label ms-1" for="{{ form.is_festival.id_for_label }}">This is a festival</label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            {{ form.status|as_crispy_field }}
+          </div>
+          <div class="col-12">
+            {{ form.tour_title|as_crispy_field }}
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- ===== Venue (Mapbox Search JS – text fields only) ===== -->
+        <h3 class="h6 section-title mb-3">Venue</h3>
+
+        <div class="gv-venue-box p-3 rounded-3 mb-2">
+          <mapbox-search-box
+            id="venue-search-box"
+            access-token="{{ mapbox_token }}"
+            placeholder="Search for a venue…"
+            style="width:100%; max-width:480px;"
+            countries="gb"
+            types="poi">
+          </mapbox-search-box>
+
+          {% if form.instance.venue %}
+            <p class="small mt-2 mb-0">
+              <strong>Selected:</strong>
+              {{ form.instance.venue.name }}, {{ form.instance.venue.city }}{% if form.instance.venue.country %}, {{ form.instance.venue.country }}{% endif %}
+            </p>
+          {% endif %}
+        </div>
+
+        <!-- Hidden venue fields expected by the view -->
+        <input type="hidden" id="id_venue_name" name="venue_name" value="{{ form.instance.venue.name|default:'' }}">
+        <input type="hidden" id="venue_city" name="venue_city" value="{{ form.instance.venue.city|default:'' }}">
+        <input type="hidden" id="venue_country" name="venue_country" value="{{ form.instance.venue.country|default:'' }}">
+
+        <div class="form-text mb-3">
+          We save venue name/city/country only (no coordinates).
+        </div>
+
+        <hr class="my-4">
+
+        <!-- ===== Notes (summernote) ===== -->
+        <h3 class="h6 section-title mb-3">Notes</h3>
+        <div class="mb-2">
+          {{ form.notes|as_crispy_field }}
+        </div>
+
+        <hr class="my-4">
+
+        <!-- ===== New Photos (multi-upload) ===== -->
+        <h3 class="h6 section-title mb-3">Add Photos</h3>
+
+        <!-- Hidden input your JS targets -->
+        <input id="id_images" name="images" type="file" multiple class="d-none" accept="image/*">
+
+        <div id="image-dropzone" class="border rounded p-4 text-center bg-light">
+          <p class="mb-2">Drag & drop images here, or</p>
+          <button type="button" id="btn-pick-images" class="btn btn-metal btn-sm">
+            Select images…
+          </button>
+          <div class="form-text mt-2" id="selected-images" aria-live="polite"></div>
+        </div>
+
+        <div id="image-previews" class="gv-media-grid mt-3"></div>
+        <small class="text-muted d-block mt-2">
+          JPG/PNG/WebP, up to ~10MB each. You can add more files in multiple picks/drops before saving.
+        </small>
+
+        <hr class="my-4">
+
+        <!-- ===== Existing Images (formset) ===== -->
+        <h3 class="h6 section-title mb-3">Existing Images</h3>
+
+        {{ formset.non_form_errors }}
+        {{ formset.management_form }}
+
+        {% for f in formset %}
+          <div class="mb-3 p-2 rounded border bg-white">
+            {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+            {{ f.non_field_errors }}
+
+            <div class="row g-3 align-items-center">
+              <div class="col-md-6">
+                <div class="mb-2">
+                  {{ f.image.label_tag }} {{ f.image }}
+                  {% if f.image.errors %}<div class="text-danger small">{{ f.image.errors }}</div>{% endif %}
+                </div>
+
+                <div class="form-check mb-2">
+                  {{ f.is_cover }} {{ f.is_cover.label_tag }}
+                  {% if f.is_cover.errors %}<div class="text-danger small">{{ f.is_cover.errors }}</div>{% endif %}
+                </div>
+
+                {% if f.instance.pk %}
+                  <label class="form-check-label">
+                    {{ f.DELETE }} Delete this image
+                  </label>
+                {% endif %}
+              </div>
+
+              {% if f.instance.pk %}
+                <div class="col-md-6">
+                  <img src="{{ f.instance.image.url }}" alt="" class="img-fluid rounded" style="max-height:120px;">
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% empty %}
+          <p class="text-muted">No image forms found.</p>
+        {% endfor %}
+
+        <!-- ===== Submit ===== -->
+        <div class="d-flex gap-2 mt-3">
+          <button type="submit" class="btn btn-electric btn-lg">
+            {% if form.instance.pk %}Save Changes{% else %}Create Gig{% endif %}
+          </button>
+          <a href="{% url 'my_gigs' %}" class="btn btn-metal">Cancel</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
 </div>
 
 <!-- Add Band Modal -->
@@ -219,6 +287,18 @@
 
   <!-- Image preview js -->
   <script src="{% static 'js/image-previews.js' %}"></script>
+
+  <script>
+// Enforce single 'is_cover' selection across the image formset
+document.addEventListener('change', function (e) {
+  if (e.target.matches('input[type="checkbox"][name$="-is_cover"]') && e.target.checked) {
+    document.querySelectorAll('input[type="checkbox"][name$="-is_cover"]').forEach(cb => {
+      if (cb !== e.target) cb.checked = false;
+    });
+  }
+});
+</script>
+
 
   <!-- Band Modal AJAX-->
   <script>
