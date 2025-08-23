@@ -101,7 +101,8 @@
 
 @font-face {
   font-family: "Modern-Thrash";
-  src: url("../fonts/modern-thrash.074170e672b6.ttf") format("truetype");
+  src: url("/static/fonts/Modern Thrash.8a09c346fe71.woff") format("woff2"),
+       url("/static/fonts/Modern Thrash.8a09c346fe71.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
