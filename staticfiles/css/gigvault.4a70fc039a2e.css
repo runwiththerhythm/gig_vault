@@ -119,8 +119,8 @@
 
 @font-face {
   font-family: "Modern-Thrash";
-  src: url("../fonts/modern-thrash.woff2") format("woff2"),
-       url("../fonts/modern-thrash.woff") format("woff");
+  src: url("../fonts/modern-thrash.aa8e60ae8c2f.woff2") format("woff2"),
+       url("../fonts/modern-thrash.8a09c346fe71.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -247,13 +247,7 @@ a:hover, .link:hover {
   border: 1px solid hsl(25 15% 45% / .2);
 }
 
-.card-title {
-  font-size: x-large;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-}
+.card-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 
 /* Thumbnail crop for gig cards */
@@ -523,7 +517,7 @@ h1 {
   color: transparent;
 
   display: inline-block;              /* needed for padding/margins below */
-  padding: 1em;               /* extend paint area on all sides */
+  padding: .12em .18em;               /* extend paint area on all sides */
   margin: -.12em -.18em;              /* visually pull width/height back */
   overflow: visible;
 
@@ -540,7 +534,6 @@ h2, h3 {
   font-weight: 700;
   letter-spacing: .25px;
   line-height: 1.14;
-  text-align: center;
 
   background: var(--gradient-metal);  /* brand copper → gold */
   -webkit-background-clip: text;
@@ -549,7 +542,7 @@ h2, h3 {
   color: transparent;
 
   display: inline-block;
-  padding: .2em;
+  padding: .10em .16em;
   margin: -.10em -.16em;
   overflow: visible;
 

@@ -2,7 +2,7 @@
 
 {% block page_header %}
   <div class="d-flex align-items-center justify-content-between">
-    <h1 class="gv-logo m-0 glow-electric">My Gig Vault</h1>
+    <h1 class="m-0 glow-electric">My Gig Vault</h1>
     {% block header_actions %}{% endblock %}
   </div>
 {% endblock %}
@@ -33,7 +33,7 @@
   <!-- Upcoming section -->
   <div class="gv-card mb-3">
     <div class="gv-card-header d-flex justify-content-between align-items-center">
-      <h2 class="h5 m-0">Upcoming Gigs</h2>
+      <h2 class="h4 m-0">Upcoming Gigs</h2>
       {% if upcoming_gigs %}
         <a href="{% url 'my_gigs' %}?tab=upcoming" class="btn btn-sm btn-outline-secondary">View all</a>
       {% endif %}
@@ -52,7 +52,7 @@
   <!-- Recently attended section -->
   <div class="gv-card">
     <div class="gv-card-header d-flex justify-content-between align-items-center">
-      <h2 class="h5 m-0">Recently Attended</h2>
+      <h2 class="h4 m-0">Recently Attended</h2>
       {% if attended_gigs %}
         <a href="{% url 'my_gigs' %}?tab=attended" class="btn btn-sm btn-outline-secondary">View all</a>
       {% endif %}

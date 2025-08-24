@@ -136,13 +136,6 @@
 .gradient-metal    { background: var(--gradient-metal) !important; }
 .gradient-electric { background: var(--gradient-electric) !important; }
 
-.text-gradient-metal {
-  background: var(--gradient-metal);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-}
-
 /* Subtle “vinyl” panel */
 .panel-vinyl {
   background: linear-gradient(180deg, hsl(270 30% 12%), hsl(270 30% 10%));
@@ -247,7 +240,13 @@ a:hover, .link:hover {
   border: 1px solid hsl(25 15% 45% / .2);
 }
 
-.card-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-title {
+  font-size: x-large;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
 
 
 /* Thumbnail crop for gig cards */
@@ -276,26 +275,6 @@ a:hover, .link:hover {
 /* Make DAL/Select2 fill width and have a gap below */
 .select2-container { width: 100% !important; margin-bottom: .75rem; }
 
-/* Section headers with “amp glow” */
-.section-title {
-  font-family: "Modern-Thrash";
-  font-weight: 800;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  color: var(--color-fg);
-  position: relative;
-}
-.section-title::after {
-  content: "";
-  display: block;
-  height: 3px;
-  width: 64px;
-  margin-top: .4rem;
-  background: var(--gradient-sunset);
-  border-radius: 999px;
-  box-shadow: 0 0 18px hsl(15 100% 55% / .45);
-}
-
 /* --------------------------------------
    8) Utilities
    -------------------------------------- */
@@ -310,7 +289,6 @@ a:hover, .link:hover {
 .bg-silver { background-color: var(--color-silver) !important; color: #111; }
 
 .glow-electric { text-shadow: 0 0 10px hsl(270 70% 65% / .5), 0 0 18px hsl(15 100% 55% / .35); }
-.stroke-ink { -webkit-text-stroke: 1px rgba(0,0,0,.65); }
 
 /* Spacing helpers tuned for chunky cards */
 .pad-lg { padding: 2rem !important; }
@@ -521,26 +499,29 @@ a:hover { color: var(--bs-link-hover-color, hsl(270 70% 55%)); }
 }
 
 /* ===== GigVault Titles (simple, consistent, brand gradients) ===== */
-/* ===== Global Headings (GigVault) ===== */
+/* ===== Global Headings (crop‑safe, no forced uppercase) ===== */
 
 /* H1: main titles */
-h1 {
+h1, .gv-logo {
   font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .4px;
-  line-height: 1.05;
+  font-size: xx-large;
+  letter-spacing: .3px;
+  line-height: 1.12;
 
-  background: var(--gradient-sunset); /* orange → gold (brand var) */
+  background: var(--gradient-sunset); /* brand orange → gold */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 
+  display: inline-block;              /* needed for padding/margins below */
+  padding: 1em;               /* extend paint area on all sides */
+  overflow: visible;
+
   text-shadow:
     0 2px 6px rgba(0,0,0,.28),
-    0 0 16px hsl(270 70% 65% / .22); /* subtle purple aura */
-  display: inline-block;
+    0 0 16px hsl(270 70% 65% / .22);  /* subtle purple aura behind */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -549,20 +530,39 @@ h1 {
 h2, h3 {
   font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .3px;
-  line-height: 1.08;
+  letter-spacing: .25px;
+  line-height: 1.14;
+  text-align: center;
+  padding: 1em;               /* extend paint area on all sides */
 
-  background: var(--gradient-metal); /* copper → gold (brand var) */
+
+  background: var(--gradient-metal);  /* brand copper → gold */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 
+  display: inline-block;
+  padding: .2em;
+  margin: -.10em -.16em;
+  overflow: visible;
+
   text-shadow:
     0 1px 4px rgba(0,0,0,.22),
     0 0 10px hsl(270 70% 65% / .18);
-  display: inline-block;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* If any parent is clipping, this helps in common containers */
+.card h1, .card h2, .card h3,
+.hero-gigvault h1, .hero-gigvault h2, .hero-gigvault h3 {
+  overflow: visible;
+}
+
+/* Navbar brand: make sure Bootstrap link color doesn’t override gradient */
+.navbar-brand .gv-title, .navbar-brand h1 {
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  display: inline-block;
 }

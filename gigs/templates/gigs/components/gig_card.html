@@ -36,12 +36,6 @@
   {{ gig.venue.name }}, {{ gig.venue.city }}, {{ gig.venue.country }}
 </p>
 
-{# YouTube button uses the helper #}
-<a href="{% url 'gig_videos' gig.pk %}?q={{ gig.youtube_query|urlencode }}"
-   class="btn btn-sm btn-outline-primary">
-  youtube vault
-</a>
-
           <p class="mb-2">
             <strong>Date:</strong> {{ gig.date|date:"F j, Y" }}<br>
             
