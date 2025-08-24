@@ -1,9 +1,11 @@
-{# templates/_site_navbar.html #}
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center gap-2" href="{{ home_url }}">
-      <span class="logo-badge">GV</span>
-      <span class="gv-logo ms-1">GigVault</span>
+      <img src="{% static 'images/gig-vault-logo4.svg' %}" alt="Gig Vault logo" 
+       class="me-2 gv-logo-icon" width="72" height="72">
+      <span class="gv-logo ms-1">Gig Vault</span>
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

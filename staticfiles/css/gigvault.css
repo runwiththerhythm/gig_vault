@@ -136,13 +136,6 @@
 .gradient-metal    { background: var(--gradient-metal) !important; }
 .gradient-electric { background: var(--gradient-electric) !important; }
 
-.text-gradient-metal {
-  background: var(--gradient-metal);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-}
-
 /* Subtle “vinyl” panel */
 .panel-vinyl {
   background: linear-gradient(180deg, hsl(270 30% 12%), hsl(270 30% 10%));
@@ -296,7 +289,6 @@ a:hover, .link:hover {
 .bg-silver { background-color: var(--color-silver) !important; color: #111; }
 
 .glow-electric { text-shadow: 0 0 10px hsl(270 70% 65% / .5), 0 0 18px hsl(15 100% 55% / .35); }
-. { -webkit-text-stroke: 1px rgba(0,0,0,.65); }
 
 /* Spacing helpers tuned for chunky cards */
 .pad-lg { padding: 2rem !important; }
@@ -445,6 +437,58 @@ a:hover, .link:hover {
 .gv-stat .label { font-size:.8rem; opacity:.75; }
 .gv-stat .value { font-weight:700; font-size:1.6rem; }
 
+/* Stats section cards */
+.gv-card-grid .gv-stat {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Subtle purple glow hover */
+.gv-card-grid .gv-stat:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-accent); /* your electric purple */
+  box-shadow: 0 0 12px hsl(270 70% 65% / 0.4),
+              0 0 24px hsl(270 70% 65% / 0.25);
+}
+
+.gv-stat .stat-icon {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  font-size: 1.2rem;
+  opacity: .35;
+}
+
+.gv-stat .label {
+  font-size: 0.85rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: .25rem;
+}
+
+.gv-stat .value {
+  font-weight: 800;
+  font-size: clamp(1.6rem, 2.5vw + 0.5rem, 2.6rem);
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.gv-stat .hint {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
 /* Media grid */
 .gv-media-grid { display:grid; gap:.75rem; grid-template-columns: repeat(2,1fr); }
 @media (min-width: 768px){ .gv-media-grid { grid-template-columns: repeat(4,1fr); } }
@@ -509,10 +553,19 @@ a:hover { color: var(--bs-link-hover-color, hsl(270 70% 55%)); }
 /* ===== GigVault Titles (simple, consistent, brand gradients) ===== */
 /* ===== Global Headings (crop‑safe, no forced uppercase) ===== */
 
+.gv-logo-icon {
+  display: inline-block;
+  filter: drop-shadow(0 0 6px hsl(270, 70%, 60%)); /* purple glow */
+}
+.gv-logo-text {
+  font-weight: 700;
+}
+
 /* H1: main titles */
-h1 {
+h1, .gv-logo {
   font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
+  font-size: xx-large;
   letter-spacing: .3px;
   line-height: 1.12;
 
@@ -524,7 +577,6 @@ h1 {
 
   display: inline-block;              /* needed for padding/margins below */
   padding: 1em;               /* extend paint area on all sides */
-  margin: -.12em -.18em;              /* visually pull width/height back */
   overflow: visible;
 
   text-shadow:
@@ -542,6 +594,7 @@ h2, h3 {
   line-height: 1.14;
   text-align: center;
 
+
   background: var(--gradient-metal);  /* brand copper → gold */
   -webkit-background-clip: text;
   background-clip: text;
@@ -549,7 +602,7 @@ h2, h3 {
   color: transparent;
 
   display: inline-block;
-  padding: .2em;
+  padding: 1em;
   margin: -.10em -.16em;
   overflow: visible;
 
