@@ -119,8 +119,8 @@
 
 @font-face {
   font-family: "Modern-Thrash";
-  src: url("../fonts/modern-thrash.woff2") format("woff2"),
-       url("../fonts/modern-thrash.woff") format("woff");
+  src: url("../fonts/modern-thrash.aa8e60ae8c2f.woff2") format("woff2"),
+       url("../fonts/modern-thrash.8a09c346fe71.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -553,17 +553,13 @@ a:hover, .link:hover {
 .gv-card,
 .gv-stat,
 .gv-venue-box,
-.preview-card,
- .card,
- .panel-vinyl {
+.preview-card {
   background: var(--color-surface) !important;
   border-color: var(--color-border) !important;
-  color: var(--color-fg) !important;
+  color: var(--color-fg);
 }
 
 .gv-content { background: var(--bs-body-bg); color: var(--bs-body-color); }
-
-.card .card-title, .card .card-text, .card a { color: inherit; }
 
 /* Links readable on both themes */
 a { color: var(--bs-link-color, var(--color-accent)); }

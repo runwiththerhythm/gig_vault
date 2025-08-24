@@ -69,22 +69,40 @@
   --bs-border-radius-sm: .4rem;
 }
 
+/* Surfaces for components (used in both themes) */
+:root {
+  --color-surface: #FFFFFF;
+  --color-border: hsl(25 15% 85%);
+}
+
 /* ------------------------------------
    3) Optional Dark Mode (scoped toggle)
    ------------------------------------ */
+/* === Dark mode (deep purple, accessible) === */
 [data-theme="dark"] {
-  --color-bg: hsl(25 25% 12%);
-  --color-fg: hsl(35 20% 96%);
-  --color-card-bg: hsl(20 10% 18%);
-  --color-panel-dark: hsl(20 5% 10%);
+  /* Foundations */
+  --color-bg: #1E1229;          /* main page background */
+  --color-fg: #F5F3FA;          /* primary text */
+  --color-surface: #2A1F35;     /* cards/panels */
+  --color-muted: #C9C3D6;       /* secondary text */
+  --color-border: #3A2A48;      /* subtle borders/dividers */
 
+  /* Keep brand, tune for AA on dark */
+  --color-primary: #FF4C1A;     /* use dark text if used on light surfaces */
+  --color-accent:  #8E4CD9;     /* purple accent (AA with white) */
+  --color-hot:     #C2188D;     /* magenta (AA with white) */
+  --color-sun:     #FFDD33;     /* use dark text if used on light surfaces */
+
+  /* Map your existing tokens so nothing else breaks */
+  --color-card-bg: var(--color-surface);
+  --color-panel-dark: #2A1F35;
+
+  /* Bootstrap hooks */
   --bs-body-bg: var(--color-bg);
   --bs-body-color: var(--color-fg);
   --bs-dark: var(--color-panel-dark);
-
-  /* Dial back saturation just a tad for comfort on dark */
-  --color-primary: hsl(15 95% 55%);
-  --color-accent: hsl(270 65% 65%);
+  --bs-link-color: var(--color-accent);
+  --bs-link-hover-color: #7BB4FF; /* brighter on dark */
 }
 
 /* Optionally sync to OS dark mode by default */
@@ -115,19 +133,23 @@
   text-transform: uppercase;
   letter-spacing: .5px;
 
-  /* Use existing brand gradient (orange→gold) */
+  /* Use your existing brand gradient variable */
   background: var(--gradient-sunset);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  -webkit-background-clip: text;       /* Chrome/Safari */
+  background-clip: text;                /* Firefox */
+  -webkit-text-fill-color: transparent; /* Chrome/Safari */
+  color: transparent;                   /* Firefox */
 
-  /* Depth + purple glow */
+  /* Depth + subtle purple glow */
   text-shadow:
     0 2px 6px rgba(0,0,0,.35),
     0 0 18px hsl(270 70% 65% / .25);
-}
 
+  /* Rendering niceties (prevents “missing bits” on some fonts) */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block; /* ensures gradient isn’t affected by surrounding whitespace */
+}
 /* Section/page headings (lighter variant) */
 .gv-heading {
   font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
@@ -135,7 +157,7 @@
   text-transform: uppercase;
   letter-spacing: .3px;
 
-  background: var(--gradient-metal); /* copper→gold */
+  background: var(--gradient-metal);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -144,6 +166,7 @@
   text-shadow:
     0 1px 4px rgba(0,0,0,.25),
     0 0 12px hsl(270 70% 65% / .18);
+  display: inline-block;
 }
 
 /* Compact badge mark for “GV” circles/icons */
@@ -310,6 +333,7 @@ a:hover, .link:hover {
 
 /* Section headers with “amp glow” */
 .section-title {
+  font-family: "Modern-Thrash";
   font-weight: 800;
   letter-spacing: .5px;
   text-transform: uppercase;
@@ -523,4 +547,30 @@ a:hover, .link:hover {
   font-weight: 600;
   padding: .6rem 1.4rem;
   border-radius: 0.8rem;
+}
+
+/* Theme-aware surfaces (safe overrides) */
+.gv-card,
+.gv-stat,
+.gv-venue-box,
+.preview-card,
+ .card,
+ .panel-vinyl {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-fg) !important;
+}
+
+.gv-content { background: var(--bs-body-bg); color: var(--bs-body-color); }
+
+.card .card-title, .card .card-text, .card a { color: inherit; }
+
+/* Links readable on both themes */
+a { color: var(--bs-link-color, var(--color-accent)); }
+a:hover { color: var(--bs-link-hover-color, hsl(270 70% 55%)); }
+
+/* Buttons: ensure AA contrast */
+.btn-electric,
+.btn-metal {
+  color: #111; /* gradients are bright; dark text is accessible */
 }

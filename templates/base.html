@@ -9,7 +9,19 @@
 
     <meta name="description" content="{% block meta_description %}GigVault is your personal concert diary to track and remember your live music experiences.{% endblock %}">
     
-    
+    <!-- Theme toggle before CSS -->
+    <script>
+  (function () {
+    try {
+      const saved = localStorage.getItem('gv-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e){}
+  })();
+</script>
+
+
     <!-- Global CSS -->
 
     <!-- Font Awesome CSS -->
@@ -33,7 +45,9 @@
     <meta name="apple-mobile-web-app-title" content="Gig Vault">
     <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
 
-  {% block extra_head %}{% endblock %}
+  {% block extra_head %}
+  {{ form.media }}
+  {% endblock %}
 
 </head>
 
@@ -100,6 +114,19 @@
 
 {% block scripts %}
 {% endblock %}
+
+<!-- Global Theme Toggle (floats on all pages) -->
+<button id="themeToggle"
+        class="btn btn-light shadow rounded-pill"
+        type="button"
+        aria-pressed="false"
+        aria-label="Toggle dark mode"
+        style="position: fixed; right: 1rem; bottom: 1rem; z-index: 1050;">
+  <i class="fas fa-moon"></i>
+</button>
+
+<!-- Include the toggle script -->
+<script src="{% static 'js/theme-toggle.js' %}"></script>
 
 </body>
 
