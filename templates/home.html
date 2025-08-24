@@ -1,49 +1,91 @@
-{% extends 'base.html' %}
-{% block title %} • Home{% endblock %}
+<!-- FILE: templates/core/home.html -->
+{% extends "base.html" %}
+{% block title %}GigVault • Home{% endblock %}
+{% block meta_description %}
+GigVault is your personal gig diary: log every show, upload photos, link setlists & YouTube, and relive your live music memories in a private, beautiful dashboard.
+{% endblock %}
 
 {% block content %}
 
-  <!-- HERO  -->
-  <header class="hero-gigvault mb-4">
+  <!-- HERO -->
+  <header class="hero-gigvault mb-5">
     <div class="container text-center text-md-start">
-      <h1 class="gv-logo mb-2">Gig Vault</h1>
-      <p class="lead mb-4">Welcome to Gig Vault, your personal gig diary and live music memories hangout!</p>
+      <h1 class="gv-title mb-2">GigVault</h1>
+      <p class="lead mb-4">
+        Your personal vault for live music memories. Track, organise, and relive every show — from sweaty clubs to festival fields.
+      </p>
       <div class="d-flex gap-2 flex-wrap">
-        <a href="{% url 'gig_create' %}" class="btn btn-electric">Add a Gig</a>
-        <a href="{% url 'my_gigs' %}" class="btn btn-metal">Open My Vault</a>
+        <a href="{% url 'gig_create' %}" class="btn btn-electric btn-lg">Add a Gig</a>
+        <a href="{% url 'my_gigs' %}" class="btn btn-metal btn-lg">Open My Vault</a>
       </div>
     </div>
   </header>
 
-  <!-- FEATURE CARDS -->
+  <!-- BENEFITS / FEATURES -->
   <section class="container mb-5">
     <div class="row g-4">
       <div class="col-md-4">
         <div class="card card-metal h-100">
           <div class="card-body">
             <h3 class="section-title">Remember Every Show</h3>
-            <p class="mb-0">Bands, venues, dates and photos. Log your memories and create a space to relive them anytime.</p>
+            <p class="mb-0">Bands, venues, dates, notes and photos — all in one place you control.</p>
           </div>
         </div>
       </div>
-
       <div class="col-md-4">
         <div class="card card-metal h-100">
           <div class="card-body">
-            <h3 class="section-title">Easy to use</h3>
-            <p class="mb-0">Autocomplete bands, quick venue search, and photo upload.</p>
+            <h3 class="section-title">Fast Gig Entry</h3>
+            <p class="mb-0">Autocomplete for bands & venues, clean crispy forms, and quick photo uploads.</p>
           </div>
         </div>
       </div>
-
       <div class="col-md-4">
         <div class="card card-metal h-100">
           <div class="card-body">
             <h3 class="section-title">Relive the Set</h3>
-            <p class="mb-0">Browse your photos and store link to YouTube videos to replay the moment and relive the memories.</p>
+            <p class="mb-0">Link YouTube clips to replay the night whenever you like.</p>
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="container mb-5">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-lg-4">
+        <div class="card card-metal h-100">
+          <div class="card-body">
+            <h3 class="section-title">1) Add a gig</h3>
+            <p class="mb-0">Pick the headliner, add supports, choose the venue and date. Done in seconds.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-metal h-100">
+          <div class="card-body">
+            <h3 class="section-title">2) Drop your photos</h3>
+            <p class="mb-0">Upload multiple images, choose one as the cover. Cards look great out of the box.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-metal h-100">
+          <div class="card-body">
+            <h3 class="section-title">3) Link & relive</h3>
+            <p class="mb-0">Attach YouTube links, then browse your vault and relive the energy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY NOTE -->
+  <section class="container mb-5">
+    <div class="panel-vinyl round-2xl pad-lg">
+      <h3 class="section-title mb-3">Private by default</h3>
+      <p class="mb-0">Gig Vault is your diary, not social media. Content stays in your account — no public feed, no follower graph.</p>
     </div>
   </section>
 

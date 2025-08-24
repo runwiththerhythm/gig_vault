@@ -125,62 +125,7 @@
   font-style: normal;
   font-display: swap;
 }
-
-/* Big logo / hero text */
-.gv-logo {
-  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-
-  /* Use your existing brand gradient variable */
-  background: var(--gradient-sunset);
-  -webkit-background-clip: text;       /* Chrome/Safari */
-  background-clip: text;                /* Firefox */
-  -webkit-text-fill-color: transparent; /* Chrome/Safari */
-  color: transparent;                   /* Firefox */
-
-  /* Depth + subtle purple glow */
-  text-shadow:
-    0 2px 6px rgba(0,0,0,.35),
-    0 0 18px hsl(270 70% 65% / .25);
-
-  /* Rendering niceties (prevents “missing bits” on some fonts) */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block; /* ensures gradient isn’t affected by surrounding whitespace */
-}
-/* Section/page headings (lighter variant) */
-.gv-heading {
-  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .3px;
-
-  background: var(--gradient-metal);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-
-  text-shadow:
-    0 1px 4px rgba(0,0,0,.25),
-    0 0 12px hsl(270 70% 65% / .18);
-  display: inline-block;
-}
-
-/* Compact badge mark for “GV” circles/icons */
-.logo-badge {
-  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
-  font-weight: 900;
-  letter-spacing: .5px;
-  background: var(--gradient-electric);
-  color: #111;
-  border-radius: 999px;
-  padding: .4rem .7rem;
-  box-shadow: var(--shadow-strong);
-  border: 1px solid hsl(25 40% 35% / .4);
-}
+ /*!-- Rest moved to bottom to over ride any above -->*/
 
 /* --------------------------------------
    5) Gradient & Texture Utilities
@@ -573,4 +518,61 @@ a:hover { color: var(--bs-link-hover-color, hsl(270 70% 55%)); }
 .btn-electric,
 .btn-metal {
   color: #111; /* gradients are bright; dark text is accessible */
+}
+
+/* ===== GigVault Titles (simple, consistent, brand gradients) ===== */
+
+/* Global H1 = big title, orange→gold gradient */
+h1, .gv-title {
+  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  line-height: 1.05;
+
+  background: var(--gradient-sunset); /* brand orange → gold */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  text-shadow:
+    0 2px 6px rgba(0,0,0,.28),
+    0 0 16px hsl(270 70% 65% / .22); /* subtle purple glow */
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global H2/H3 = section headings, copper→gold gradient */
+h2, h3, .gv-subtitle {
+  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  line-height: 1.08;
+
+  background: var(--gradient-metal); /* brand copper → gold */
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  text-shadow:
+    0 1px 4px rgba(0,0,0,.22),
+    0 0 10px hsl(270 70% 65% / .18);
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Navbar brand safety: ensure Bootstrap’s link color doesn’t override the gradient */
+.navbar-brand .gv-title,
+.navbar-brand .gv-subtitle {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
 }

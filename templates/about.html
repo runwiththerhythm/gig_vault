@@ -1,26 +1,26 @@
+<!-- FILE: templates/core/about.html -->
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}About • GigVault{% endblock %}
+{% block meta_description %}
+About Gig Vault Concert Diary Live Music Tracker Experience
+{% endblock %}
 
 {% block content %}
 <section class="py-5 bg-dark text-light">
   <div class="container">
     <div class="row align-items-center g-4">
-      <div class="col-lg-6">
-        <h1 class="gv-logo fw-bold mb-3">About <span class="text-warning">GigVault</span></h1>
-        <p class="lead mb-4">
-          Your personal vault for live music memories. GigVault is a gig tracker and concert journal built for music fans.
-          Gig Vault helps you <strong>track, organise, and relive your live music experiences</strong>.
+      <div class="col-lg-7">
+        <h1 class="gv-title mb-3">About Gig Vault</h1>
+        <p class="lead mb-3">
+          Gig Vault grew from a simple need: stop forgetting great nights out.
+          Instead of another social feed, I wanted to create a <strong>private, durable archive</strong> that makes it effortless to log gigs and relive them beautifully inside your vault.
         </p>
-
-        <div class="d-flex gap-3 flex-wrap">
-        </div>
       </div>
-
-      <div class="col-lg-6">
+      <div class="col-lg-5">
         <div class="ratio ratio-16x9 rounded-4 overflow-hidden border border-warning-subtle">
-          <img src="{% static 'images/concert2.png' %}" alt="Crowd at a concert with lights and stage"
+          <img src="{% static 'images/concert2.png' %}"
+               alt="GigVault aesthetic: lights, haze, and live energy"
                class="w-100 h-100 object-fit-cover">
         </div>
       </div>
@@ -32,58 +32,70 @@
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-8">
-        <h2 class="h3 mb-3">Why GigVault?</h2>
+        <h2 class="h3 mb-3">How & Why it was built</h2>
         <p>
-          Over the years, it’s easy to lose track of all the live shows you’ve been to, support bands, setlists, festival line-ups and iconic venues. Gig Vault was created to keep those memories organised and alive.
-          GigVault was created out of a love for live music and the desire to never lose those moments again.
+          GigVault is intentionally <strong>experience-first</strong>: capture the essentials in seconds, then layer in media and links as you like.
+          It’s for regular gig-goers and festival lifers who want <em>their</em> archive — not a follower graph.
         </p>
 
-        <h3 class="h5 mt-4">Built for regular gig-goers and festival veterans</h3>
-        <ul class="list-unstyled mt-3">
-          <li class="mb-2">• <strong>Your gigs:</strong> Add past shows and upcoming events in one place.</li>
-          <li class="mb-2">• <strong>Your photos:</strong> Upload images that capture the atmosphere and your festival crew.</li>
-          <li class="mb-2">• <strong>Setlists & videos:</strong> Link to setlist.fm and discover YouTube clips to relive the music.</li>
-          <li class="mb-2">• <strong>Your dashboard:</strong> A clear view of what you’ve seen and what’s coming up.</li>
+        <h3 class="h5 mt-4">Technical highlights</h3>
+        <ul class="mt-2">
+          <li><strong>Django 4.2 LTS</strong> with Bootstrap 5.3 UI.</li>
+          <li><strong>Postgres (Heroku)</strong> using <code>dj-database-url</code> and <strong>Whitenoise</strong> for static assets.</li>
+          <li><strong>Images via Cloudinary</strong> (multi-upload widget); <code>GigImage</code> model enforces max one cover.</li>
+          <li><strong>Forms: crispy-forms + crispy-bootstrap5</strong> for consistent, accessible layouts.</li>
+          <li><strong>Autocomplete:</strong> django‑autocomplete‑light (DAL) for bands/supports.</li>
+          <li><strong>Rich text:</strong> django‑summernote for notes (with safe sanitization).</li>
+          <li><strong>Venue Search:</strong> Mapbox <em>Search JS</em> Hidden fields: <code>venue_name</code>, <code>venue_city</code>, <code>venue_country</code> (+ optional <code>address_text</code>).</li>
+          <li><strong>Media linking only:</strong> sYouTube links/embeds; no uploads to YouTube or setlists stored locally.</li>
+          <li><strong>Privacy:</strong> single‑user diary model — no public sharing between accounts.</li>
+        </ul>
+
+        <h3 class="h5 mt-4">Roadmap</h3>
+        <ul class="mt-2">
+          <li>Festival child gigs; quick‑add flows.</li>
+          <li>Smarter YouTube surfacing on gig detail.</li>
+          <li>Optional import tools for older gig lists.</li>
         </ul>
 
         <p class="mt-4">
-          It’s more than a log — it’s a <strong>living archive</strong> where festival energy meets personal storytelling.
+          Want to suggest a feature or report a bug?
+          <a href="mailto:gigvault@proton.me" class="link">Email the developer</a>.
         </p>
       </div>
 
       <div class="col-lg-4">
         <div class="p-4 bg-body-tertiary rounded-4 border">
-          <h3 class="h5 mb-3">Highlights</h3>
+          <h3 class="h5 mb-3">Project Snapshot</h3>
           <div class="vstack gap-3">
             <div>
-              <div class="fw-semibold">Fast gig entry</div>
-              <small class="text-body-secondary">Autocomplete for bands and venues with clean, crispy forms.</small>
+              <div class="fw-semibold">Stack</div>
+              <small class="text-body-secondary">Python 3.12, Django 4.2, Bootstrap 5.3</small>
             </div>
             <div>
-              <div class="fw-semibold">Photos that shine</div>
-              <small class="text-body-secondary">Upload multiple images; pick a cover; beautiful gig cards.</small>
+              <div class="fw-semibold">DB & Hosting</div>
+              <small class="text-body-secondary">Postgres (Heroku), Whitenoise</small>
             </div>
             <div>
-              <div class="fw-semibold">Relive the set</div>
-              <small class="text-body-secondary">Setlist.fm links and YouTube embeds to replay the night.</small>
+              <div class="fw-semibold">Media</div>
+              <small class="text-body-secondary">Cloudinary</small>
             </div>
             <div>
-              <div class="fw-semibold">Your space</div>
-              <small class="text-body-secondary">Private by default — it’s your diary, not social media.</small>
+              <div class="fw-semibold">Forms & UX</div>
+              <small class="text-body-secondary">crispy-forms, DAL, Summernote</small>
+            </div>
+            <div>
+              <div class="fw-semibold">Integrations</div>
+              <small class="text-body-secondary">Mapbox Search JS, YouTube</small>
+            </div>
+            <div>
+              <div class="fw-semibold">Privacy</div>
+              <small class="text-body-secondary">User-private by design</small>
             </div>
           </div>
-
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<section class="py-5 bg-body-tertiary">
-  <div class="container">
-    <div class="text-center">
-      <h2 class="h3 mb-3">Ready to build your vault?</h2>
-      <p class="mb-4">Start your collection, keep your memories alive, and relive the music anytime.</p>
     </div>
   </div>
 </section>
