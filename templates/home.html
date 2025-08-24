@@ -6,8 +6,8 @@
   <!-- HERO  -->
   <header class="hero-gigvault mb-4">
     <div class="container text-center text-md-start">
-      <h1 class="display-1 mb-2">Gig Vault</h1>
-      <p class="lead mb-4">Welcome to Gig Vault, your personal gig diary and live music memories hangout!.</p>
+      <h1 class="gv-logo mb-2">Gig Vault</h1>
+      <p class="lead mb-4">Welcome to Gig Vault, your personal gig diary and live music memories hangout!</p>
       <div class="d-flex gap-2 flex-wrap">
         <a href="{% url 'gig_create' %}" class="btn btn-electric">Add a Gig</a>
         <a href="{% url 'my_gigs' %}" class="btn btn-metal">Open My Vault</a>
@@ -15,14 +15,14 @@
     </div>
   </header>
 
-  <!-- FEATURE CARDS (uses card-metal + section-title) -->
+  <!-- FEATURE CARDS -->
   <section class="container mb-5">
     <div class="row g-4">
       <div class="col-md-4">
         <div class="card card-metal h-100">
           <div class="card-body">
             <h3 class="section-title">Remember Every Show</h3>
-            <p class="mb-0">Bands, venues, dates, photos — log your memories and create a space to relive them.</p>
+            <p class="mb-0">Bands, venues, dates and photos. Log your memories and create a space to relive them anytime.</p>
           </div>
         </div>
       </div>
@@ -40,21 +40,14 @@
         <div class="card card-metal h-100">
           <div class="card-body">
             <h3 class="section-title">Relive the Set</h3>
-            <p class="mb-0">Link to setlist.fm and YouTube to replay the moment, anytime.</p>
+            <p class="mb-0">Browse your photos and store link to YouTube videos to replay the moment and relive the memories.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- INFO STRIP (uses alert palette inside a neutral container) -->
-  <section class="container mb-4">
-    <div class="alert alert-info mb-3" role="alert">
-      Tip: Start by adding your most unforgettable gig, maybe you can also import
-    </div>
-  </section>
-
-  <!-- CTA STRIP (uses gradient utility + simple utilities) -->
+  <!-- CTA STRIP -->
   <section class="py-5 gradient-electric">
     <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
       <div class="mb-3 mb-md-0">
