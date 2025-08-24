@@ -12,11 +12,7 @@ Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 Gig Vault is a personal live music diary application that helps fans track, organise, and remember their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their concert journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
 
 
-**Site Mockups**
-*([amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com), [techsini](https://techsini.com/multi-mockup), etc.)*
-Having issues generating site mockups? This is likely due to security policies with your deployed site.
-If you open up your DevTools, there may be an error referencing `X-Frame-Options`.
-
+**Site Mockup**
 ![screenshot](documentation/mockup.png)
 
 source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com)
@@ -87,55 +83,34 @@ source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-v
 
 ### Colour Scheme
 
-⚠️INSTRUCTIONS ⚠️
-
-Explain your colors and color scheme. Consider adding a link and screenshot for your color scheme using [coolors](https://coolors.co/generate).
-
-When you add a color to the palette, the URL is dynamically updated, making it easier for you to return back to your color palette later if needed. See example below:
-
-⚠️ --- END --- ⚠️
-
-I used [coolors.co](https://coolors.co/080708-3772ff-df2935-fdca40-e6e8e6) to generate my color palette.
-
-- `#000000` primary text.
-- `#3772FF` primary highlights.
-- `#DF2935` secondary text.
-- `#FDCA40` secondary highlights.
+I used [coolors.co](https://coolors.co) to finalise my color palette.
 
 ![screenshot](documentation/coolors.png)
 
+The Gig Vault palette was chosen to reflect the energy and atmosphere of live music, especially the lighting set you experience at concerts and festivals.
+
+Fiery Orange (#FF4C1A) & Golden Yellow (#FFDD33)
+Inspired by stage lights, pyrotechnics, and sunset skies at outdoor gigs. These warm tones bring immediacy and excitement to buttons and call-to-action elements.
+
+Electric Purple (#8E4CD9) & Magenta Pink (#C2188D)
+Drawn from the neon floods, strobes and lasers. These cooler, high-energy colours balance the warm tones and give a sense of atmosphere and nightlife.
+
+Light Mode Foundations (#FAF9F6 background, #1A1A1A text)
+Chosen for readability and a clean diary-like feel, so users can comfortably browse and log gigs in daylight settings.
+
+Dark Mode Foundations (#1E1229 deep purple background, #F5F3FA text)
+Inspired by the low-light conditions of concert venues, with a subtle purple tint to feel immersive but easy on the eyes. This mode echoes the ambience of being in the crowd under stage lighting.
+
+By combining these brights with neutral light and dark foundations, Gig Vault maintains accessibility (AA contrast) while also capturing the vibrant, high-contrast lighting environment of live shows.
+
 ### Typography
 
-⚠️ INSTRUCTIONS ⚠️
-
-Explain any fonts and icon libraries used, like **Google Fonts**, **Font Awesome**, etc. Consider adding a link to each font used, the Font Awesome site (if used), or similar icon library.
-
-⚠️ --- END --- ⚠️
-
-- [Montserrat](https://fonts.google.com/specimen/Montserrat) was used for the primary headers and titles.
-- [Lato](https://fonts.google.com/specimen/Lato) was used for all other secondary text.
-- [Font Awesome](https://fontawesome.com) icons were used throughout the site, such as the social media icons in the footer.
+- [Modern Thrash](https://thebrandedquotes.sellfy.store/p/modern-thrash-font/) was used for the primary headers and titles. This font evokes heavy metal artwork, festival branding and live posters, with sharp edges and a distorted aesthetic that ties directly into the live music scene and the energy it creates.
+- System ui font has been used for the body to keep it readable and clear on all devices. 
 
 ## Wireframes
 
-⚠️ INSTRUCTIONS ⚠️
-
-If you've created wireframes or mock-ups, use this section to display screenshots of your wireframes. The example table below uses sample pages from the walkthrough project to give you some inspiration for your own project, so please adjust accordingly.
-
-⚠️ --- END --- ⚠️
-
-To follow best practice, wireframes were developed for mobile, tablet, and desktop sizes.
-I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wireframes.
-
-| Page | Mobile | Tablet | Desktop |
-| --- | --- | --- | --- |
-| Register | ![screenshot](documentation/wireframes/mobile-register.png) | ![screenshot](documentation/wireframes/tablet-register.png) | ![screenshot](documentation/wireframes/desktop-register.png) |
-| Login | ![screenshot](documentation/wireframes/mobile-login.png) | ![screenshot](documentation/wireframes/tablet-login.png) | ![screenshot](documentation/wireframes/desktop-login.png) |
-| Home | ![screenshot](documentation/wireframes/mobile-home.png) | ![screenshot](documentation/wireframes/tablet-home.png) | ![screenshot](documentation/wireframes/desktop-home.png) |
-| Add Blog | ![screenshot](documentation/wireframes/mobile-add-blog.png) | ![screenshot](documentation/wireframes/tablet-add-blog.png) | ![screenshot](documentation/wireframes/desktop-add-blog.png) |
-| Edit Blog | ![screenshot](documentation/wireframes/mobile-edit-blog.png) | ![screenshot](documentation/wireframes/tablet-edit-blog.png) | ![screenshot](documentation/wireframes/desktop-edit-blog.png) |
-| Blog Post | ![screenshot](documentation/wireframes/mobile-blog-post.png) | ![screenshot](documentation/wireframes/tablet-blog-post.png) | ![screenshot](documentation/wireframes/desktop-blog-post.png) |
-| 404 | ![screenshot](documentation/wireframes/mobile-404.png) | ![screenshot](documentation/wireframes/tablet-404.png) | ![screenshot](documentation/wireframes/desktop-404.png) |
+![screenshot](documentation/wireframes.png) |
 
 ## User Stories
 
@@ -167,15 +142,15 @@ I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wirefram
 | Feature | Notes | Screenshot |
 | --- | --- | --- |
 | Register / Login / Logout | Handled by django-allauth, allowing users to create secure accounts, log in, and log out. | ![screenshot](documentation/features/register.png) |
-| Dashboard | The central hub showing upcoming gigs, attended gigs, and quick stats. | ![screenshot](documentation/features/blog-list.png) |
-| My Gigs | Full list view of all a user’s gigs with filtering for upcoming vs past gigs. Entries are displayed as cards with cover images and details. | ![screenshot](documentation/features/add-comment.png) |
-|Add Gig | Users can log a gig they attended or are planning to attend. The form supports band autocomplete, venue search (Mapbox), gig date, status, and genre.| ![screenshot](documentation/features/edit-comment.png) |
-| Edit / Delete Gig | Existing gig entries can be updated or removed, giving users full control over their vault. | ![screenshot](documentation/features/delete-comment.png) |
+| Dashboard | The central hub showing upcoming gigs, attended gigs, and quick stats. | ![screenshot](documentation/features/dashboard.png) |
+| My Gigs | Full list view of all a user’s gigs with filtering for upcoming vs past gigs. Entries are displayed as cards with cover images and details. | ![screenshot](documentation/features/my-gigs.png) |
+|Add Gig | Users can log a gig they attended or are planning to attend. The form supports band autocomplete, venue search (Mapbox), gig date, status, and genre.| ![screenshot](documentation/features/add-new-gig1.png) |
+| Edit / Delete Gig | Existing gig entries can be updated or removed, giving users full control over their vault. | ![screenshot](documentation/features/edit-gig1.png) |
 | Band Autocomplete | Powered by django-autocomplete-light, users can quickly search and select existing bands or add new ones via modal. | ![screenshot](documentation/features/comment-approval.png) |
 | Venue Search | Uses Mapbox Search JS to autocomplete venue details. Venue name, city, and country are stored without needing coordinates. | ![screenshot](documentation/features/create-post.png) |
 | Image Uploads | Users can upload multiple gig images (via Cloudinary). One image can be marked as the cover, and previews are shown before saving. | ![screenshot](documentation/features/update-post.png) |
 | YouTube Integration | Users can auto-search YouTube for videos of their gig and link them directly into the entry. | ![screenshot](documentation/features/delete-post.png) |
-| About Page | Introduces the GigVault project and its purpose.| ![screenshot](documentation/features/heroku.png) |
+| About Page | Introduces the Gig Vault project and its purpose.| ![screenshot](documentation/features/about.png) |
 | 404 | The 404 error page will indicate when a user has navigated to a page that doesn't exist, replacing the default Heroku 404 page with one that ties into the site's look and feel. | ![screenshot](documentation/features/404.png) |
 | Messages / Feedback | Django messages framework provides clear feedback for actions (e.g., gig created, updated, deleted). | ![screenshot](documentation/features/404.png) |
 | Heroku Deployment | Fully deployed to Heroku with Postgres, Cloudinary, and Whitenoise. | ![screenshot](documentation/features/404.png) |

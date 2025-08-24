@@ -7,60 +7,30 @@
 
 ### HTML
 
-⚠️ INSTRUCTIONS ⚠️
+I have used the recommended [HTML W3C Validator](https://validator.w3.org) to validate my HTML files.
 
-1. [*recommended*] If you are using the live deployed site URLs, validate using this link: https://validator.w3.org/#validate_by_uri
-2. Otherwise, if you are copying/pasting your HTML code manually, use this link: https://validator.w3.org/#validate_by_input
-
-It's recommended to validate the live pages (all of them) using the deployed URL. This will give you a custom URL as well, which you can use below on your testing documentation. It makes it easier to return back to a page for validating it again in the future. The URL will look something like this:
-
-- https://validator.w3.org/nu/?doc=https://runwiththerhythm.github.io/gig_vault/index.html
-
-⚠️ --- END --- ⚠️
-
-🛑 IMPORTANT 🛑
-
-RE: Python/Jinja syntax in HTML
-
-Python projects that use Jinja syntax, such as `{% for loops %}`, `{% url 'home' %}`, and `{{ variable|filter }}` will not validate properly if you're copying/pasting into the HTML validator.
-
-In order to properly validate these types of files, it's recommended to [validate by uri](https://validator.w3.org/#validate_by_uri) from the deployed Heroku pages.
-
-Unfortunately, pages that require a user to be "logged-in" and authenticated (CRUD functionality) will not work using this method, due to the fact that the HTML Validator (W3C) doesn't have access to login to an account on your project. In order to properly validate HTML pages with Jinja syntax for authenticated pages, follow these steps:
-
-- Navigate to the deployed pages which require authentication.
-- Right-click anywhere on the page, and select **View Page Source** (usually `CTRL+U` or `⌘+U` on Mac).
-- This will display the entire "compiled" code, without any Jinja syntax.
-- Copy everything, and use the [validate by input](https://validator.w3.org/#validate_by_input) method.
-- Repeat this process for every page that requires a user to be logged-in/authenticated (e.g.: CRUD functionality).
-
-🛑 ---- END --- 🛑
-
-I have used the recommended [HTML W3C Validator](https://validator.w3.org) to validate all of my HTML files.
-
-| Directory | File | URL | Screenshot | Notes |
-| --- | --- | --- | --- | --- |
-| gigs | [band_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/band_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-band_form.png) | ⚠️ Notes (if applicable) |
-| gigs | [dashboard.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-dashboard.png) | ⚠️ Notes (if applicable) |
-| gigs | [dashboard_base.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard_base.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-dashboard_base.png) | ⚠️ Notes (if applicable) |
-| gigs | [gig_confirm_delete.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_confirm_delete.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_confirm_delete.png) | ⚠️ Notes (if applicable) |
-| gigs | [gig_detail.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_detail.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_detail.png) | ⚠️ Notes (if applicable) |
-| gigs | [gig_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_form.png) | ⚠️ Notes (if applicable) |
-| gigs | [my_gigs.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/my_gigs.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-my_gigs.png) | ⚠️ Notes (if applicable) |
-| gigs | [venue_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/venue_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-venue_form.png) | ⚠️ Notes (if applicable) |
-| gigs | [venue_search.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/venue_search.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-venue_search.png) | ⚠️ Notes (if applicable) |
-| templates | [home.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/home.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-home.png) | ⚠️ Notes (if applicable) |
-| templates | [test_403_csrf.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/tests/test_403_csrf.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-test_403_csrf.png) | ⚠️ Notes (if applicable) |
-| templates | [email_confirm.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/email_confirm.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-email_confirm.png) | ⚠️ Notes (if applicable) |
-| templates | [login.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/login.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-login.png) | ⚠️ Notes (if applicable) |
-| templates | [logout.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/logout.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-logout.png) | ⚠️ Notes (if applicable) |
-| templates | [password_reset.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset.png) | ⚠️ Notes (if applicable) |
-| templates | [password_reset_done.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_done.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_done.png) | ⚠️ Notes (if applicable) |
-| templates | [password_reset_from_key.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_from_key.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_from_key.png) | ⚠️ Notes (if applicable) |
-| templates | [password_reset_from_key_done.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_from_key_done.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_from_key_done.png) | ⚠️ Notes (if applicable) |
-| templates | [signup.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/signup.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-signup.png) | ⚠️ Notes (if applicable) |
-| templates | [verification_sent.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/verification_sent.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-verification_sent.png) | ⚠️ Notes (if applicable) |
-
+| Directory | File | URL | Screenshot |
+| --- | --- | --- | --- |
+| gigs | [band_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/band_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-band_form.png) |
+| gigs | [dashboard.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-dashboard.png) |
+| gigs | [dashboard_base.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard_base.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-dashboard_base.png) |
+| gigs | [gig_confirm_delete.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_confirm_delete.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_confirm_delete.png) |
+| gigs | [gig_detail.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_detail.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_detail.png) |
+| gigs | [gig_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_form.png) |
+| gigs | [my_gigs.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/my_gigs.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-my_gigs.png) |
+| gigs | [venue_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/venue_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-venue_form.png) |
+| gigs | [venue_search.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/venue_search.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-venue_search.png) |
+| templates | [home.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/home.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-home.png) |
+| templates | [test_403_csrf.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/tests/test_403_csrf.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-test_403_csrf.png) |
+| templates | [email_confirm.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/email_confirm.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-email_confirm.png) |
+| templates | [login.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/login.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-login.png) |
+| templates | [logout.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/logout.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-logout.png) |
+| templates | [password_reset.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset.png) |
+| templates | [password_reset_done.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_done.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_done.png) | 
+| templates | [password_reset_from_key.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_from_key.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_from_key.png) |
+| templates | [password_reset_from_key_done.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_from_key_done.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_from_key_done.png) |
+| templates | [signup.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/signup.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-signup.png) |
+| templates | [verification_sent.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/verification_sent.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-verification_sent.png) |
 
 ### CSS
 
@@ -77,6 +47,8 @@ I have used the recommended [JShint Validator](https://jshint.com) to validate a
 | Directory | File | URL | Screenshot |
 | --- | --- | --- | --- |
 | gigvault | [image-previews.js](https://github.com/runwiththerhythm/gig_vault/blob/main/static/js/image-previews.js) | [JSHint.com](https://https://jshint.com/) | ![screenshot](documentation/validation/image-previews-validation.png) | 
+| gigvault | [theme-toggle.js](https://github.com/runwiththerhythm/gig_vault/blob/main/static/js/theme-toggle.js) | [JSHint.com](https://https://jshint.com/) | ![screenshot](documentation/validation/theme-toggle
+-validation.png) | 
 
 
 ### Python
