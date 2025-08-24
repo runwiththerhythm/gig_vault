@@ -1,65 +1,173 @@
+{# templates/gigs/gig_detail.html #}
 {% extends "gigs/dashboard_base.html" %}
+{% load static %}
 {% load gig_extras %}
 
-
 {% block page_header %}
-  <h1 class="h3 mb-0">{{ gig.band_name }}</h1>
+  <h1 class="h3 mb-0">{{ gig.band }}</h1>  {# was gig.band_name #}
 {% endblock %}
 
 {% block dashboard_content %}
-  <div class="container mt-2">
-    <p><strong>Venue:</strong> {{ gig.venue }}</p>
-    <p><strong>Date:</strong> {{ gig.date }}</p>
-    <p><strong>Status:</strong> {{ gig.status }}</p>
-    <p><strong>Notes:</strong> {{ gig.notes|linebreaks }}</p>
+<div class="container mt-2">
 
-<!------ Countdown badge for upcoming gigs ------>
-
-  {% countdown_badge gig %}
-
-
-<!------ Video section ------>
-
-<section class="mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <h3 class="h5 mb-0">Videos</h3>
-    <a class="btn btn-sm btn-outline-primary" href="{% url 'gig_videos' gig.pk %}">Manage videos</a>
-  </div>
-
-  <div class="row g-3">
-    {% for v in gig.videos.all %}
-      </article class="col-12 col-md-6">
-        <div class="ratio ratio-16x9">
-
-          <iframe
-            src="{{ v.embed_url }}"
-            title="{{ v.title|default:'YouTube video' }}"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-
+  <!-- ===== Hero / Cover (safe fallback to first image) ===== -->
+  <div class="card card-metal round-2xl shadow-sm overflow-hidden mb-3">
+    {% if gig.images.exists %}
+      {% with hero=gig.images.all|first %}
+        <div class="ratio ratio-21x9 bg-dark">
+          <img
+            src="{{ hero.image.url }}"
+            alt="{% firstof hero.caption gig.band %}"
+            class="w-100 h-100 object-fit-cover">
         </div>
-        {% if v.title %}
-          <div class="mt-2 small text-muted">{{ v.title }}</div>
-        {% endif %}
-      </article>
-    {% empty %}
-      <div class="col-12">
-        <div class="alert alert-secondary">
-          No videos yet — add some from the <a href="{% url 'gig_videos' gig.pk %}">Videos manager</a>.
+      {% endwith %}
+    {% else %}
+      <div class="ratio ratio-21x9 bg-dark d-flex align-items-center justify-content-center">
+        <div class="text-center text-white-50">
+          <i class="fas fa-music fa-2x mb-2 d-block"></i>
+          <span>No cover image yet</span>
         </div>
       </div>
-    {% endfor %}
+    {% endif %}
+
+    <div class="card-body">
+
+      <!-- ===== Top Row: Title + Status + Countdown ===== -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+        <div class="d-flex align-items-center gap-2">
+          <h2 class="h4 mb-0">{{ gig.band }}</h2>  {# was gig.band_name #}
+          {% if gig.is_festival %}
+            <span class="badge bg-warning text-dark">Festival</span>
+          {% endif %}
+          <span class="badge {% if gig.status == 'upcoming' %}bg-info-subtle text-info-emphasis{% else %}bg-success-subtle text-success-emphasis{% endif %}">
+            {{ gig.status|title }}
+          </span>
+        </div>
+
+        {% countdown_badge gig %}
+      </div>
+
+      <!-- ===== Meta Grid ===== -->
+      <div class="row gv-card-grid g-2 mb-3">
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="gv-stat">
+            <div class="label">Date</div>
+            <div class="value">{{ gig.date|date:"D, j M Y" }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="gv-stat">
+            <div class="label">Venue</div>
+            <div class="value">
+              {% if gig.venue and gig.venue.venue_name %}
+                {{ gig.venue.venue_name }}
+                {% if gig.venue.venue_city or gig.venue.venue_country %}
+                  <span class="text-muted small d-block">
+                    {{ gig.venue.venue_city }}{% if gig.venue.venue_city and gig.venue.venue_country %}, {% endif %}{{ gig.venue.venue_country }}
+                  </span>
+                {% endif %}
+              {% else %}
+                {{ gig.venue }}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="gv-stat">
+            <div class="label">Genre</div>
+            <div class="value">{{ gig.genre|default:"—" }}</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="gv-stat">
+            <div class="label">Support</div>
+            <div class="value">
+              {% if gig.other_artists.count %}
+                {% for b in gig.other_artists.all %}
+                  <span class="badge bg-secondary-subtle text-secondary-emphasis me-1 mb-1">{{ b.name }}</span>
+                {% endfor %}
+              {% else %}—{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== Notes ===== -->
+      {% if gig.notes %}
+        <div class="mb-3">
+          <h3 class="h5 mb-2">Notes</h3>
+          <div class="card bg-dark-subtle border-0">
+            <div class="card-body">
+              {{ gig.notes|linebreaks }}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- ===== Image Gallery (skip first to avoid duplicating hero) ===== -->
+      {% if gig.images.count > 1 %}
+        <section class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h3 class="h5 mb-0">Gallery</h3>
+            <a class="btn btn-sm btn-outline-primary" href="{% url 'gig_edit' gig.pk %}#images">Manage photos</a>
+          </div>
+          <div class="row g-2">
+            {% for img in gig.images.all %}
+              {% if not forloop.first %}
+                <div class="col-6 col-md-4 col-xl-3">
+                  <div class="ratio ratio-1x1 rounded-3 overflow-hidden border border-dark-subtle">
+                    <img src="{{ img.image.url }}" alt="{% firstof img.caption gig.band %}" class="w-100 h-100 object-fit-cover">
+                  </div>
+                  {% if img.caption %}
+                    <div class="small text-muted mt-1">{{ img.caption }}</div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      <!-- ===== Videos ===== -->
+      <section class="mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h3 class="h5 mb-0">Videos</h3>
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'gig_videos' gig.pk %}">Manage videos</a>
+        </div>
+
+        <div class="row g-3">
+          {% for v in gig.videos.all %}
+            <article class="col-12 col-md-6">
+              <div class="ratio ratio-16x9 rounded-3 overflow-hidden border border-dark-subtle">
+                <iframe
+                  src="{{ v.embed_url }}"
+                  title="{{ v.title|default:'YouTube video' }}"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+              {% if v.title %}
+                <div class="mt-2 small text-muted">{{ v.title }}</div>
+              {% endif %}
+            </article>
+          {% empty %}
+            <div class="col-12">
+              <div class="alert alert-secondary">
+                No videos yet — add some from the <a href="{% url 'gig_videos' gig.pk %}">Videos manager</a>.
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- ===== Page Actions ===== -->
+      <nav aria-label="Gig actions" class="mt-4 d-flex flex-wrap gap-2">
+        <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'my_gigs' %}" class="btn btn-secondary">Back</a>
+      </nav>
+
+    </div>
   </div>
-</section>
 
-<!------- Page Actions --------> 
-
-  <nav aria-label="Gig actions" class="mt-4 d-flex gap-2">
-      <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-warning">Edit</a>
-      <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-danger">Delete</a>
-      <a href="{% url 'my_gigs' %}" class="btn btn-secondary">Back</a>
-  </nav>
-
-</article>
+</div>
 {% endblock %}
