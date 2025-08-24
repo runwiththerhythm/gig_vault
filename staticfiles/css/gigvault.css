@@ -634,7 +634,21 @@ h2, h3 {
   display: inline-block;
 }
 
-/* Make all form help texts readable in dark */
+/* Make Django/Crispy help text readable in dark */
 [data-bs-theme="dark"] .form-text {
   color: var(--bs-secondary-color, #adb5bd) !important;
+}
+
+/* Minimal Select2 dark mode fix */
+[data-bs-theme="dark"] .select2-container--default .select2-selection,
+[data-bs-theme="dark"] .select2-dropdown,
+[data-bs-theme="dark"] .select2-search__field,
+[data-bs-theme="dark"] .select2-results__option {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .select2-selection__placeholder {
+  color: var(--bs-secondary-color, #adb5bd);
 }

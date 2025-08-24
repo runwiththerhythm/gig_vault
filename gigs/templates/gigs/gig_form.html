@@ -138,8 +138,7 @@
         {{ formset.management_form }}
 
         {% for f in formset %}
-          <div class="mb-3 p-2 rounded border bg-white">
-            {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+          <div class="mb-3 p-2 rounded border bg-body">             {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
             {{ f.non_field_errors }}
 
             <div class="row g-3 align-items-center">
