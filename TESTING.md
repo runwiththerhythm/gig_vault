@@ -131,27 +131,14 @@ I've tested my deployed project to check for responsiveness issues.
 
 ## Browser Compatibility
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to discuss testing the live/deployed site on various browsers. Consider testing at least 3 different browsers, if available on your system. You DO NOT need to use all of the browsers below, just pick any 3 (minimum).
-
-Recommended browsers to consider:
-- [Chrome](https://www.google.com/chrome)
-- [Firefox (Developer Edition)](https://www.mozilla.org/firefox/developer)
-- [Edge](https://www.microsoft.com/edge)
-- [Safari](https://support.apple.com/downloads/safari)
-- [Brave](https://brave.com/download)
-- [Opera](https://www.opera.com/download)
-
-**IMPORTANT**: You must provide screenshots of the browsers you've tested, to "prove" that you've actually tested them.
-
-Please note, there are services out there that can test multiple browser compatibilities at the same time. Some of these are paid services, but some are free. If you use these, you must provide a link to the source used for attribution, and multiple screenshots of the results.
-
-⚠️ --- END --- ⚠️
-
 I've tested my deployed project on multiple browsers to check for compatibility issues.
 
-| Page | Chrome | Firefox | Safari | Notes |
+Browsers used for testing:
+- [Chrome](https://www.google.com/chrome)
+- [Firefox (Developer Edition)](https://www.mozilla.org/firefox/developer)
+- [Brave](https://brave.com/download)
+
+| Page | Chrome | Firefox | Brave | Notes |
 | --- | --- | --- | --- | --- |
 | Register | ![screenshot](documentation/browsers/chrome-register.png) | ![screenshot](documentation/browsers/firefox-register.png) | ![screenshot](documentation/browsers/safari-register.png) | Works as expected |
 | Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/firefox-login.png) | ![screenshot](documentation/browsers/safari-login.png) | Works as expected |
@@ -163,26 +150,14 @@ I've tested my deployed project on multiple browsers to check for compatibility 
 
 ## Lighthouse Audit
 
-⚠️ INSTRUCTIONS ⚠️
-
-Use this space to discuss testing the live/deployed site's Lighthouse Audit reports. Avoid testing the local version (Gitpod/VSCode/etc.), as this can have knock-on effects for performance. If you don't have "Lighthouse" in your Developer Tools, it can be added as an [extension](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk).
-
-Unless your project is a single-page application (SPA), you should test Lighthouse Audit results for all of your pages, for both *mobile* and *desktop*.
-
-**IMPORTANT**: You must provide screenshots of the results, to "prove" that you've actually tested them.
-
-⚠️ --- END --- ⚠️
-
-I've tested my deployed project using the Lighthouse Audit tool to check for any major issues. Some warnings are outside of my control, and mobile results tend to be lower than desktop.
+I've tested my deployed project using the Lighthouse Audit tool to check for any major issues. Mobile results are expected to be lower than desktop.
 
 | Page | Mobile | Desktop |
 | --- | --- | --- |
 | Register | ![screenshot](documentation/lighthouse/mobile-register.png) | ![screenshot](documentation/lighthouse/desktop-register.png) |
 | Login | ![screenshot](documentation/lighthouse/mobile-login.png) | ![screenshot](documentation/lighthouse/desktop-login.png) |
 | Home | ![screenshot](documentation/lighthouse/mobile-home.png) | ![screenshot](documentation/lighthouse/desktop-home.png) |
-| Add Blog | ![screenshot](documentation/lighthouse/mobile-add-blog.png) | ![screenshot](documentation/lighthouse/desktop-add-blog.png) |
-| Edit Blog | ![screenshot](documentation/lighthouse/mobile-edit-blog.png) | ![screenshot](documentation/lighthouse/desktop-edit-blog.png) |
-| Blog Post | ![screenshot](documentation/lighthouse/mobile-blog-post.png) | ![screenshot](documentation/lighthouse/desktop-blog-post.png) |
+| About | ![screenshot](documentation/lighthouse/mobile-about.png) | ![screenshot](documentation/lighthouse/desktop-about.png) |
 | 404 | ![screenshot](documentation/lighthouse/mobile-404.png) | ![screenshot](documentation/lighthouse/desktop-404.png) |
 
 ## Defensive Programming

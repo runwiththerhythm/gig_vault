@@ -652,3 +652,9 @@ h2, h3 {
 [data-bs-theme="dark"] .select2-selection__placeholder {
   color: var(--bs-secondary-color, #adb5bd);
 }
+
+/* Ensures all gig images crop from the top */
+.object-fit-top {
+  object-fit: cover;
+  object-position: top;
+}

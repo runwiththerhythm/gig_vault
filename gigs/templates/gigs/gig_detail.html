@@ -18,7 +18,7 @@
           <img
             src="{{ hero.image.url }}"
             alt="{% firstof hero.caption gig.band %}"
-            class="w-100 h-100 object-fit-cover">
+            class="w-100 h-100 object-fit-top">
         </div>
       {% endwith %}
     {% else %}
@@ -116,7 +116,7 @@
               {% if not forloop.first %}
                 <div class="col-6 col-md-4 col-xl-3">
                   <div class="ratio ratio-1x1 rounded-3 overflow-hidden border border-dark-subtle">
-                    <img src="{{ img.image.url }}" alt="{% firstof img.caption gig.band %}" class="w-100 h-100 object-fit-cover">
+                    <img src="{{ img.image.url }}" alt="{% firstof img.caption gig.band %}" class="w-100 h-100 object-fit-top">
                   </div>
                   {% if img.caption %}
                     <div class="small text-muted mt-1">{{ img.caption }}</div>
