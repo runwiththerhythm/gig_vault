@@ -13,20 +13,6 @@
 {% block dashboard_content %}
 <div class="container mt-3">
 
-  <!-- Slim hero strip for context + back link -->
-  <section class="hero-gigvault round-2xl mb-3">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center gap-2">
-        <span class="logo-badge">GV</span>
-        <span class="fw-semibold">
-          {% if form.instance.pk %}Update your gig details{% else %}Log a new gig or festival{% endif %}
-        </span>
-      </div>
-      <div>
-        <a href="{% url 'my_gigs' %}" class="btn btn-metal btn-sm">Back to My Gigs</a>
-      </div>
-    </div>
-  </section>
 
   <div class="card card-metal round-2xl shadow-sm">
     <div class="card-body">
@@ -35,7 +21,7 @@
         {% csrf_token %}
 
         <!-- ===== Band & Artists ===== -->
-        <h3 class="h6 section-title mb-3">Artists</h3>
+        <h3 class="h4 mb-3">Artists</h3>
         <div class="row g-3">
           <div class="col-md-6">
             {{ form.band|as_crispy_field }}
@@ -67,7 +53,7 @@
         <hr class="my-4">
 
         <!-- ===== Meta (date / festival / status / tour) ===== -->
-        <h3 class="h6 section-title mb-3">Details</h3>
+        <h3 class="h4 mb-3">Details</h3>
         <div class="row g-3">
           <div class="col-sm-4">
             {{ form.date|as_crispy_field }}
@@ -89,7 +75,7 @@
         <hr class="my-4">
 
         <!-- ===== Venue (Mapbox Search JS – text fields only) ===== -->
-        <h3 class="h6 section-title mb-3">Venue</h3>
+        <h3 class="h4 smb-3">Venue</h3>
 
         <div class="gv-venue-box p-3 rounded-3 mb-2">
           <mapbox-search-box
@@ -117,7 +103,7 @@
         <hr class="my-4">
 
         <!-- ===== Notes (summernote) ===== -->
-        <h3 class="h6 section-title mb-3">Notes</h3>
+        <h3 class="h4 mb-3">Notes</h3>
         <div class="mb-2">
           {{ form.notes|as_crispy_field }}
         </div>
@@ -125,7 +111,7 @@
         <hr class="my-4">
 
         <!-- ===== New Photos (multi-upload) ===== -->
-        <h3 class="h6 section-title mb-3">Add Photos</h3>
+        <h3 class="h4 mb-3">Add Photos</h3>
 
         <!-- Hidden input your JS targets -->
         <input id="id_images" name="images" type="file" multiple class="d-none" accept="image/*">
@@ -146,7 +132,7 @@
         <hr class="my-4">
 
         <!-- ===== Existing Images (formset) ===== -->
-        <h3 class="h6 section-title mb-3">Existing Images</h3>
+        <h3 class="h4 mb-3">Existing Images</h3>
 
         {{ formset.non_form_errors }}
         {{ formset.management_form }}

@@ -12,19 +12,17 @@
 {% block dashboard_content %}
 
 
-  {% with u=upcoming_gigs|default:gigs a=attended_gigs %}
-
-  <!-- Upcoming -->
+  <!-- Upcoming section -->
   <div class="gv-card mb-3">
     <div class="gv-card-header d-flex justify-content-between align-items-center">
-      <h2 class="h5 m-0">Upcoming</h2>
-      {% if u %}
+      <h2 class="h4 m-0">Upcoming Gigs</h2>
+      {% if upcoming_gigs %}
         <a href="{% url 'my_gigs' %}?tab=upcoming" class="btn btn-sm btn-outline-secondary">View all</a>
       {% endif %}
     </div>
     <div class="gv-card-body">
-      {% if u %}
-        {% for gig in u %}
+      {% if upcoming_gigs %}
+        {% for gig in upcoming_gigs %}
           {% include "gigs/components/gig_card.html" with gig=gig %}
         {% endfor %}
       {% else %}
@@ -33,17 +31,17 @@
     </div>
   </div>
 
-  <!-- Attended -->
+  <!-- Recently attended section -->
   <div class="gv-card">
     <div class="gv-card-header d-flex justify-content-between align-items-center">
-      <h2 class="h5 m-0">Attended</h2>
-      {% if a %}
+      <h2 class="h4 m-0">Recently Attended</h2>
+      {% if attended_gigs %}
         <a href="{% url 'my_gigs' %}?tab=attended" class="btn btn-sm btn-outline-secondary">View all</a>
       {% endif %}
     </div>
     <div class="gv-card-body">
-      {% if a %}
-        {% for gig in a %}
+      {% if attended_gigs %}
+        {% for gig in attended_gigs %}
           {% include "gigs/components/gig_card.html" with gig=gig %}
         {% endfor %}
       {% else %}
@@ -52,5 +50,4 @@
     </div>
   </div>
 
-  {% endwith %}
 {% endblock %}

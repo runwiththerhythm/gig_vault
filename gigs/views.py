@@ -52,11 +52,21 @@ def gigs_dashboard(request):
 # My gigs view
 class MyGigsView(LoginRequiredMixin, ListView):
     model = Gig
-    template_name = 'gigs/my_gigs.html'
-    context_object_name = 'gigs'
+    template_name = "gigs/my_gigs.html"
+    context_object_name = "gigs"  # unused by the template, but fine to keep
 
     def get_queryset(self):
-        return Gig.objects.filter(user=self.request.user).order_by('-date')
+        # We won't use 'gigs' in the template; return empty or keep your original.
+        return Gig.objects.filter(user=self.request.user).order_by("-date")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        base = Gig.objects.filter(user=self.request.user)
+
+        # Mirror your dashboard logic (uses status field)
+        context["upcoming_gigs"] = base.filter(status="upcoming").order_by("date")
+        context["attended_gigs"] = base.filter(status="attended").order_by("-date")
+        return context
 
 
 # Create gig view
