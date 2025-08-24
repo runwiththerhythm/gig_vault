@@ -16,7 +16,8 @@ from dal import autocomplete
 from django.http import JsonResponse
 from django.conf import settings
 from django.views.decorators.http import require_GET, require_POST
-from django.db.models import Q
+from django.db.models import Q, Count
+from django.utils import timezone
 
 from .models import Band, Venue, Gig, GigImage, GigVideo
 from .forms import GigForm, GigImageFormSet, GigVideoFormSet
@@ -39,11 +40,81 @@ def gigs_dashboard(request):
             status='upcoming'
         ).order_by('date')[:50]
     )
+    # Lightweight stats for the header strip
+  # --- STATS (schema: Gig.venue -> Venue(city, country)) ---
+    qs = Gig.objects.filter(user=request.user)
 
-    return render(request, "gigs/dashboard.html", {
-        "attended_gigs": attended_gigs,
-        "upcoming_gigs": upcoming_gigs
-    })
+    total_gigs = qs.count()
+    upcoming = qs.filter(status='upcoming').count()
+
+    # Distinct city+country pairs from Venue
+    cities = (
+        qs.filter(venue__isnull=False)
+          .exclude(venue__city__isnull=True)
+          .exclude(venue__city='')
+          .values('venue__city', 'venue__country')
+          .distinct()
+          .count()
+    )
+
+    # Most visited city
+    most_city_row = (
+        qs.filter(venue__isnull=False)
+          .exclude(venue__city__isnull=True)
+          .exclude(venue__city='')
+          .values('venue__city', 'venue__country')
+          .annotate(n=Count('id'))
+          .order_by('-n', '-date')
+          .first()
+    )
+    if most_city_row:
+        city = most_city_row['venue__city']
+        country = most_city_row['venue__country'] or ''
+        most_city = f"{city}, {country}".strip().rstrip(',')  # handles blank country
+    else:
+        most_city = None
+
+    # Top band by appearances (uses band FK)
+    top_band_row = (
+        qs.filter(band__isnull=False)
+          .values('band__name')
+          .annotate(n=Count('id'))
+          .order_by('-n', '-date')
+          .first()
+    )
+    top_band_name = top_band_row['band__name'] if top_band_row else None
+
+    # Nice extras (safe + tiny)
+    today = timezone.now().date()
+    this_year_count = qs.filter(date__year=today.year).count()
+    last_30_days = qs.filter(date__gte=today - timezone.timedelta(days=30),
+                             date__lte=today).count()
+    first_gig = qs.order_by('date').values_list('date', flat=True).first()
+    latest_gig = qs.order_by('-date').values_list('date', flat=True).first()
+
+    stats = {
+        'total_gigs': total_gigs,
+        'upcoming': upcoming,
+        'cities': cities,
+        'most_city': most_city,
+        'top_band_name': top_band_name,
+        'this_year_count': this_year_count,
+        'last_30_days': last_30_days,
+        'first_gig': first_gig,
+        'latest_gig': latest_gig,
+    }
+    # --- END STATS ---
+
+
+    return render(
+        request,
+        "gigs/dashboard.html",
+        {
+            "attended_gigs": attended_gigs,
+            "upcoming_gigs": upcoming_gigs,
+            "stats": stats,  # <- pass to template
+        },
+    )
 
 
 # Class based views for CRUD implementations
@@ -56,7 +127,6 @@ class MyGigsView(LoginRequiredMixin, ListView):
     context_object_name = "gigs"  # unused by the template, but fine to keep
 
     def get_queryset(self):
-        # We won't use 'gigs' in the template; return empty or keep your original.
         return Gig.objects.filter(user=self.request.user).order_by("-date")
 
     def get_context_data(self, **kwargs):
@@ -64,8 +134,10 @@ class MyGigsView(LoginRequiredMixin, ListView):
         base = Gig.objects.filter(user=self.request.user)
 
         # Mirror your dashboard logic (uses status field)
-        context["upcoming_gigs"] = base.filter(status="upcoming").order_by("date")
-        context["attended_gigs"] = base.filter(status="attended").order_by("-date")
+        context["upcoming_gigs"] = base.filter(
+            status="upcoming").order_by("date")
+        context["attended_gigs"] = base.filter(
+            status="attended").order_by("-date")
         return context
 
 
