@@ -430,12 +430,16 @@ a:hover, .link:hover {
 .gv-card { background:#fff; border: 1px solid rgba(0,0,0,.06); border-radius: var(--bs-border-radius-lg); box-shadow: var(--shadow-soft); }
 .gv-card-header { padding:.875rem 1rem; border-bottom: 1px solid rgba(0,0,0,.06); }
 .gv-card-body { padding: 1rem; }
-.gv-card-grid { display: grid; gap: 1rem; }
 @media (min-width: 992px){ .gv-card-grid { grid-template-columns: repeat(12, 1fr); } }
 
-.gv-stat { padding: 1rem; border-radius: 14px; background:#fff; border:1px solid rgba(0,0,0,.06); box-shadow: var(--shadow-soft); }
+.gv-stat { padding: 1rem;
+  border-radius: 14px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow: var(--shadow-soft);
+}
+
 .gv-stat .label { font-size:.8rem; opacity:.75; }
-.gv-stat .value { font-weight:700; font-size:1.6rem; }
 
 /* Stats section cards */
 .gv-card-grid .gv-stat {
@@ -553,6 +557,10 @@ a:hover { color: var(--bs-link-hover-color, hsl(270 70% 55%)); }
 /* ===== GigVault Titles (simple, consistent, brand gradients) ===== */
 /* ===== Global Headings (crop‑safe, no forced uppercase) ===== */
 
+.gv-hero {
+  font-size: 5em;
+}
+
 .gv-logo-icon {
   display: inline-block;
   filter: drop-shadow(0 0 6px hsl(270, 70%, 60%)); /* purple glow */
@@ -601,7 +609,7 @@ h2, h3 {
   -webkit-text-fill-color: transparent;
   color: transparent;
 
-  display: inline-block;
+  display: block;
   padding: 1em;
   margin: -.10em -.16em;
   overflow: visible;
@@ -624,4 +632,9 @@ h2, h3 {
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
   display: inline-block;
+}
+
+/* Make all form help texts readable in dark */
+[data-bs-theme="dark"] .form-text {
+  color: var(--bs-secondary-color, #adb5bd) !important;
 }
