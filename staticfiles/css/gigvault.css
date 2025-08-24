@@ -521,16 +521,17 @@ a:hover { color: var(--bs-link-hover-color, hsl(270 70% 55%)); }
 }
 
 /* ===== GigVault Titles (simple, consistent, brand gradients) ===== */
+/* ===== Global Headings (GigVault) ===== */
 
-/* Global H1 = big title, orange→gold gradient */
-h1, .gv-title {
+/* H1: main titles */
+h1 {
   font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .4px;
   line-height: 1.05;
 
-  background: var(--gradient-sunset); /* brand orange → gold */
+  background: var(--gradient-sunset); /* orange → gold (brand var) */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -538,21 +539,21 @@ h1, .gv-title {
 
   text-shadow:
     0 2px 6px rgba(0,0,0,.28),
-    0 0 16px hsl(270 70% 65% / .22); /* subtle purple glow */
+    0 0 16px hsl(270 70% 65% / .22); /* subtle purple aura */
   display: inline-block;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Global H2/H3 = section headings, copper→gold gradient */
-h2, h3, .gv-subtitle {
+/* H2/H3: section headings */
+h2, h3 {
   font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .3px;
   line-height: 1.08;
 
-  background: var(--gradient-metal); /* brand copper → gold */
+  background: var(--gradient-metal); /* copper → gold (brand var) */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -564,15 +565,4 @@ h2, h3, .gv-subtitle {
   display: inline-block;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-
-/* Navbar brand safety: ensure Bootstrap’s link color doesn’t override the gradient */
-.navbar-brand .gv-title,
-.navbar-brand .gv-subtitle {
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  display: inline-block;
 }
