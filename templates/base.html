@@ -85,18 +85,30 @@
     {% block content %}{% endblock content %}
   </main>
 
-  <footer class="footer mt-auto py-3 bg-dark">
-    <div class="container text-center text-white">
-      <p class="m-0">&copy; {% now "Y" %} Gig Vault</p>
-      <p class="m-0">
-        Follow us:
-        <i class="fab fa-facebook-square ms-3"></i>
-        <i class="fab fa-twitter-square ms-3"></i>
-        <i class="fab fa-instagram-square ms-3"></i>
-        <i class="fab fa-youtube-square ms-3"></i>
-      </p>
-    </div>
-  </footer>
+  <footer class="footer mt-auto py-3 bg-dark border-top border-secondary">
+  <div class="container text-center text-white">
+    <p class="m-0">&copy; {% now "Y" %} Gig Vault</p>
+    <p class="m-0">
+      Follow us:
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
+         class="text-white ms-3 footer-icon">
+        <i class="fab fa-facebook-square"></i>
+      </a>
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" 
+         class="text-white ms-3 footer-icon">
+        <i class="fab fa-twitter-square"></i>
+      </a>
+      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
+         class="text-white ms-3 footer-icon">
+        <i class="fab fa-instagram-square"></i>
+      </a>
+      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
+         class="text-white ms-3 footer-icon">
+        <i class="fab fa-youtube-square"></i>
+      </a>
+    </p>
+  </div>
+</footer>
 
   <!-- Global JavaScript -->
 

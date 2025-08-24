@@ -658,3 +658,14 @@ h2, h3 {
   object-fit: cover;
   object-position: top;
 }
+
+/* Footer social icon hover styles */
+.footer-icon {
+  transition: color 0.3s ease, transform 0.2s ease;
+  font-size: 1.5rem;
+}
+
+.footer-icon:hover {
+  color: var(--bs-warning);
+  transform: scale(1.15);
+}
