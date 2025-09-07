@@ -777,3 +777,87 @@ h2, h3 {
 .navbar.border-bottom {
   border-bottom: 1px solid var(--color-border) !important;
 }
+
+/* ===== Dashboard mobile header polish ===== */
+
+/* Let the gradient bar determine the background; set readable default text */
+.dashboard-mobile-bar {
+  color: var(--color-fg); /* readable over gradient; wordmark will use gradient text */
+  padding: .4rem .5rem;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+/* Brand: icon + compact wordmark (lighter than heavy H1 style) */
+.gv-logo-mobile {
+  width: 32px; height: 32px;
+  display: inline-block;
+  filter: drop-shadow(0 0 6px hsl(270 70% 60% / .35));
+}
+
+.gv-wordmark {
+  font-family: "Modern-Thrash", Impact, "Big Shoulders Display", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: .25px;
+  line-height: 1;
+  font-size: 1.1rem;
+  padding: 10px;
+
+  /* gradient text but with NO padding/shadow (clean on mobile) */
+  background: var(--gradient-sunset);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  padding: 0;
+}
+
+/* Keep the hamburger visible on the gradient */
+.dashboard-mobile-bar .btn-hamburger {
+  color: var(--color-fg);
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(0,0,0,.12);
+  backdrop-filter: saturate(1.05) blur(2px);
+  border-radius: .75rem;
+  padding: .35rem .5rem;
+}
+.dashboard-mobile-bar .btn-hamburger i {
+  font-size: 1.1rem; line-height: 1;
+}
+
+/* Offcanvas uses your dark theme */
+.offcanvas.bg-dark { background-color: var(--color-panel-dark) !important; }
+.offcanvas .nav-link { color: var(--color-fg); }
+.offcanvas .nav-link:hover { background: rgba(255,255,255,.08); border-radius: .5rem; }
+
+/* === Gig card mobile polish === */
+
+/* Allow truncation inside flex items (Bootstrap lacks a min-w-0 utility) */
+.min-w-0 { min-width: 0 !important; }
+
+/* Make the thumbnail height responsive (less tall on phones) */
+.card-img-fixed {
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+  height: 180px;
+}
+@media (min-width: 576px) {
+  .card-img-fixed { height: 220px; }
+}
+@media (min-width: 768px) {
+  .card-img-fixed { height: 333px; }
+}
+
+/* Prevent badges/buttons from forcing overflow */
+.badge { white-space: nowrap; }
+
+/* Tighten card body spacing on small screens */
+@media (max-width: 575.98px) {
+  .gv-card .card-body { padding: .75rem; }
+  .gv-card .card-title { margin-bottom: .25rem; }
+}
+
+/* Utility: allow flex children to truncate properly */
+.min-w-0 { min-width: 0 !important; }
+.overflow-hidden { overflow: hidden !important; }

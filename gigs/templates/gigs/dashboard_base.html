@@ -17,7 +17,6 @@
     <div class="row g-0 min-vh-100">
 
       <!-- Desktop sidebar (md+) -->
-      <!-- Desktop sidebar (md+) -->
 <nav class="col-md-2 d-none d-md-block p-0 gv-sidebar">
   <div class="gv-sidebar-inner position-sticky top-0 d-flex flex-column" style="height:100vh;">
     <div class="sidebar-main flex-grow-1 p-3">
@@ -43,20 +42,27 @@
 </nav>
 
 
-      <!-- Mobile header -->
-      <div class="d-md-none sticky-top dashboard-mobile-bar gradient-metal text-white">
-        <div class="container-fluid d-flex align-items-center justify-content-between">
-          <a href="{{ dashboard_url }}" class="navbar-brand m-0 d-flex align-items-center gap-2 text-white text-decoration-none">
-            <span class="logo-badge">GV</span>
-            <span class="fw-semibold">GigVault</span>
-          </a>
-          <button class="btn btn-hamburger" type="button" data-bs-toggle="offcanvas"
-                  data-bs-target="#dashOffcanvas" aria-controls="dashOffcanvas" aria-label="Open menu">
-            <i class="fas fa-bars" aria-hidden="true"></i>
-            <span class="visually-hidden">Open menu</span>
-          </button>
-        </div>
-      </div>
+<!-- Mobile header -->
+<div class="d-md-none sticky-top dashboard-mobile-bar gradient-vinyl">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+    <a href="{{ dashboard_url }}"
+       class="navbar-brand m-0 d-flex align-items-center gap-2 text-decoration-none dashboard-mobile-brand">
+      <!-- Use the same SVG as desktop, just smaller on mobile -->
+      <img src="{% static 'images/gig-vault-logo4.svg' %}"
+           alt="GigVault"
+           class="gv-logo-mobile"
+           width="32" height="32" loading="lazy">
+      <span class="gv-wordmark">Gig Vault</span>
+    </a>
+
+    <button class="btn btn-hamburger" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#dashOffcanvas" aria-controls="dashOffcanvas" aria-label="Open menu">
+      <i class="fas fa-bars" aria-hidden="true"></i>
+      <span class="visually-hidden">Open menu</span>
+    </button>
+  </div>
+</div>
+
 
       <!-- Mobile offcanvas menu -->
       <div class="offcanvas offcanvas-start bg-dark text-white d-md-none"

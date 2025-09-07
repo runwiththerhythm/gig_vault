@@ -5,47 +5,47 @@
 <div class="card gv-card mb-3">
   <div class="row g-0 align-items-stretch">
 
-    <!-- Image column -->
-  {% if gig.get_cover_image %}
-    <div class="col-4 col-md-3">
-        <img src="{{ gig.get_cover_image }}" class="img-fluid rounded-start card-img-fixed" alt="{{ gig.band.name }}">
-      {% else %}
-      <!-- Full width if no image -->
-      <div class="col-12">
-    {% endif %}
+{# Image + text columns, responsive + safe when no image #}
+{% with has_image=gig.get_cover_image %}
+  {% if has_image %}
+    <div class="col-5 col-sm-4 col-md-3">
+      <img src="{{ gig.get_cover_image }}" class="img-fluid rounded-start card-img-fixed" alt="{{ gig.band.name }}">
     </div>
-
-    <!-- Text/actions column -->
-    <div class="col-8 col-md-9">
-      <div class="card-body d-flex justify-content-between align-items-start h-100">
-        <div class="pe-3">
-          <h5 class="card-title mb-1 d-flex align-items-center gap-2">
-  <span class="fw-semibold">
-    {{ gig.band.name }}
-    {% if gig.tour_title %}
-      — <span class="fw-normal">{{ gig.tour_title }}</span>
-    {% endif %}
-  </span>
-
-  {% if gig.is_festival %}
-    <span class="badge bg-warning text-dark">Festival</span>
+    <div class="col-7 col-sm-8 col-md-9">
+  {% else %}
+    {# No image: give the text the full width #}
+    <div class="col-12">
   {% endif %}
-</h5>
+      <div class="card-body d-flex justify-content-between align-items-start h-100 gap-2 flex-wrap">
+        <div class="pe-2 min-w-0 flex-grow-1">
+          <h5 class="card-title mb-1 d-flex align-items-center gap-2 flex-wrap">
+            <span class="fw-semibold flex-grow-1 min-w-0 overflow-hidden">
+              <span class="text-truncate d-inline-block" style="max-width: 100%;">
+                {{ gig.band.name }}
+                {% if gig.tour_title %}
+                  — <span class="fw-normal">{{ gig.tour_title }}</span>
+                {% endif %}
+              </span>
+            </span>
+            {% if gig.is_festival %}
+              <span class="badge bg-warning text-dark flex-shrink-0">Festival</span>
+            {% endif %}
+          </h5>
 
-<p class="text-muted mb-1">
-  {{ gig.venue.name }}, {{ gig.venue.city }}, {{ gig.venue.country }}
-</p>
+          <p class="text-muted mb-1 min-w-0 overflow-hidden">
+            <span class="text-truncate d-inline-block" style="max-width: 100%;">
+              {{ gig.venue.name }}, {{ gig.venue.city }}, {{ gig.venue.country }}
+            </span>
+          </p>
 
-          <p class="mb-2">
+          <p class="mb-2 small lh-sm">
             <strong>Date:</strong> {{ gig.date|date:"F j, Y" }}<br>
-            
-{% countdown_badge gig %}
-
+            {% countdown_badge gig %}
             <strong>Status:</strong> {{ gig.get_status_display }}
           </p>
 
           {% if gig.other_artists.all %}
-            <p class="mb-0">
+            <p class="mb-0 small">
               <strong>Support:</strong>
               {% for band in gig.other_artists.all %}
                 {{ band.name }}{% if not forloop.last %}, {% endif %}
@@ -54,17 +54,16 @@
           {% endif %}
         </div>
 
-        <div class="text-end">
+        <div class="text-end flex-shrink-0">
           <a href="{% url 'gig_detail' gig.pk %}" class="btn btn-sm btn-outline-primary mb-1">
-            <i class="fas fa-eye"></i>View</a><br>
+            <i class="fas fa-eye"></i> View</a><br>
           <a href="{% url 'gig_edit' gig.pk %}" class="btn btn-sm btn-outline-secondary mb-1">
-            <i class="fas fa-edit"></i>Edit</a><br>
+            <i class="fas fa-edit"></i> Edit</a><br>
           <a href="{% url 'gig_delete' gig.pk %}" class="btn btn-sm btn-outline-danger mb-1">
-            <i class="fas fa-trash"></i>Delete</a><br>
+            <i class="fas fa-trash"></i> Delete</a><br>
           <a href="{% url 'gig_videos' gig.pk %}" class="btn btn-outline-warning btn-sm mb-1">
             <i class="fab fa-youtube"></i> Video Vault</a><br>
         </div>
       </div>
     </div>
-  </div>
-</div>
+{% endwith %}
