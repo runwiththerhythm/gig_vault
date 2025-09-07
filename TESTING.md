@@ -148,15 +148,15 @@ The goal was to ensure that users cannot manipulate data belonging to other acco
 | As a user,| I can view a friendly error page if I hit a dead link | so that I’m not confused or lost. |  ![screenshot](documentation/responsiveness/desktop-404.png) |
 | As a logged in user,| I want to add a gig I attended | so that I can manage user engagement effectively. |  ![screenshot](documentation/features/add-new-gig1.png) |
 | As a logged in user, | I want the band field to autocomplete when typing| so I don’t create duplicate entries. |  ![screenshot](documentation/features/band-autocomplete.png) |
-| As a logged in user, | I want to view the full details of a specific gig, | so I can revisit memories and see all the information I entered.|  ![screenshot](documentation/responsiveness/desktop-404.png) |
-| As a logged in user, | I want to edit an existing gig,  | so I can fix mistakes or update information like venue, date, or notes.|  ![screenshot](documentation/responsiveness/desktop-404.png) |
-| As a logged in user, |  I want to delete a gig, | so I can remove any accidental or unwanted entries.|  ![screenshot](documentation/responsiveness/desktop-404.png) |
+| As a logged in user, | I want to view the full details of a specific gig, | so I can revisit memories and see all the information I entered.|  ![screenshot](documentation/features/gig-detail.png) |
+| As a logged in user, | I want to edit an existing gig,  | so I can fix mistakes or update information like venue, date, or notes.|  ![screenshot](documentation/features/edit-gig.png) |
+| As a logged in user, |  I want to delete a gig, | so I can remove any accidental or unwanted entries.|  ![screenshot](documentation/features/delete-gig.png) |
 | As a logged in user, | I want to view a list of all gigs I’ve entered,| so I can browse my gig history easily.|  ![screenshot](documentation/features/my-gigs.png) |
-| As a logged in user, | I want to upload and manage images for a gig,| so I can visually document the concert experience.|  ![screenshot](documentation/responsiveness/desktop-404.png) |
-| As a logged in user, |I want to record a festival as a gig that contains multiple band performances, | so I can document the full experience in one place.|  ![screenshot](documentation/responsiveness/desktop-404.png) |
-| As a logged in user, | I want to add other artists who performed at the same gig,  | sso I can log the full lineup. |  ![screenshot](documentation/responsiveness/desktop-404.png) |
-| As a logged in user,| I want to see relevant YouTube videos from a gig,| so I can relive the performance without having to manually search. |  ![screenshot](documentation/responsiveness/desktop-404.png) |
-| As a logged in user, | I want to quickly see the setlist from the gig,| so I can remember what songs were played. |  ![screenshot](documentation/responsiveness/desktop-404.png) |
+| As a logged in user, | I want to upload and manage images for a gig,| so I can visually document the concert experience.|  ![screenshot](documentation/features/image-uploads.png) |
+| As a logged in user, |I want to record a festival as a gig that contains multiple band performances, | so I can document the full experience in one place.|  ![screenshot](documentation/features/edit-gig.png) |
+| As a logged in user, | I want to add other artists who performed at the same gig,  | sso I can log the full lineup. |  ![screenshot](documentation/features/edit-gig.png) |
+| As a logged in user,| I want to see relevant YouTube videos from a gig,| so I can relive the performance without having to manually search. |  ![screenshot](documentation/features/youtube.png) |
+
 
 ## Automated Testing
 
