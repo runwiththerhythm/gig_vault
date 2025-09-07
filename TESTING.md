@@ -18,19 +18,11 @@ I have used the recommended [HTML W3C Validator](https://validator.w3.org) to va
 | gigs | [gig_detail.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_detail.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_detail.png) |
 | gigs | [gig_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_form.png) |
 | gigs | [my_gigs.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/my_gigs.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-my_gigs.png) |
-| gigs | [venue_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/venue_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-venue_form.png) |
-| gigs | [venue_search.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/venue_search.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-venue_search.png) |
 | templates | [home.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/home.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-home.png) |
-| templates | [test_403_csrf.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/tests/test_403_csrf.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-test_403_csrf.png) |
-| templates | [email_confirm.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/email_confirm.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-email_confirm.png) |
 | templates | [login.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/login.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-login.png) |
 | templates | [logout.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/logout.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-logout.png) |
 | templates | [password_reset.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset.png) |
-| templates | [password_reset_done.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_done.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_done.png) | 
-| templates | [password_reset_from_key.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_from_key.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_from_key.png) |
-| templates | [password_reset_from_key_done.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset_from_key_done.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset_from_key_done.png) |
 | templates | [signup.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/signup.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-signup.png) |
-| templates | [verification_sent.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/verification_sent.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-verification_sent.png) |
 
 ### CSS
 
@@ -131,7 +123,7 @@ The goal was to ensure that users cannot manipulate data belonging to other acco
 | Access Control         | User A should not access User B’s gigs.                                     | Navigated manually to another user’s gig detail via URL manipulation. | Access was denied (404/redirect).                                                           | 
 |                        | Non-superusers should not access admin pages.                               | Attempted to access `/admin/` as a standard user.                    | Access blocked; redirected to login/denied access page.                                      | 
 | Venue Search           | Venue autocomplete must store text fields only (no lat/long).               | Submitted form with Mapbox venue search.                             | Venue details saved correctly as text fields (`venue_name`, `venue_city`, `venue_country`). | screenshot |
-| 404 Error Page         | Invalid URLs should return a custom 404 error page.                         | Navigated to `/test123`.                                             | Custom 404 page displayed with styled GigVault messaging.                                   |
+| 404 Error Page         | Invalid URLs should return a custom 404 error page.                         | Navigated to `/test123`.                                             | Custom 404 page displayed with styled Gig Vault messaging.                                   |
 
 
 ## User Story Testing
@@ -166,7 +158,7 @@ I have conducted a series of automated tests on my application.
 
 ### Python (Unit Testing)
 
-I used Django’s built-in unittest framework to test GigVault’s core functionality (models, views, and helpers). Tests live in gigs/tests.py.
+I used Django’s built-in unittest framework to test Gig Vault’s core functionality (models, views, and helpers). Tests live in gigs/tests.py.
 
 Key tests currently included:
 
