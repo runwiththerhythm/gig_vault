@@ -652,3 +652,57 @@ h2, h3 {
 [data-bs-theme="dark"] .select2-selection__placeholder {
   color: var(--bs-secondary-color, #adb5bd);
 }
+
+/* Ensures all gig images crop from the top */
+.object-fit-top {
+  object-fit: cover;
+  object-position: top;
+}
+
+/* === Footer - social icons === */
+.footer-socials {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-decoration: none !important;
+  transition: transform .2s ease, color .2s ease;
+}
+
+.footer-icon:hover {
+  transform: scale(1.2);
+  color: var(--bs-warning);
+}
+
+.footer-icon:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 .2rem rgba(255, 193, 7, .35);
+  border-radius: .5rem;
+}
+
+
+/* === Floating theme toggle === */
+
+#themeToggle {
+  width: 3rem; height: 3rem; padding: 0; border-radius: 50% !important;
+  display: inline-flex; align-items: center; justify-content: center;
+
+  /* hard overrides .btn-dark variables */
+  color: var(--color-primary) !important;
+  background-color: rgba(0,0,0,0.65) !important;
+  border: 2px solid var(--color-accent) !important;
+}
+
+#themeToggle:hover {
+  color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 8px var(--color-primary) !important;
+}
+
+#themeToggle i { font-size: 1.2rem; line-height: 1; }

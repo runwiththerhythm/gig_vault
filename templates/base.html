@@ -45,6 +45,8 @@
     <meta name="apple-mobile-web-app-title" content="Gig Vault">
     <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
 
+    <meta name="color-scheme" content="dark">
+    
   {% block extra_head %}
   {{ form.media }}
   {% endblock %}
@@ -85,30 +87,41 @@
     {% block content %}{% endblock content %}
   </main>
 
-  <footer class="footer mt-auto py-3 bg-dark border-top border-secondary">
-  <div class="container text-center text-white">
+<footer class="footer mt-auto py-3 bg-dark border-top border-secondary">
+  <div class="container text-center">
     <p class="m-0">&copy; {% now "Y" %} Gig Vault</p>
+
     <p class="m-0">
       Follow us:
-      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-         class="text-white ms-3 footer-icon">
-        <i class="fab fa-facebook-square"></i>
-      </a>
-      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" 
-         class="text-white ms-3 footer-icon">
-        <i class="fab fa-twitter-square"></i>
-      </a>
-      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" 
-         class="text-white ms-3 footer-icon">
-        <i class="fab fa-instagram-square"></i>
-      </a>
-      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" 
-         class="text-white ms-3 footer-icon">
-        <i class="fab fa-youtube-square"></i>
-      </a>
+      <span class="footer-socials">
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+           class="footer-icon" aria-label="Facebook">
+          <i class="fab fa-facebook-square" aria-hidden="true"></i>
+          <span class="visually-hidden">Facebook</span>
+        </a>
+
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+           class="footer-icon" aria-label="Twitter / X">
+          <i class="fab fa-twitter-square" aria-hidden="true"></i>
+          <span class="visually-hidden">Twitter</span>
+        </a>
+
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+           class="footer-icon" aria-label="Instagram">
+          <i class="fab fa-instagram-square" aria-hidden="true"></i>
+          <span class="visually-hidden">Instagram</span>
+        </a>
+
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
+           class="footer-icon" aria-label="YouTube">
+          <i class="fab fa-youtube-square" aria-hidden="true"></i>
+          <span class="visually-hidden">YouTube</span>
+        </a>
+      </span>
     </p>
   </div>
 </footer>
+
 
   <!-- Global JavaScript -->
 
@@ -128,13 +141,14 @@
 
 <!-- Global Theme Toggle (floats on all pages) -->
 <button id="themeToggle"
-        class="btn btn-light shadow rounded-pill"
+        class="btn btn-dark shadow rounded-pill"
         type="button"
-        aria-pressed="false"
+        aria-pressed="true"
         aria-label="Toggle dark mode"
         style="position: fixed; right: 1rem; bottom: 1rem; z-index: 1050;">
-  <i class="fas fa-moon"></i>
+  <i class="fas fa-sun"></i>
 </button>
+
 
 <!-- Include the toggle script -->
 <script src="{% static 'js/theme-toggle.js' %}"></script>
