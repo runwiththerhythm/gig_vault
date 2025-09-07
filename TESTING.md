@@ -47,8 +47,7 @@ I have used the recommended [JShint Validator](https://jshint.com) to validate a
 | Directory | File | URL | Screenshot |
 | --- | --- | --- | --- |
 | gigvault | [image-previews.js](https://github.com/runwiththerhythm/gig_vault/blob/main/static/js/image-previews.js) | [JSHint.com](https://https://jshint.com/) | ![screenshot](documentation/validation/image-previews-validation.png) | 
-| gigvault | [theme-toggle.js](https://github.com/runwiththerhythm/gig_vault/blob/main/static/js/theme-toggle.js) | [JSHint.com](https://https://jshint.com/) | ![screenshot](documentation/validation/theme-toggle
--validation.png) | 
+| gigvault | [theme-toggle.js](https://github.com/runwiththerhythm/gig_vault/blob/main/static/js/theme-toggle.js) | [JSHint.com](https://https://jshint.com/) | ![screenshot](documentation/validation/theme-toggle-validation.png) | 
 
 
 ### Python
@@ -94,13 +93,13 @@ Browsers used for testing:
 
 | Page | Chrome | Firefox | Brave | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/browsers/chrome-register.png) | ![screenshot](documentation/browsers/firefox-register.png) | ![screenshot](documentation/browsers/safari-register.png) | Works as expected |
-| Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/firefox-login.png) | ![screenshot](documentation/browsers/safari-login.png) | Works as expected |
-| Home | ![screenshot](documentation/browsers/chrome-home.png) | ![screenshot](documentation/browsers/firefox-home.png) | ![screenshot](documentation/browsers/safari-home.png) | Works as expected |
-| Add Gig | ![screenshot](documentation/browsers/chrome-add-gig.png) | ![screenshot](documentation/browsers/firefox-add-gig.png) | ![screenshot](documentation/browsers/safari-add-gig.png) | Works as expected |
-| Edit Gig | ![screenshot](documentation/browsers/chrome-edit-gig.png) | ![screenshot](documentation/browsers/firefox-edit-gig.png) | ![screenshot](documentation/browsers/safari-edit-gig.png) | Works as expected |
-| About | ![screenshot](documentation/browsers/chrome-about.png) | ![screenshot](documentation/browsers/firefox-about.png) | ![screenshot](documentation/browsers/safari-about.png) | Works as expected |
-| 404 | ![screenshot](documentation/browsers/chrome-404.png) | ![screenshot](documentation/browsers/firefox-404.png) | ![screenshot](documentation/browsers/safari-404.png) | Works as expected |
+| Register | ![screenshot](documentation/browsers/chrome-register.png) | ![screenshot](documentation/browsers/firefox-register.png) | ![screenshot](documentation/browsers/brave-register.png) | Works as expected |
+| Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/firefox-login.png) | ![screenshot](documentation/browsers/brave-login.png) | Works as expected |
+| Home | ![screenshot](documentation/browsers/chrome-home.png) | ![screenshot](documentation/browsers/firefox-home.png) | ![screenshot](documentation/browsers/brave-home.png) | Works as expected |
+| Add Gig | ![screenshot](documentation/browsers/chrome-add-gig.png) | ![screenshot](documentation/browsers/firefox-add-gig.png) | ![screenshot](documentation/browsers/brave-add-gig.png) | Works as expected |
+| Edit Gig | ![screenshot](documentation/browsers/chrome-edit-gig.png) | ![screenshot](documentation/browsers/firefox-edit-gig.png) | ![screenshot](documentation/browsers/brave-edit-gig.png) | Works as expected |
+| About | ![screenshot](documentation/browsers/chrome-about.png) | ![screenshot](documentation/browsers/firefox-about.png) | ![screenshot](documentation/browsers/brave-about.png) | Works as expected |
+| 404 | ![screenshot](documentation/browsers/chrome-404.png) | ![screenshot](documentation/browsers/firefox-404.png) | ![screenshot](documentation/browsers/brave-404.png) | Works as expected |
 
 ## Lighthouse Audit
 
@@ -120,19 +119,19 @@ Defensive programming was manually tested with user acceptance testing across **
 Testing focused on authentication, form validation, CRUD functionality, and access restrictions.  
 The goal was to ensure that users cannot manipulate data belonging to other accounts, brute-force URLs, or bypass restrictions.
 
-| Page / Feature         | Expectation                                                                 | Test                                                                 | Result                                                                                       | Screenshot |
-|------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------------------------------------------|------------|
-| Gig Management         | Users can create a new gig with required fields (band, venue, date, etc.)   | Submitted gig creation form with valid data.                         | Gig was created successfully and displayed in the dashboard list.                           | screenshot |
-|                        | Users cannot submit an empty gig form.                                      | Tried submitting with missing required fields.                       | Form validation prevented submission and displayed error messages.                          | screenshot |
-|                        | Users can edit their own gigs but not others'.                              | Logged in as User A and attempted to edit User B’s gig.              | Access was denied; only the owner could edit their gig.                                      | screenshot |
-|                        | Users can delete their own gigs after confirmation.                         | Deleted a gig via the dashboard.                                     | Gig was removed from the database and dashboard refreshed.                                   | screenshot |
-| Image Uploads          | Users can upload multiple gig images (cover + gallery).                     | Uploaded multiple files using the image picker.                      | All images were stored; one cover image was set automatically.                              | screenshot |
-| Authentication         | Only registered users can log in and access dashboard.                      | Attempted login with valid and invalid credentials.                   | Valid credentials allowed access; invalid credentials rejected with error message.           | screenshot |
-|                        | Logged-out users cannot access dashboard pages.                             | Logged out and tried accessing `/dashboard/gigs/`.                   | Redirected to login page as expected.                                                        | screenshot |
-| Access Control         | User A should not access User B’s gigs.                                     | Navigated manually to another user’s gig detail via URL manipulation. | Access was denied (404/redirect).                                                           | screenshot |
-|                        | Non-superusers should not access admin pages.                               | Attempted to access `/admin/` as a standard user.                    | Access blocked; redirected to login/denied access page.                                      | screenshot |
+| Page / Feature | Expectation | Test | Result |
+| --- | --- | --- | --- |
+| Gig Management         | Users can create a new gig with required fields (band, venue, date, etc.)   | Submitted gig creation form with valid data.                         | Gig was created successfully and displayed in the dashboard list.                           | 
+|                        | Users cannot submit an empty gig form.                                      | Tried submitting with missing required fields.                       | Form validation prevented submission and displayed error messages.                          | 
+|                        | Users can edit their own gigs but not others'.                              | Logged in as User A and attempted to edit User B’s gig.              | Access was denied; only the owner could edit their gig.                                      | 
+|                        | Users can delete their own gigs after confirmation.                         | Deleted a gig via the dashboard.                                     | Gig was removed from the database and dashboard refreshed.                                   | 
+| Image Uploads          | Users can upload multiple gig images (cover + gallery).                     | Uploaded multiple files using the image picker.                      | All images were stored; one cover image was set automatically.                              | 
+| Authentication         | Only registered users can log in and access dashboard.                      | Attempted login with valid and invalid credentials.                   | Valid credentials allowed access; invalid credentials rejected with error message.           | 
+|                        | Logged-out users cannot access dashboard pages.                             | Logged out and tried accessing `/dashboard/gigs/`.                   | Redirected to login page as expected.                                                        | 
+| Access Control         | User A should not access User B’s gigs.                                     | Navigated manually to another user’s gig detail via URL manipulation. | Access was denied (404/redirect).                                                           | 
+|                        | Non-superusers should not access admin pages.                               | Attempted to access `/admin/` as a standard user.                    | Access blocked; redirected to login/denied access page.                                      | 
 | Venue Search           | Venue autocomplete must store text fields only (no lat/long).               | Submitted form with Mapbox venue search.                             | Venue details saved correctly as text fields (`venue_name`, `venue_city`, `venue_country`). | screenshot |
-| 404 Error Page         | Invalid URLs should return a custom 404 error page.                         | Navigated to `/test123`.                                             | Custom 404 page displayed with styled GigVault messaging.                                   | screenshot |
+| 404 Error Page         | Invalid URLs should return a custom 404 error page.                         | Navigated to `/test123`.                                             | Custom 404 page displayed with styled GigVault messaging.                                   |
 
 
 ## User Story Testing
