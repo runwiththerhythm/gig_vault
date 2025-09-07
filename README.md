@@ -1,4 +1,4 @@
-# [Gig_Vault](https://gig-vault-2fe6800a7bea.herokuapp.com)
+# [Gig Vault](https://gig-vault-2fe6800a7bea.herokuapp.com)
 
 Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 
@@ -7,16 +7,58 @@ Developer: ([runwiththerhythm](https://www.github.com/runwiththerhythm))
 [![GitHub repo size](https://img.shields.io/github/repo-size/runwiththerhythm/gig_vault)](https://www.github.com/runwiththerhythm/gig_vault)
 [![badge](https://img.shields.io/badge/deployment-Heroku-purple)](https://gig-vault-2fe6800a7bea.herokuapp.com)
 
+## Table of Contents
+
+   * [Introduction](#introduction)
+   * [UX](#ux)
+      * [The 5 Planes of UX](#the-5-planes-of-ux)
+         * [1. Strategy](#1-strategy)
+         * [2. Scope](#2-scope)
+         * [3. Structure](#3-structure)
+         * [4. Skeleton](#4-skeleton)
+         * [5. Surface](#5-surface)
+      * [Colour Scheme](#colour-scheme)
+      * [Typography](#typography)
+   * [Wireframes](#wireframes)
+   * [User Stories](#user-stories)
+   * [Features](#features)
+      * [Existing Features](#existing-features)
+      * [Future Features](#future-features)
+   * [Tools &amp; Technologies](#tools--technologies)
+   * [Database Design](#database-design)
+      * [Data Model](#data-model)
+   * [Agile Development Process](#agile-development-process)
+      * [GitHub Projects](#github-projects)
+      * [GitHub Issues](#github-issues)
+   * [Testing](#testing)
+   * [Deployment](#deployment)
+      * [Heroku Deployment](#heroku-deployment)
+      * [Cloudinary API](#cloudinary-api)
+      * [PostgreSQL](#postgresql)
+      * [WhiteNoise](#whitenoise)
+      * [Local Development](#local-development)
+         * [Cloning](#cloning)
+         * [Forking](#forking)
+      * [Local VS Deployment](#local-vs-deployment)
+   * [Credits](#credits)
+      * [Content](#content)
+      * [Media](#media)
+      * [Acknowledgements](#acknowledgements)
+
+**Site Mockup**
+![screenshot](documentation/mockup.png)
+
+source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com)
+
+
 ## Introduction
 
 Gig Vault is a personal live music diary application that helps fans track, organise, and remember their concert experiences. Users can log gigs with band lineups, venues, dates, photos, and videos and create an archive of their concert journey. Unlike generic apps, Gig Vault is designed specifically for concerts and festivals, making it easier to preserve memories and reflect on the role of live music in personal culture.
 
 Designed to appeal to festival goers who want to remember all the bands they've seen when and where over the years.
 
-**Site Mockup**
-![screenshot](documentation/mockup.png)
+## [View deployed version](https://gig-vault-2fe6800a7bea.herokuapp.com)
 
-source: [gig_vault amiresponsive](https://ui.dev/amiresponsive?url=https://gig-vault-2fe6800a7bea.herokuapp.com)
 
 ## UX
 
@@ -153,8 +195,8 @@ By combining these brights with neutral light and dark foundations, Gig Vault ma
 | YouTube Integration | Users can auto-search YouTube for videos of their gig and link them directly into the entry. | ![screenshot](documentation/features/youtube.png) |
 | About Page | Introduces the Gig Vault project and its purpose.| ![screenshot](documentation/features/about.png) |
 | 404 | The 404 error page will indicate when a user has navigated to a page that doesn't exist, replacing the default Heroku 404 page with one that ties into the site's look and feel. | ![screenshot](documentation/features/404.png) |
-| Messages / Feedback | Django messages framework provides clear feedback for actions (e.g., gig created, updated, deleted). | ![screenshot](documentation/features/404.png) |
-| Heroku Deployment | Fully deployed to Heroku with Postgres, Cloudinary, and Whitenoise. | ![screenshot](documentation/features/404.png) |
+| Messages / Feedback | Django messages framework provides clear feedback for actions (e.g., gig created, updated, deleted). | ![screenshot](documentation/features/django-messages.png) |
+| Heroku Deployment | Fully deployed to Heroku with Postgres, Cloudinary, and Whitenoise. | ![screenshot](documentation/features/deployed-heroku.png) |
 
 ### Future Features
 
@@ -482,6 +524,7 @@ There are no remaining major differences between the local version when compared
 | Source | Notes |
 | --- | --- |
 | [Markdown Builder](https://markdown.2bn.dev) | Help generating Markdown files |
+| [Markdown Table of Contents generator](<!-- https://github.com/ekalinin/github-markdown-toc -->) | Generate TOC for README |
 | [I Think Therefore I Blog](https://codeinstitute.net) | Code Institute walkthrough project inspiration |
 | [Bootstrap](https://getbootstrap.com) | Various components / responsive front-end framework |
 | [Cloudinary API](https://cloudinary.com) | Cloud storage for static/media files |
@@ -492,8 +535,7 @@ There are no remaining major differences between the local version when compared
 ### Media
 
 - Images
-    - [Pexels](https://www.pexels.com)
-    - [Unsplash](https://unsplash.com)
+    - [Canva](https://www.canva.com)
 
 | Source | Notes |
 | --- | --- |
