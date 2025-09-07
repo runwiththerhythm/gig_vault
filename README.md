@@ -188,7 +188,7 @@ By combining these brights with neutral light and dark foundations, Gig Vault ma
 | Dashboard | The central hub showing upcoming gigs, attended gigs, and quick stats. | ![screenshot](documentation/features/dashboard.png) |
 | My Gigs | Full list view of all a user’s gigs with filtering for upcoming vs past gigs. Entries are displayed as cards with cover images and details. | ![screenshot](documentation/features/my-gigs.png) |
 |Add Gig | Users can log a gig they attended or are planning to attend. The form supports band autocomplete, venue search (Mapbox), gig date, status, and genre.| ![screenshot](documentation/features/add-new-gig1.png) |
-| Edit / Delete Gig | Existing gig entries can be updated or removed, giving users full control over their vault. | ![screenshot](documentation/features/edit-gig1.png) |
+| Edit / Delete Gig | Existing gig entries can be updated or removed, giving users full control over their vault. | ![screenshot](documentation/features/edit-gig.png) |
 | Band Autocomplete | Powered by django-autocomplete-light, users can quickly search and select existing bands or add new ones via modal. | ![screenshot](documentation/features/band-autocomplete.png) |
 | Venue Search | Uses Mapbox Search JS to autocomplete venue details. Venue name, city, and country are stored without needing coordinates. | ![screenshot](documentation/features/venue.png) |
 | Image Uploads | Users can upload multiple gig images (via Cloudinary). One image can be marked as the cover, and previews are shown before saving. | ![screenshot](documentation/features/image-uploads.png) |
