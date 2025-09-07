@@ -9,20 +9,21 @@
 
 I have used the recommended [HTML W3C Validator](https://validator.w3.org) to validate my HTML files.
 
+
 | Directory | File | URL | Screenshot |
 | --- | --- | --- | --- |
-| gigs | [band_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/band_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-band_form.png) |
-| gigs | [dashboard.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-dashboard.png) |
-| gigs | [dashboard_base.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard_base.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-dashboard_base.png) |
-| gigs | [gig_confirm_delete.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_confirm_delete.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_confirm_delete.png) |
-| gigs | [gig_detail.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_detail.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_detail.png) |
-| gigs | [gig_form.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_form.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-gig_form.png) |
-| gigs | [my_gigs.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/my_gigs.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-gigs-my_gigs.png) |
-| templates | [home.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/home.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-home.png) |
-| templates | [login.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/login.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-login.png) |
-| templates | [logout.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/logout.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-logout.png) |
-| templates | [password_reset.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-password_reset.png) |
-| templates | [signup.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/signup.html) | ⚠️ Link (if applicable) | ![screenshot](documentation/validation/html-templates-signup.png) |
+| gigs | [dashboard.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard.html) | Validated by direct input | ![screenshot](documentation/validation/html-dashboard.png) |
+| gigs | [dashboard_base.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/dashboard_base.html) | Validated by direct input | ![screenshot](documentation/validation/html-dashboard.png)  |
+| gigs | [gig_detail.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/gig_detail.html) | Validated by direct input | ![screenshot](documentation/validation/html-gigs-my_gigs.png) |
+| gigs | [my_gigs.html](https://github.com/runwiththerhythm/gig_vault/blob/main/gigs/templates/gigs/my_gigs.html) | [W3 Validation](https://validator.w3.org/nu/?doc=https://gig-vault-2fe6800a7bea.herokuapp.com/dashboard/gigs/&out=html) | ![screenshot](documentation/validation/html-gigs-my_gigs.png) |
+| templates | [about.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/about.html) | [W3 Validation](https://validator.w3.org/nu/?doc=https://gig-vault-2fe6800a7bea.herokuapp.com/about/&out=html) | ![screenshot](documentation/validation/html-templates-about.png) |
+| templates | [home.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/home.html) | [W3 Validation](https://validator.w3.org/nu/?doc=https://gig-vault-2fe6800a7bea.herokuapp.com/&out=html) | ![screenshot](documentation/validation/html-templates-home.png) |
+| templates | [login.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/login.html) | [W3 Validation](https://validator.w3.org/nu/?doc=https://gig-vault-2fe6800a7bea.herokuapp.com/accounts/login/&out=html) | ![screenshot](documentation/validation/html-templates-login.png) |
+| templates | [password_reset.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/password_reset.html) | [W3 Validation]() | ![screenshot](documentation/validation/html-templates-password_reset.png) | [W3 Validation](https://validator.w3.org/nu/?doc=https://gig-vault-2fe6800a7bea.herokuapp.com/accounts/signup/&out=html)
+| templates | [signup.html](https://github.com/runwiththerhythm/gig_vault/blob/main/templates/account/signup.html) | [W3 Validation](https://validator.w3.org/nu/?doc=https://gig-vault-2fe6800a7bea.herokuapp.com/accounts/signup/&out=html) | ![screenshot](documentation/validation/html-templates-signup.png) |
+
+
+
 
 ### CSS
 
