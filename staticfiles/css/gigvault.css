@@ -8,7 +8,7 @@
    ------------------------------ */
 :root {
   /* Brand palette */
-  --color-primary: hsl(15 100% 55%);    /* Fiery orange */
+  --color-primary: hsl(25 80% 50%);    /* Fiery orange */
   --color-secondary: hsl(25 45% 85%);   /* Burnished copper (soft neutral) */
   --color-accent: hsl(270 70% 65%);     /* Electric purple */
 
@@ -429,11 +429,6 @@ a:hover, .link:hover {
   color: hsl(35 20% 96%);
   border-right: 1px solid rgba(255,255,255,0.06);
 }
-.gv-sidebar .nav-link {
-  color: inherit; border-radius: 10px; padding: .5rem .75rem; transition: background .15s ease;
-}
-.gv-sidebar .nav-link.active,
-.gv-sidebar .nav-link:hover { background: rgba(255,255,255,0.08); }
 
 .gv-content { background: var(--bs-body-bg); }
 .gv-content-inner { padding: 1rem; }
@@ -594,12 +589,7 @@ h1, .gv-logo {
   display: inline-block;              /* needed for padding/margins below */
   padding: 1em;               /* extend paint area on all sides */
   overflow: visible;
-
-  text-shadow:
-    0 2px 6px rgba(0,0,0,.28),
-    0 0 16px hsl(270 70% 65% / .22);  /* subtle purple aura behind */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-shadow:none;
 }
 
 /* H2/H3: section headings */
@@ -609,24 +599,16 @@ h2, h3 {
   letter-spacing: .25px;
   line-height: 1.14;
   text-align: center;
-
-
   background: var(--gradient-metal);  /* brand copper → gold */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-
   display: block;
   padding: 1em;
   margin: -.10em -.16em;
   overflow: visible;
-
-  text-shadow:
-    0 1px 4px rgba(0,0,0,.22),
-    0 0 10px hsl(270 70% 65% / .18);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-shadow:none;
 }
 
 /* If any parent is clipping, this helps in common containers */
@@ -727,13 +709,12 @@ h2, h3 {
 
 .navbar .gv-logo {
   font-size: clamp(1.15rem, 2.4vw, 1.6rem);
-  padding: 0;                 /* avoid big mobile padding */
   text-shadow: 0 1px 3px rgba(0,0,0,.18); /* soften on mobile without killing vibe */
 }
 
 /* 3) Nav link legibility + active/hover states */
 .navbar .nav-link {
-  color: var(--color-fg) !important;     /* readable in dark navbar */
+  color: hsl(25 80% 50%);     /* readable in dark navbar */
   padding: .5rem .75rem;
   border-radius: .5rem;
   transition: color .15s ease, background .15s ease, box-shadow .15s ease;
@@ -801,8 +782,6 @@ h2, h3 {
   line-height: 1;
   font-size: 1.1rem;
   padding: 10px;
-
-  /* gradient text but with NO padding/shadow (clean on mobile) */
   background: var(--gradient-sunset);
   -webkit-background-clip: text;
   background-clip: text;
@@ -826,9 +805,7 @@ h2, h3 {
 }
 
 /* Offcanvas uses your dark theme */
-.offcanvas.bg-dark { background-color: var(--color-panel-dark) !important; }
 .offcanvas .nav-link { color: var(--color-fg); }
-.offcanvas .nav-link:hover { background: rgba(255,255,255,.08); border-radius: .5rem; }
 
 /* === Gig card mobile polish === */
 
@@ -861,3 +838,124 @@ h2, h3 {
 /* Utility: allow flex children to truncate properly */
 .min-w-0 { min-width: 0 !important; }
 .overflow-hidden { overflow: hidden !important; }
+
+/* === Shared deep-purple nav surface + DRY link styles === */
+
+/* Surface (deep vinyl purple gradient + readable text) */
+.gv-nav-surface {
+  background: var(--color-panel-dark); /* deep dark purple */
+  color: var(--color-fg);
+  border-color: rgba(255,255,255,0.06);
+}
+
+/* Base link look used in sidebar & offcanvas */
+.gv-nav-link {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .5rem .75rem;
+  border-radius: .5rem;
+  color: hsl(40, 100%, 60%);
+  text-decoration: none;
+  transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+.gv-nav-link:hover,
+.gv-nav-link:focus {
+  background: rgba(255,255,255,0.08);
+  color: var(--bs-link-color); /* orange accent */
+}
+
+.gv-nav-link.active { color: var(--bs-link-color); }
+
+/* Desktop sidebar: active row tint + left bar */
+@media (min-width: 768px) {
+  .gv-sidebar .gv-nav-link.active {
+    position: relative;
+    background: rgba(255,255,255,0.08);
+  }
+  .gv-sidebar .gv-nav-link.active::before {
+    content: "";
+    position: absolute;
+    left: .5rem; top: 50%; transform: translateY(-50%);
+    height: 60%; width: 3px; border-radius: 2px;
+    background: var(--color-accent); /* electric purple */
+  }
+}
+
+/* Mobile offcanvas: active underline */
+@media (max-width: 767.98px) {
+  .dash-offcanvas .gv-nav-link.active {
+    position: relative;
+  }
+  .dash-offcanvas .gv-nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: .75rem; right: .75rem; bottom: .35rem;
+    height: 2px; border-radius: 2px;
+    background: var(--color-accent);
+  }
+}
+
+/* Global navbar using shared surface */
+.navbar.gv-nav-surface {
+  background: var(--gradient-vinyl);
+  color: var(--color-fg);
+  border-bottom: 1px solid var(--color-border);
+}
+.navbar.gv-nav-surface .nav-link {
+  color: var(--color-fg) !important;
+  transition: color .15s ease, background .15s ease;
+  border-radius: .5rem;
+  padding: .5rem .75rem;
+}
+.navbar.gv-nav-surface .nav-link:hover,
+.navbar.gv-nav-surface .nav-link:focus {
+  background: rgba(255,255,255,0.08);
+  color: var(--bs-link-color) !important;
+}
+.navbar.gv-nav-surface .nav-link.active {
+  color: var(--bs-link-color) !important;
+  position: relative;
+}
+.navbar.gv-nav-surface .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: .5rem; right: .5rem; bottom: .25rem;
+  height: 2px; border-radius: 2px;
+  background: var(--color-accent);
+}
+
+/* Dashboard mobile header bar: now uses gv-nav-surface for bg/text */
+.dashboard-mobile-bar {
+  border-bottom: 1px solid var(--color-border);
+  padding: .4rem .5rem;
+}
+
+/* Toggler visibility on dark/purple */
+.navbar.gv-nav-surface .navbar-toggler {
+  border-color: rgba(255,255,255,.25);
+}
+.navbar.gv-nav-surface .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.25));
+}
+
+/* Mobile header hamburger */
+.dashboard-mobile-bar .btn-hamburger {
+  color: var(--color-fg);
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(0,0,0,.15);
+  border-radius: .75rem;
+  padding: .35rem .5rem;
+  line-height: 1;
+  box-shadow: var(--shadow-soft);
+}
+.dashboard-mobile-bar .btn-hamburger i { font-size: 1.1rem; }
+
+/* Mobile logo size */
+.gv-logo-mobile { width: 32px; height: 32px; display: inline-block; }
+
+.navbar.gv-nav-surface,
+.dashboard-mobile-bar.gv-nav-surface {
+  background: var(--color-panel-dark);
+  color: var(--color-fg);
+}
