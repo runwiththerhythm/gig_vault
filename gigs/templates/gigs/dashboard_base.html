@@ -17,55 +17,49 @@
     <div class="row g-0 min-vh-100">
 
       <!-- Desktop sidebar (md+) -->
-<nav class="col-md-2 d-none d-md-block p-0 gv-sidebar">
-  <div class="gv-sidebar-inner position-sticky top-0 d-flex flex-column" style="height:100vh;">
-    <div class="sidebar-main flex-grow-1 p-3">
-      <p class="small text-white-50 mb-3">
-        {% if user.is_authenticated %}
-          Logged in as <strong>{{ user }}</strong>
-        {% else %}
-          You are not logged in
-        {% endif %}
-      </p>
-      {% include "gigs/_dashboard_nav_links.html" %}
-    </div>
+      <nav class="col-md-2 d-none d-md-block p-0 gv-sidebar gv-nav-surface border-end">
+        <div class="gv-sidebar-inner position-sticky top-0 d-flex flex-column" style="height:100vh;">
+          <div class="sidebar-main flex-grow-1 p-3">
+            <p class="small text-white-50 mb-3">
+              {% if user.is_authenticated %}
+                Logged in as <strong>{{ user }}</strong>
+              {% else %}
+                You are not logged in
+              {% endif %}
+            </p>
+            <div class="gv-nav-list">
+              {% include "gigs/_dashboard_nav_links.html" %}
+            </div>
+          </div>
 
-    <div class="sidebar-bottom p-3 pt-3 border-top border-secondary">
-      <a href="{% url 'about' %}" class="nav-link d-flex align-items-center gap-2">
-        <i class="fas fa-info-circle"></i><span>About</span>
-      </a>
-      <a href="{% url 'account_logout' %}" class="nav-link text-danger d-flex align-items-center gap-2 mt-2">
-        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
-      </a>
-    </div>
-  </div>
-</nav>
+          <div class="sidebar-bottom p-3 pt-3 border-top border-secondary">
+            <a href="{% url 'about' %}" class="gv-nav-link">
+              <i class="fas fa-info-circle"></i><span>About</span>
+            </a>
+            <a href="{% url 'account_logout' %}" class="gv-nav-link text-danger mt-2">
+              <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+            </a>
+          </div>
+        </div>
+      </nav>
 
-
-<!-- Mobile header -->
-<div class="d-md-none sticky-top dashboard-mobile-bar gradient-vinyl">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
-    <a href="{{ dashboard_url }}"
-       class="navbar-brand m-0 d-flex align-items-center gap-2 text-decoration-none dashboard-mobile-brand">
-      <!-- Use the same SVG as desktop, just smaller on mobile -->
-      <img src="{% static 'images/gig-vault-logo4.svg' %}"
-           alt="GigVault"
-           class="gv-logo-mobile"
-           width="32" height="32" loading="lazy">
-      <span class="gv-wordmark">Gig Vault</span>
-    </a>
-
-    <button class="btn btn-hamburger" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#dashOffcanvas" aria-controls="dashOffcanvas" aria-label="Open menu">
-      <i class="fas fa-bars" aria-hidden="true"></i>
-      <span class="visually-hidden">Open menu</span>
-    </button>
-  </div>
-</div>
-
+      <!-- Mobile header (logo + hamburger) -->
+      <div class="d-md-none sticky-top dashboard-mobile-bar gv-nav-surface">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+          <a href="{{ dashboard_url }}" class="navbar-brand m-0 d-inline-flex align-items-center text-decoration-none">
+            <img src="{% static 'images/gig-vault-logo4.svg' %}"
+                 alt="GigVault" class="gv-logo-mobile" width="32" height="32" loading="lazy">
+          </a>
+          <button class="btn btn-hamburger" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#dashOffcanvas" aria-controls="dashOffcanvas" aria-label="Open menu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+            <span class="visually-hidden">Open menu</span>
+          </button>
+        </div>
+      </div>
 
       <!-- Mobile offcanvas menu -->
-      <div class="offcanvas offcanvas-start bg-dark text-white d-md-none"
+      <div class="offcanvas offcanvas-start d-md-none gv-nav-surface dash-offcanvas"
            tabindex="-1" id="dashOffcanvas" aria-labelledby="dashOffcanvasLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="dashOffcanvasLabel">Menu</h5>
@@ -80,13 +74,15 @@
                 You are not logged in
               {% endif %}
             </p>
-            {% include "gigs/_dashboard_nav_links.html" %}
+            <div class="gv-nav-list">
+              {% include "gigs/_dashboard_nav_links.html" %}
+            </div>
           </div>
           <div class="pt-3 border-top border-secondary">
-            <a href="{% url 'about' %}" class="nav-link text-white d-flex align-items-center gap-2">
+            <a href="{% url 'about' %}" class="gv-nav-link">
               <i class="fas fa-info-circle"></i><span>About</span>
             </a>
-            <a href="{% url 'account_logout' %}" class="nav-link text-danger d-flex align-items-center gap-2 mt-2">
+            <a href="{% url 'account_logout' %}" class="gv-nav-link text-danger mt-2">
               <i class="fas fa-sign-out-alt"></i><span>Logout</span>
             </a>
           </div>
@@ -106,11 +102,10 @@
         </div>
       </section>
 
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
-
+    </div>
+  </div>
   {% endwith %}
-</div><!-- /.dashboard-page -->
+</div>
 {% endblock %}
 
 {% block scripts %}{% endblock %}
