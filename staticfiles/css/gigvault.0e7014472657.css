@@ -119,8 +119,8 @@
 
 @font-face {
   font-family: "Modern-Thrash";
-  src: url("../fonts/modern-thrash.woff2") format("woff2"),
-       url("../fonts/modern-thrash.woff") format("woff");
+  src: url("../fonts/modern-thrash.aa8e60ae8c2f.woff2") format("woff2"),
+       url("../fonts/modern-thrash.8a09c346fe71.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -967,4 +967,10 @@ h2, h3 {
 /* === Gig Stat cards: background tweak for LIGHT mode === */
 [data-theme="light"] .gv-stat {
   background: var(--color-card-bg) !important; /* use the same base as card-metal */
+}
+
+/* === Global fix: make muted text readable in LIGHT mode === */
+[data-theme="light"] .text-muted {
+  color: hsl(0, 0%, 35%) !important; /* medium-dark gray */
+  opacity: 0.85;                      /* softer than body, but clearly readable */
 }

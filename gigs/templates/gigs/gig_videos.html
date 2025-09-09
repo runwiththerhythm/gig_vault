@@ -27,7 +27,7 @@
           {% endif %}
           <div class="card-body">
             <h6 class="card-title mb-1">{{ v.title|default:v.video_id }}</h6>
-            <p class="text-muted small mb-0">{{ v.url }}</p>
+            <p class="small mb-0">{{ v.url }}</p>
             {% if v.is_featured %}
               <span class="badge bg-warning text-dark mt-2">Featured</span>
             {% endif %}

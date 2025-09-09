@@ -62,7 +62,7 @@
               {% if gig.venue and gig.venue.venue_name %}
                 {{ gig.venue.venue_name }}
                 {% if gig.venue.venue_city or gig.venue.venue_country %}
-                  <span class="text-muted small d-block">
+                  <span class="small d-block">
                     {{ gig.venue.venue_city }}{% if gig.venue.venue_city and gig.venue.venue_country %}, {% endif %}{{ gig.venue.venue_country }}
                   </span>
                 {% endif %}
@@ -119,7 +119,7 @@
                     <img src="{{ img.image.url }}" alt="{% firstof img.caption gig.band %}" class="w-100 h-100 object-fit-top">
                   </div>
                   {% if img.caption %}
-                    <div class="small text-muted mt-1">{{ img.caption }}</div>
+                    <div class="small mt-1">{{ img.caption }}</div>
                   {% endif %}
                 </div>
               {% endif %}
